@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ThreeMok Simulation Config
   m_EditorClassIdentifier: 
   Identifier:
-    Path: _/Resources/ThreeMok Simulation Config
+    Path: _/Network/Resources/ThreeMok Simulation Config
     Guid:
       Value: 508998188058862661
   Entities:

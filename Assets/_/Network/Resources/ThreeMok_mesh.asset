@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ThreeMok_mesh
   m_EditorClassIdentifier: 
   Identifier:
-    Path: _/Resources/ThreeMok_mesh
+    Path: _/Network/Resources/ThreeMok_mesh
     Guid:
       Value: 471530118117016826
   Data: 0000000000000000

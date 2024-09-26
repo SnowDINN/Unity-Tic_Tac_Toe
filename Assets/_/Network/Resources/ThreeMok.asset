@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ThreeMok
   m_EditorClassIdentifier: 
   Identifier:
-    Path: _/Resources/ThreeMok
+    Path: _/Network/Resources/ThreeMok
     Guid:
       Value: 404364666140916513
   UserAsset:
