@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d2fe2c694564034da0046180c7418fb, type: 3}
-  m_Name: AsteroidsSystemsConfig
+  m_Name: ThreeMok Systems Config
   m_EditorClassIdentifier: 
   Identifier:
-    Path: Photon/QuantumAsteroids/Resources/AsteroidsSystemsConfig
+    Path: _/Resources/ThreeMok Systems Config
     Guid:
-      Value: 285306802963724605
+      Value: 429847154662797849
   Entries:
   - SystemType:
       AssemblyQualifiedName: Quantum.Core.CullingSystem2D, Quantum.Simulation, Version=0.0.0.0,
@@ -55,42 +55,6 @@ MonoBehaviour:
     Children: []
   - SystemType:
       AssemblyQualifiedName: Quantum.Core.PlayerConnectedSystem, Quantum.Simulation,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    SystemName: 
-    StartDisabled: 0
-    Children: []
-  - SystemType:
-      AssemblyQualifiedName: Quantum.Asteroids.AsteroidsPlayerSystem, Quantum.Simulation,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    SystemName: 
-    StartDisabled: 0
-    Children: []
-  - SystemType:
-      AssemblyQualifiedName: Quantum.Asteroids.AsteroidsShipSystem, Quantum.Simulation,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    SystemName: 
-    StartDisabled: 0
-    Children: []
-  - SystemType:
-      AssemblyQualifiedName: Quantum.Asteroids.AsteroidsProjectileSystem, Quantum.Simulation,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    SystemName: 
-    StartDisabled: 0
-    Children: []
-  - SystemType:
-      AssemblyQualifiedName: Quantum.Asteroids.AsteroidsWaveSpawnerSystem, Quantum.Simulation,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    SystemName: 
-    StartDisabled: 0
-    Children: []
-  - SystemType:
-      AssemblyQualifiedName: Quantum.Asteroids.AsteroidsCollisionsSystem, Quantum.Simulation,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-    SystemName: 
-    StartDisabled: 0
-    Children: []
-  - SystemType:
-      AssemblyQualifiedName: Quantum.Asteroids.AsteroidsMapSystem, Quantum.Simulation,
         Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     SystemName: 
     StartDisabled: 0

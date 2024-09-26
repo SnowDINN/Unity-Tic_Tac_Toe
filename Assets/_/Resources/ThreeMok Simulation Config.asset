@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b30f6d93ec78efe4b808efdf1c8e136f, type: 3}
-  m_Name: AsteroidsSimulationConfig
+  m_Name: ThreeMok Simulation Config
   m_EditorClassIdentifier: 
   Identifier:
-    Path: Photon/QuantumAsteroids/Resources/AsteroidsSimulationConfig
+    Path: _/Resources/ThreeMok Simulation Config
     Guid:
-      Value: 442089458455835007
+      Value: 508998188058862661
   Entities:
     CommitCommandsMode: 0
     DefaultEntityCapacity: 1024
@@ -26,11 +26,11 @@ MonoBehaviour:
       X:
         RawValue: 0
       Y:
-        RawValue: 0
+        RawValue: -655360
       Z:
         RawValue: 0
     SolverType: 1
-    UsePhysicsNativeLib: 1
+    UsePhysicsNativeLib: 0
     SolverIterations: 4
     PositionSolverIterations: 2
     UseJoints: 1
@@ -44,27 +44,30 @@ MonoBehaviour:
       RawValue: 0
     MinAngularIntegration:
       RawValue: 0
+    MinContactInverseMass:
+      RawValue: 35
     SimplexMinBitShift: 0
     SimplexMaxBitShift: 2
     ShapeCastMaxIterations: 16
+    ShapeCastMinIterations: 4
     ShapeCastHardTolerance:
-      RawValue: 655
+      RawValue: 66
     ShapeCastSoftTolerance:
-      RawValue: 3275
+      RawValue: 3277
     AllowSleeping: 0
     SleepTimeSec:
       RawValue: 32768
     LinearSleepTolerance:
-      RawValue: 1310
+      RawValue: 1311
     AngularSleepToleranceInRad:
-      RawValue: 2286
+      RawValue: 2288
     AllowCCD: 0
     CCDLinearVelocityThreshold:
       RawValue: 196608
     CCDAngularVelocityThreshold:
       RawValue: 196608
     CCDDistanceTolerance:
-      RawValue: 65
+      RawValue: 66
     MaxTimeOfImpactIterations: 16
     MaxRootFindingIterations: 32
     DefaultEntriesCapacity: 2048
@@ -78,7 +81,7 @@ MonoBehaviour:
     DefaultJointsCapacity: 128
     DefaultPhysicsMaterial:
       Id:
-        Value: 512274728444373301
+        Value: 0
     DefaultCharacterController2D:
       Id:
         Value: 0
@@ -92,7 +95,6 @@ MonoBehaviour:
     - 
     - Water
     - UI
-    - Asteroid
     - 
     - 
     - 
@@ -118,7 +120,8 @@ MonoBehaviour:
     - 
     - 
     - 
-    LayerMatrix: ffffffffffffffffffffffffffffffffffffffffffffffffbfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+    - 
+    LayerMatrix: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
   Navigation:
     DefaultNavMeshAgent:
       Id:
@@ -135,7 +138,7 @@ MonoBehaviour:
       RawValue: 131072
     MaxAvoidanceCandidates: 64
     VelocityObstacleTruncationFactor:
-      RawValue: 72089
+      RawValue: 72090
   AutoLoadSceneFromMap: 2
   DeltaTimeType: 0
   ThreadCount: 2

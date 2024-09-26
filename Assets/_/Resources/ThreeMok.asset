@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -1722638350, guid: b156eeaae3f741b40af66649a4748430, type: 3}
-  m_Name: AsteroidsMap
+  m_Name: ThreeMok
   m_EditorClassIdentifier: 
   Identifier:
-    Path: Photon/QuantumAsteroids/Resources/AsteroidsMap
+    Path: _/Resources/ThreeMok
     Guid:
-      Value: 477700799046405574
+      Value: 404364666140916513
   UserAsset:
     Id:
       Value: 0
-  Scene: AsteroidsGameplay
-  ScenePath: Assets/Photon/QuantumAsteroids/Scenes/AsteroidsGameplay.unity
-  SceneGuid: 3136b9496174b5049b474ae4480bee65
+  Scene: SampleScene
+  ScenePath: Assets/_/Scenes/SampleScene.unity
+  SceneGuid: 8c9cfa26abfee488c85f1582747f6a02
   WorldSize: 256
   BucketsCount: 16
   BucketsSubdivisions: 8
@@ -32,7 +32,7 @@ MonoBehaviour:
   TriangleMeshCellSize: -1
   StaticColliders3DTrianglesData:
     Id:
-      Value: 323503594241543579
+      Value: 471530118117016826
   SerializeTrianglesMetadata: 0
   GridSizeX: 64
   GridSizeY: 64
