@@ -61,26 +61,27 @@ namespace Quantum {
       }
       static partial void GetEventTypeCodeGen(Int32 eventID, ref System.Type result) {
         switch (eventID) {
-          case EventPlayerInteraction.ID: result = typeof(EventPlayerInteraction); return;
+          case EventOnInteraction.ID: result = typeof(EventOnInteraction); return;
           default: break;
         }
       }
-      public EventPlayerInteraction PlayerInteraction(FP Index) {
-        var ev = _f.Context.AcquireEvent<EventPlayerInteraction>(EventPlayerInteraction.ID);
+      public EventOnInteraction OnInteraction(FP Index) {
+        if (_f.IsPredicted) return null;
+        var ev = _f.Context.AcquireEvent<EventOnInteraction>(EventOnInteraction.ID);
         ev.Index = Index;
         _f.AddEvent(ev);
         return ev;
       }
     }
   }
-  public unsafe partial class EventPlayerInteraction : EventBase {
+  public unsafe partial class EventOnInteraction : EventBase {
     public new const Int32 ID = 1;
     public FP Index;
-    protected EventPlayerInteraction(Int32 id, EventFlags flags) : 
+    protected EventOnInteraction(Int32 id, EventFlags flags) : 
         base(id, flags) {
     }
-    public EventPlayerInteraction() : 
-        base(1, EventFlags.Server|EventFlags.Client) {
+    public EventOnInteraction() : 
+        base(1, EventFlags.Server|EventFlags.Client|EventFlags.Synced) {
     }
     public new QuantumGame Game {
       get {

@@ -1,0 +1,9 @@
+component Player
+{
+    player_ref PlayerRef;
+}
+
+component Stone
+{
+    FP index;
+}

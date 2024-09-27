@@ -1,4 +1,4 @@
-event PlayerInteraction
+synced event OnInteraction
 {
     FP Index;
 }

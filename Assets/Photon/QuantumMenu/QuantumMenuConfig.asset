@@ -30,25 +30,19 @@ MonoBehaviour:
   - us
   - usw
   _availableScenes:
-  - Name: AsteroidsGameplay
-    ScenePath: Assets/Photon/QuantumAsteroids/Scenes/AsteroidsGameplay.unity
-    Preview: {fileID: 21300000, guid: 56b5563dca97ef04e9d85233b310eaa0, type: 3}
+  - Name: ThreeMok
+    ScenePath: Assets/_/Scenes/SampleScene.unity
+    Preview: {fileID: -2278566297644842510, guid: aee746568658d0943a50545e197cc549, type: 3}
     RuntimeConfig:
       Seed: 0
       Map:
         Id:
-          Value: 477700799046405574
+          Value: 404364666140916513
       SimulationConfig:
         Id:
-          Value: 442089458455835007
+          Value: 508998188058862661
       SystemsConfig:
         Id:
-          Value: 285306802963724605
-      GameConfig:
-        Id:
-          Value: 316527076537738773
-      DefaultPlayerAvatar:
-        Id:
-          Value: 1365103958109072725
+          Value: 429847154662797849
   _machineId: {fileID: -755480892457977500, guid: fbd1d0c57fd428c44b08e505acb8d851, type: 3}
   _codeGenerator: {fileID: 11400000, guid: e38f1fac5a1a5c94da2b4ef21bd48419, type: 2}
