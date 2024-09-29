@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7488064813184342182}
   - component: {fileID: -2741919685939434490}
   - component: {fileID: -2382525127874103826}
-  - component: {fileID: -9016259765072659670}
+  - component: {fileID: -6109433789365150127}
   m_Layer: 0
   m_Name: Stone
   m_TagString: Untagged
@@ -219,7 +219,7 @@ MonoBehaviour:
   OnEntityDestroyed:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &-9016259765072659670
+--- !u!114 &-6109433789365150127
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -25,15 +25,7 @@ namespace Redbean.Network
 			disposables?.Dispose();
 		}
 
-		public void OnInteraction(Frame f, int index)
-		{
-			if (!AssetGuid.TryParse("1461148EC9CA1107", out var guid, false))
-				return;
-
-			var asset = f.FindAsset<EntityPrototype>(guid);
-			var entity = f.Create(asset);
-			
-			f.Set(entity, new Stone { index = index });
-		}
+		public void OnInteraction(Frame f, int index) =>
+			f.Set(f.Create(NetworkAsset.Stone), new Stone { index = index });
 	}
 }

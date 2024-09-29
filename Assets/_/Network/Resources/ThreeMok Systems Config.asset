@@ -30,11 +30,6 @@ MonoBehaviour:
     StartDisabled: 0
     Children: []
   - SystemType:
-      AssemblyQualifiedName: Redbean.Network.ConnectSystem, Assembly-CSharp
-    SystemName: 
-    StartDisabled: 0
-    Children: []
-  - SystemType:
       AssemblyQualifiedName: Redbean.Network.InteractionSystem, Assembly-CSharp
     SystemName: 
     StartDisabled: 0

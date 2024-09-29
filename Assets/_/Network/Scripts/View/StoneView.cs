@@ -17,4 +17,4 @@ namespace Redbean.Network
 			GameSubscriber.Spawn(index);
 		}
 	}
-}
+}	
