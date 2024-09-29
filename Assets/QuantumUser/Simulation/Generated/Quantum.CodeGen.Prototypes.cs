@@ -52,32 +52,32 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Input))]
   public unsafe partial class InputPrototype : StructPrototype {
-    [HideInInspector()]
-    public Int32 _empty_prototype_dummy_field_;
+    public Int32 Index;
     partial void MaterializeUser(Frame frame, ref Quantum.Input result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.Input result, in PrototypeMaterializationContext context = default) {
+        result.Index = this.Index;
         MaterializeUser(frame, ref result, in context);
     }
   }
   [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.Player))]
-  public unsafe partial class PlayerPrototype : ComponentPrototype<Quantum.Player> {
-    public PlayerRef PlayerRef;
-    partial void MaterializeUser(Frame frame, ref Quantum.Player result, in PrototypeMaterializationContext context);
+  [Quantum.Prototypes.Prototype(typeof(Quantum.LocalPlayer))]
+  public unsafe partial class LocalPlayerPrototype : ComponentPrototype<Quantum.LocalPlayer> {
+    public PlayerRef Player;
+    partial void MaterializeUser(Frame frame, ref Quantum.LocalPlayer result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
-        Quantum.Player component = default;
+        Quantum.LocalPlayer component = default;
         Materialize((Frame)f, ref component, in context);
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
-    public void Materialize(Frame frame, ref Quantum.Player result, in PrototypeMaterializationContext context = default) {
-        result.PlayerRef = this.PlayerRef;
+    public void Materialize(Frame frame, ref Quantum.LocalPlayer result, in PrototypeMaterializationContext context = default) {
+        result.Player = this.Player;
         MaterializeUser(frame, ref result, in context);
     }
   }
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Stone))]
   public unsafe partial class StonePrototype : ComponentPrototype<Quantum.Stone> {
-    public FP index;
+    public FP Index;
     partial void MaterializeUser(Frame frame, ref Quantum.Stone result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.Stone component = default;
@@ -85,7 +85,7 @@ namespace Quantum.Prototypes {
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
     public void Materialize(Frame frame, ref Quantum.Stone result, in PrototypeMaterializationContext context = default) {
-        result.index = this.index;
+        result.Index = this.Index;
         MaterializeUser(frame, ref result, in context);
     }
   }

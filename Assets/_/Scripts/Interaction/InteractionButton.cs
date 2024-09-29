@@ -1,5 +1,4 @@
-﻿using System;
-using Quantum;
+﻿using Quantum;
 using R3;
 using UnityEngine;
 using Button = UnityEngine.UI.Button;

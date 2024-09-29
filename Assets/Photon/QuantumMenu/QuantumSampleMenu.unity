@@ -402,7 +402,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 323108692306304990, guid: 7d78f8a9ae2bcc1408312ef78f87bdf0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 116
       objectReference: {fileID: 0}
     - target: {fileID: 323108692306304990, guid: 7d78f8a9ae2bcc1408312ef78f87bdf0, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -450,7 +450,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6977112800963913883, guid: 7d78f8a9ae2bcc1408312ef78f87bdf0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 232
       objectReference: {fileID: 0}
     - target: {fileID: 6977112800963913883, guid: 7d78f8a9ae2bcc1408312ef78f87bdf0, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -478,7 +478,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7243461719588803421, guid: 7d78f8a9ae2bcc1408312ef78f87bdf0, type: 3}
       propertyPath: ConnectArgs.RuntimePlayers.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7243461719588803421, guid: 7d78f8a9ae2bcc1408312ef78f87bdf0, type: 3}
       propertyPath: DefaultConnectionArgs.StartGameTimeoutInSeconds
@@ -494,7 +494,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7243461719588803421, guid: 7d78f8a9ae2bcc1408312ef78f87bdf0, type: 3}
       propertyPath: ConnectArgs.RuntimePlayers.Array.data[0].PlayerAvatar.Id.Value
-      value: 1468477557002866951
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7545343568668095747, guid: 7d78f8a9ae2bcc1408312ef78f87bdf0, type: 3}
       propertyPath: m_Pivot.x
@@ -598,7 +598,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8455911400524884955, guid: 7d78f8a9ae2bcc1408312ef78f87bdf0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -360
       objectReference: {fileID: 0}
     - target: {fileID: 8455911400524884955, guid: 7d78f8a9ae2bcc1408312ef78f87bdf0, type: 3}
       propertyPath: m_AnchoredPosition.x

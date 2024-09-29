@@ -1,9 +1,9 @@
-component Player
+component LocalPlayer
 {
-    player_ref PlayerRef;
+    PlayerRef Player;
 }
 
 component Stone
 {
-    FP index;
+    FP Index;
 }

@@ -11,8 +11,7 @@ namespace Redbean.Network
 
 		public override void OnActivate(Frame frame)
 		{
-			var component = frame.Get<Stone>(EntityRef);
-			index = component.index.AsInt;
+			index = frame.Get<Stone>(EntityRef).Index.AsInt;
 
 			GameSubscriber.Spawn(index);
 		}
