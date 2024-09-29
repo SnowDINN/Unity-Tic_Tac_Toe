@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System;
 using Quantum;
 using R3;
 using UnityEngine;
@@ -6,7 +6,7 @@ using Button = UnityEngine.UI.Button;
 
 namespace Redbean.Content
 {
-	public class InteractionPublisher : MonoBehaviour
+	public class InteractionButton : MonoBehaviour
 	{
 		[SerializeField]
 		private GameObject Prefab;
@@ -14,18 +14,11 @@ namespace Redbean.Content
 		[SerializeField]
 		private Button Button;
 		
-		[SerializeField]
-		private int Index;
-		
 		private DispatcherSubscription subscription;
-		private bool canInteraction;
+		private int Index;
 
 		private void Awake()
 		{
-			Index = FindObjectsByType<InteractionPublisher>(FindObjectsSortMode.InstanceID)
-				.Select((value, index) => (index, value))
-				.FirstOrDefault(_ => _.value.GetInstanceID() == GetInstanceID()).index;
-
 			Button.AsButtonObservable()
 				.Subscribe(_ =>
 				{
@@ -43,6 +36,11 @@ namespace Redbean.Content
 				}).AddTo(this);
 		}
 
+		private void Start()
+		{
+			Index = InteractionManager.GetIndex(GetInstanceID());
+		}
+
 		private void OnEnable()
 		{
 			subscription = QuantumEvent.Subscribe<EventOnInteraction>(this, OnInteraction);
@@ -57,8 +55,8 @@ namespace Redbean.Content
 		{
 			if (data.Index != Index)
 				return;
-			
-			if (canInteraction)
+
+			if (Button.interactable)
 			{
 				
 			}

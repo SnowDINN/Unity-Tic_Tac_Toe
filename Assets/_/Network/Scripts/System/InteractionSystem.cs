@@ -6,7 +6,7 @@ using UnityEngine.Scripting;
 namespace Redbean.Network
 {
 	[Preserve]
-	public unsafe class InteractionSystem : SystemSignalsOnly, ISignalOnInteraction
+	public class InteractionSystem : SystemSignalsOnly, ISignalOnInteraction
 	{
 		private readonly CompositeDisposable disposables = new();
 		
@@ -32,9 +32,8 @@ namespace Redbean.Network
 
 			var asset = f.FindAsset<EntityPrototype>(guid);
 			var entity = f.Create(asset);
-
-			var component = f.Unsafe.GetPointer<Stone>(entity);
-			component->index = index;
+			
+			f.Set(entity, new Stone { index = index });
 		}
 	}
 }
