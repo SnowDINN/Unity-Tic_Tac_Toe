@@ -14,7 +14,7 @@ namespace Redbean.Network
 			stream.Serialize(ref Index);
 		}
 
-		public void Spawn(Frame f) =>
-			f.Set(f.Create(Entity), new Stone { Index = Index });
+		public void Spawn(Frame f, int Owner) =>
+			f.Set(f.Create(Entity), new Stone { Index = Index, Owner = Owner});
 	}
 }

@@ -13,7 +13,6 @@ namespace Redbean.Content
 		[SerializeField]
 		private Button Button;
 		
-		private DispatcherSubscription subscription;
 		private int Index;
 
 		private void Awake()
@@ -27,10 +26,13 @@ namespace Redbean.Content
 			GameSubscriber.OnSpawn
 				.Subscribe(_ =>
 				{
-					if (_ != Index)
+					if (_.index != Index)
 						return;
 
-					Instantiate(Prefab, transform);
+					var go = Instantiate(Prefab, transform);
+					var stone = go.GetComponent<StoneReceiver>();
+					stone.UpdateView(_.Owner == QuantumRunner.Default.NetworkClient.LocalPlayer.ActorNumber);
+						
 					SetInteraction(false);
 				}).AddTo(this);
 		}
@@ -38,27 +40,6 @@ namespace Redbean.Content
 		private void Start()
 		{
 			Index = InteractionManager.GetIndex(GetInstanceID());
-		}
-
-		private void OnEnable()
-		{
-			subscription = QuantumEvent.Subscribe<EventOnInteraction>(this, OnInteraction);
-		}
-
-		private void OnDisable()
-		{
-			QuantumEvent.Unsubscribe(subscription);
-		}
-
-		private void OnInteraction(EventOnInteraction data)
-		{
-			if (data.Index != Index)
-				return;
-
-			if (Button.interactable)
-			{
-				
-			}
 		}
 
 		private void SetInteraction(bool use)

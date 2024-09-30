@@ -1,19 +1,22 @@
 ﻿using Quantum;
 using Redbean.Content;
-using UnityEngine;
 
 namespace Redbean.Network
 {
 	public class StoneView : QuantumEntityViewComponent
 	{
-		[SerializeField]
 		private int index;
+		private int Owner;
 
 		public override void OnActivate(Frame frame)
 		{
-			index = frame.Get<Stone>(EntityRef).Index.AsInt;
+			index = frame.Get<Stone>(EntityRef).Index;
+			Owner = frame.Get<Stone>(EntityRef).Owner;
+		}
 
-			GameSubscriber.Spawn(index);
+		private void Start()
+		{
+			GameSubscriber.Spawn(index, Owner);
 		}
 	}
 }	

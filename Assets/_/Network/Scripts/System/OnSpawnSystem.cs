@@ -6,7 +6,7 @@ using UnityEngine.Scripting;
 namespace Redbean.Network
 {
 	[Preserve]
-	public unsafe class OnSpawnSystem : SystemMainThreadFilter<OnSpawnSystem.Filter>, ISignalOnInteraction
+	public unsafe class OnSpawnSystem : SystemMainThreadFilter<OnSpawnSystem.Filter>
 	{
 		public struct Filter
 		{
@@ -24,7 +24,7 @@ namespace Redbean.Network
 					QuantumRunner.Default.Game.SendCommand(new SpawnCommand
 					{
 						Entity = NetworkAsset.Stone,
-						Index = _
+						Index = _,
 					});
 				}).AddTo(disposables);
 		}
@@ -39,11 +39,8 @@ namespace Redbean.Network
 		{
 			if (f.GetPlayerCommand(filter.LocalPlayer->Player) is not SpawnCommand command)
 				return;
-
-			command.Spawn(f);
+			
+			command.Spawn(f, f.PlayerToActorId(filter.LocalPlayer->Player).Value);
 		}
-
-		public void OnInteraction(Frame f, int index) =>
-			f.Set(f.Create(NetworkAsset.Stone), new Stone { Index = index });
 	}
 }

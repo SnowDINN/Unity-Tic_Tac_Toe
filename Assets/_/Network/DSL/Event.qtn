@@ -1,4 +1,3 @@
-synced event OnInteraction
+event OnInteraction
 {
-    FP Index;
 }

@@ -517,28 +517,28 @@ namespace Quantum {
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Stone : Quantum.IComponent {
     public const Int32 SIZE = 8;
-    public const Int32 ALIGNMENT = 8;
+    public const Int32 ALIGNMENT = 4;
     [FieldOffset(0)]
-    public FP Index;
+    public Int32 Index;
+    [FieldOffset(4)]
+    public Int32 Owner;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 10357;
         hash = hash * 31 + Index.GetHashCode();
+        hash = hash * 31 + Owner.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (Stone*)ptr;
-        FP.Serialize(&p->Index, serializer);
+        serializer.Stream.Serialize(&p->Index);
+        serializer.Stream.Serialize(&p->Owner);
     }
-  }
-  public unsafe partial interface ISignalOnInteraction : ISignal {
-    void OnInteraction(Frame f, Int32 index);
   }
   public static unsafe partial class Constants {
   }
   public unsafe partial class Frame {
-    private ISignalOnInteraction[] _ISignalOnInteractionSystems;
     partial void AllocGen() {
       _globals = (_globals_*)Context.Allocator.AllocAndClear(sizeof(_globals_));
     }
@@ -550,7 +550,6 @@ namespace Quantum {
     }
     partial void InitGen() {
       Initialize(this, this.SimulationConfig.Entities, 256);
-      _ISignalOnInteractionSystems = BuildSignalsArray<ISignalOnInteraction>();
       _ComponentSignalsOnAdded = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       _ComponentSignalsOnRemoved = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       BuildSignalsArrayOnComponentAdded<CharacterController2D>();
@@ -614,15 +613,6 @@ namespace Quantum {
       Physics3D.Init(_globals->PhysicsState3D.MapStaticCollidersState.TrackedMap);
     }
     public unsafe partial struct FrameSignals {
-      public void OnInteraction(Int32 index) {
-        var array = _f._ISignalOnInteractionSystems;
-        for (Int32 i = 0; i < array.Length; ++i) {
-          var s = array[i];
-          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
-            s.OnInteraction(_f, index);
-          }
-        }
-      }
     }
   }
   public unsafe partial class Statics {

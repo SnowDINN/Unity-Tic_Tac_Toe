@@ -11,7 +11,10 @@ namespace Redbean.Network
 			var asset = f.FindAsset(NetworkAsset.Player);
 			var entity = f.Create(asset);
 
-			f.Set(entity, new LocalPlayer { Player = player });
+			f.Set(entity, new LocalPlayer
+			{
+				Player = player,
+			});
 		}
 	}
 }

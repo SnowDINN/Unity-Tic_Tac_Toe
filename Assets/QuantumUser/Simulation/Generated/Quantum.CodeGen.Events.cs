@@ -65,10 +65,8 @@ namespace Quantum {
           default: break;
         }
       }
-      public EventOnInteraction OnInteraction(FP Index) {
-        if (_f.IsPredicted) return null;
+      public EventOnInteraction OnInteraction() {
         var ev = _f.Context.AcquireEvent<EventOnInteraction>(EventOnInteraction.ID);
-        ev.Index = Index;
         _f.AddEvent(ev);
         return ev;
       }
@@ -76,12 +74,11 @@ namespace Quantum {
   }
   public unsafe partial class EventOnInteraction : EventBase {
     public new const Int32 ID = 1;
-    public FP Index;
     protected EventOnInteraction(Int32 id, EventFlags flags) : 
         base(id, flags) {
     }
     public EventOnInteraction() : 
-        base(1, EventFlags.Server|EventFlags.Client|EventFlags.Synced) {
+        base(1, EventFlags.Server|EventFlags.Client) {
     }
     public new QuantumGame Game {
       get {
@@ -94,7 +91,6 @@ namespace Quantum {
     public override Int32 GetHashCode() {
       unchecked {
         var hash = 41;
-        hash = hash * 31 + Index.GetHashCode();
         return hash;
       }
     }
