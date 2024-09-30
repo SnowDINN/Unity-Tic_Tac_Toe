@@ -12,9 +12,10 @@ namespace Redbean.Content
 		
 		[SerializeField]
 		private Button Button;
-		
-		private int X;
-		private int Y;
+
+		private GameObject instance;
+		private int x;
+		private int y;
 
 		public StoneSpot CurrentStone;
 
@@ -25,24 +26,35 @@ namespace Redbean.Content
 				{
 					GameSubscriber.Interaction(new PositionStream
 					{
-						X = X,
-						Y = Y
+						X = x,
+						Y = y
 					});
 				}).AddTo(this);
 
-			GameSubscriber.OnSpawn
+			GameSubscriber.OnStoneCreate
 				.Subscribe(_ =>
 				{
-					if (_.X != X || _.Y != Y)
+					if (_.X != x || _.Y != y)
 						return;
+
+					instance = Instantiate(Prefab, transform);
+					CurrentStone = instance.GetComponent<StoneSpot>();
+					CurrentStone.UpdateView(_.OwnerId == QuantumRunner.Default.NetworkClient.LocalPlayer.ActorNumber);
 					
 					SetInteraction(false);
+				}).AddTo(this);
 
-					var go = Instantiate(Prefab, transform);
-					var stone = go.GetComponent<StoneSpot>();
-					stone.UpdateView(_.Owner == QuantumRunner.Default.NetworkClient.LocalPlayer.ActorNumber);
-
-					CurrentStone = stone;
+			GameSubscriber.OnStoneDestroy
+				.Subscribe(_ =>
+				{
+					if (_.X != x || _.Y != y)
+						return;
+					
+					if (instance)
+						Destroy(instance);
+					CurrentStone = default;
+					
+					SetInteraction(true);
 				}).AddTo(this);
 		}
 
@@ -53,8 +65,8 @@ namespace Redbean.Content
 
 		public void SetPosition(int x, int y)
 		{
-			X = x;
-			Y = y;
+			this.x = x;
+			this.y = y;
 		}
 	}
 }

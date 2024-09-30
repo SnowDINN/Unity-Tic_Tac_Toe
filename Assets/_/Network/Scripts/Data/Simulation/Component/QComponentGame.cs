@@ -2,9 +2,6 @@ namespace Quantum
 {
 	public partial struct Game
 	{
-		public void NextTurn()
-		{
-			CurrentTurn += 1;
-		}
+		public int NextTurn() => TurnCount += 1;
 	}
-}
+} 

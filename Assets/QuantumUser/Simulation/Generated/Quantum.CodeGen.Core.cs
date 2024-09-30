@@ -498,20 +498,24 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Game : Quantum.IComponentSingleton {
-    public const Int32 SIZE = 4;
+    public const Int32 SIZE = 8;
     public const Int32 ALIGNMENT = 4;
     [FieldOffset(0)]
-    public Int32 CurrentTurn;
+    public Int32 PlayerTurn;
+    [FieldOffset(4)]
+    public Int32 TurnCount;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 6079;
-        hash = hash * 31 + CurrentTurn.GetHashCode();
+        hash = hash * 31 + PlayerTurn.GetHashCode();
+        hash = hash * 31 + TurnCount.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (Game*)ptr;
-        serializer.Stream.Serialize(&p->CurrentTurn);
+        serializer.Stream.Serialize(&p->PlayerTurn);
+        serializer.Stream.Serialize(&p->TurnCount);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -541,7 +545,7 @@ namespace Quantum {
     [FieldOffset(12)]
     public Int32 Y;
     [FieldOffset(4)]
-    public Int32 Owner;
+    public Int32 OwnerId;
     [FieldOffset(0)]
     public Int32 DestroyTurn;
     public override Int32 GetHashCode() {
@@ -549,7 +553,7 @@ namespace Quantum {
         var hash = 10357;
         hash = hash * 31 + X.GetHashCode();
         hash = hash * 31 + Y.GetHashCode();
-        hash = hash * 31 + Owner.GetHashCode();
+        hash = hash * 31 + OwnerId.GetHashCode();
         hash = hash * 31 + DestroyTurn.GetHashCode();
         return hash;
       }
@@ -557,7 +561,7 @@ namespace Quantum {
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (Stone*)ptr;
         serializer.Stream.Serialize(&p->DestroyTurn);
-        serializer.Stream.Serialize(&p->Owner);
+        serializer.Stream.Serialize(&p->OwnerId);
         serializer.Stream.Serialize(&p->X);
         serializer.Stream.Serialize(&p->Y);
     }

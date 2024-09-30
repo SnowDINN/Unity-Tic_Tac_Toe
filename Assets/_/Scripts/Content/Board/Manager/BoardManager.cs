@@ -1,4 +1,7 @@
 ﻿using System.Linq;
+using Quantum;
+using R3;
+using Redbean.Network;
 using UnityEngine;
 
 namespace Redbean.Content
@@ -9,6 +12,17 @@ namespace Redbean.Content
 		
 		private void Awake()
 		{
+			GameSubscriber.OnInteraction
+				.Subscribe(_ =>
+				{
+					QuantumRunner.DefaultGame.SendCommand(new QCommandStoneCreated
+					{
+						Entity = NetworkAsset.Stone,
+						X = _.X,
+						Y = _.Y,
+					});
+				}).AddTo(this);
+			
 			components = GetComponentsInChildren<BoardLine>();
 			
 			var componentArray = components.Select((value, index) => (value, index));
@@ -18,10 +32,10 @@ namespace Redbean.Content
 
 		public static bool IsOwner(int x, int y)
 		{
-			if (x < 0 || x >= components.Length)
+			if (y < 0 || y >= components.Length)
 				return false;
 			
-			return components[x].GetStone(y) && components[x].GetStone(y).IsOwner;
+			return components[y].GetStone(x) && components[y].GetStone(x).IsOwner;
 		}
 	}
 }

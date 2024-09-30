@@ -52,7 +52,8 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Game))]
   public unsafe partial class GamePrototype : ComponentPrototype<Quantum.Game> {
-    public Int32 CurrentTurn;
+    public Int32 PlayerTurn;
+    public Int32 TurnCount;
     partial void MaterializeUser(Frame frame, ref Quantum.Game result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.Game component = default;
@@ -60,7 +61,8 @@ namespace Quantum.Prototypes {
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
     public void Materialize(Frame frame, ref Quantum.Game result, in PrototypeMaterializationContext context = default) {
-        result.CurrentTurn = this.CurrentTurn;
+        result.PlayerTurn = this.PlayerTurn;
+        result.TurnCount = this.TurnCount;
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -94,7 +96,7 @@ namespace Quantum.Prototypes {
   public unsafe partial class StonePrototype : ComponentPrototype<Quantum.Stone> {
     public Int32 X;
     public Int32 Y;
-    public Int32 Owner;
+    public Int32 OwnerId;
     public Int32 DestroyTurn;
     partial void MaterializeUser(Frame frame, ref Quantum.Stone result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
@@ -105,7 +107,7 @@ namespace Quantum.Prototypes {
     public void Materialize(Frame frame, ref Quantum.Stone result, in PrototypeMaterializationContext context = default) {
         result.X = this.X;
         result.Y = this.Y;
-        result.Owner = this.Owner;
+        result.OwnerId = this.OwnerId;
         result.DestroyTurn = this.DestroyTurn;
         MaterializeUser(frame, ref result, in context);
     }

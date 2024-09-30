@@ -1,7 +1,8 @@
 [CodeGen(UnityWrapperFolder, "Assets/_/Network/Scripts/Data/Component")]
 singleton component Game
 {
-    int CurrentTurn;
+    int PlayerTurn;
+    int TurnCount;
 }
 
 [CodeGen(UnityWrapperFolder, "Assets/_/Network/Scripts/Data/Component")]
@@ -15,6 +16,6 @@ component Stone
 {
     int X;
     int Y;
-    int Owner;
+    int OwnerId;
     int DestroyTurn;
 }

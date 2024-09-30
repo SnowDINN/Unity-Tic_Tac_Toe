@@ -52,7 +52,7 @@ namespace Quantum {
   public unsafe partial class Frame {
     public unsafe partial struct FrameEvents {
       static partial void GetEventTypeCountCodeGen(ref Int32 eventCount) {
-        eventCount = 2;
+        eventCount = 1;
       }
       static partial void GetParentEventIDCodeGen(Int32 eventID, ref Int32 parentEventID) {
         switch (eventID) {
@@ -61,40 +61,8 @@ namespace Quantum {
       }
       static partial void GetEventTypeCodeGen(Int32 eventID, ref System.Type result) {
         switch (eventID) {
-          case EventOnStoneDestroy.ID: result = typeof(EventOnStoneDestroy); return;
           default: break;
         }
-      }
-      public EventOnStoneDestroy OnStoneDestroy(Int32 CurrentTurn) {
-        var ev = _f.Context.AcquireEvent<EventOnStoneDestroy>(EventOnStoneDestroy.ID);
-        ev.CurrentTurn = CurrentTurn;
-        _f.AddEvent(ev);
-        return ev;
-      }
-    }
-  }
-  public unsafe partial class EventOnStoneDestroy : EventBase {
-    public new const Int32 ID = 1;
-    public Int32 CurrentTurn;
-    protected EventOnStoneDestroy(Int32 id, EventFlags flags) : 
-        base(id, flags) {
-    }
-    public EventOnStoneDestroy() : 
-        base(1, EventFlags.Server|EventFlags.Client) {
-    }
-    public new QuantumGame Game {
-      get {
-        return (QuantumGame)base.Game;
-      }
-      set {
-        base.Game = value;
-      }
-    }
-    public override Int32 GetHashCode() {
-      unchecked {
-        var hash = 41;
-        hash = hash * 31 + CurrentTurn.GetHashCode();
-        return hash;
       }
     }
   }

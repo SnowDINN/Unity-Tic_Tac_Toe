@@ -7,21 +7,23 @@ namespace Redbean.Content
 	{
 		private BoardSpot[] components;
 		
-		public void SetPosition(int x)
+		public void SetPosition(int y)
 		{
 			components = GetComponentsInChildren<BoardSpot>();
 			
 			var componentArray = components.Select((value, index) => (value, index));
 			foreach (var component in componentArray)
-				component.value.SetPosition(x, component.index);
+				component.value.SetPosition(component.index, y);
 		}
 
-		public StoneSpot GetStone(int y)
+		public StoneSpot GetStone(int x)
 		{
-			if (y < 0 || y >= components.Length)
+			if (x < 0 || x >= components.Length)
 				return default;
-			
-			return components[y].CurrentStone;
+
+			return components[x]
+				? components[x].CurrentStone 
+				: default;
 		}
 	}
 }

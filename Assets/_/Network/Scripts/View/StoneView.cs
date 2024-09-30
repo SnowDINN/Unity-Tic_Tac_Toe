@@ -7,22 +7,31 @@ namespace Redbean.Network
 	{
 		private int x;
 		private int y;
-		private int owner;
+		private int ownerId;
 
 		public override void OnActivate(Frame frame)
 		{
 			x = frame.Get<Stone>(EntityRef).X;
 			y = frame.Get<Stone>(EntityRef).Y;
-			owner = frame.Get<Stone>(EntityRef).Owner;
+			ownerId = frame.Get<Stone>(EntityRef).OwnerId;
 			
-			GameSubscriber.Spawn(new SpawnStream
+			GameSubscriber.StoneCreate(new StoneCreateStream
 			{
-				Owner = owner,
+				OwnerId = ownerId,
 				X = x,
 				Y = y
 			});
 
 			frame.Signals.OnStoneMatch(x, y);
+		}
+
+		public override void OnDeactivate()
+		{
+			GameSubscriber.StoneDestroy(new StoneDestroyStream
+			{
+				X = x,
+				Y = y
+			});
 		}
 	}
 }	

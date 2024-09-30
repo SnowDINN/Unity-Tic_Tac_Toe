@@ -2,7 +2,7 @@
 
 namespace Redbean.Network
 {
-	public class QCommandGame : DeterministicCommand
+	public class QPrototypeNextTurn : DeterministicCommand
 	{
 		public override void Serialize(BitStream stream)
 		{

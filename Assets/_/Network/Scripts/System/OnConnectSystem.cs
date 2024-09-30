@@ -6,12 +6,17 @@ namespace Redbean.Network
 	[Preserve]
 	public class OnConnectSystem : SystemSignalsOnly, ISignalOnPlayerAdded
 	{
-		public void OnPlayerAdded(Frame f, PlayerRef player, bool firstTime)
+		public override void OnInit(Frame f)
 		{
-			var asset = f.FindAsset(NetworkAsset.Player);
-			var entity = f.Create(asset);
+			f.SetSingleton(new Game());
+		}
+		
+		public void OnPlayerAdded(Frame frame, PlayerRef player, bool firstTime)
+		{
+			var asset = frame.FindAsset(NetworkAsset.Player);
+			var entity = frame.Create(asset);
 
-			f.Set(entity, new LocalPlayer
+			frame.Set(entity, new LocalPlayer
 			{
 				Player = player,
 			});
