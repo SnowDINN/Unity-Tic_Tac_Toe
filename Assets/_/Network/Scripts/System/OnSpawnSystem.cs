@@ -24,7 +24,8 @@ namespace Redbean.Network
 					QuantumRunner.Default.Game.SendCommand(new SpawnCommand
 					{
 						Entity = NetworkAsset.Stone,
-						Position = _,
+						X = _.X,
+						Y = _.Y
 					});
 				}).AddTo(disposables);
 		}

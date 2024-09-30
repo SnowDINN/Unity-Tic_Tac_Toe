@@ -5,18 +5,22 @@ namespace Redbean.Network
 {
 	public class StoneView : QuantumEntityViewComponent
 	{
-		private int position;
+		private int x;
+		private int y;
 		private int owner;
 
 		public override void OnActivate(Frame frame)
 		{
-			position = frame.Get<Stone>(EntityRef).Position;
+			x = frame.Get<Stone>(EntityRef).X;
+			y = frame.Get<Stone>(EntityRef).Y;
 			owner = frame.Get<Stone>(EntityRef).Owner;
-		}
-
-		private void Start()
-		{
-			GameSubscriber.Spawn(position, owner);
+			
+			GameSubscriber.Spawn(new SpawnStream
+			{
+				Owner = owner,
+				X = x,
+				Y = y
+			});
 		}
 	}
 }	

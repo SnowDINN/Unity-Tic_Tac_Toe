@@ -77,8 +77,9 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Stone))]
   public unsafe partial class StonePrototype : ComponentPrototype<Quantum.Stone> {
-    public Int32 Position;
     public Int32 Owner;
+    public Int32 X;
+    public Int32 Y;
     partial void MaterializeUser(Frame frame, ref Quantum.Stone result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.Stone component = default;
@@ -86,8 +87,9 @@ namespace Quantum.Prototypes {
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
     public void Materialize(Frame frame, ref Quantum.Stone result, in PrototypeMaterializationContext context = default) {
-        result.Position = this.Position;
         result.Owner = this.Owner;
+        result.X = this.X;
+        result.Y = this.Y;
         MaterializeUser(frame, ref result, in context);
     }
   }

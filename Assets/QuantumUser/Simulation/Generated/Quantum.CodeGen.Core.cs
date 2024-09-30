@@ -516,29 +516,37 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Stone : Quantum.IComponent {
-    public const Int32 SIZE = 8;
+    public const Int32 SIZE = 12;
     public const Int32 ALIGNMENT = 4;
-    [FieldOffset(4)]
-    public Int32 Position;
     [FieldOffset(0)]
     public Int32 Owner;
+    [FieldOffset(4)]
+    public Int32 X;
+    [FieldOffset(8)]
+    public Int32 Y;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 10357;
-        hash = hash * 31 + Position.GetHashCode();
         hash = hash * 31 + Owner.GetHashCode();
+        hash = hash * 31 + X.GetHashCode();
+        hash = hash * 31 + Y.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (Stone*)ptr;
         serializer.Stream.Serialize(&p->Owner);
-        serializer.Stream.Serialize(&p->Position);
+        serializer.Stream.Serialize(&p->X);
+        serializer.Stream.Serialize(&p->Y);
     }
+  }
+  public unsafe partial interface ISignalOnCompletion : ISignal {
+    void OnCompletion(Frame f, Int32 x, Int32 y);
   }
   public static unsafe partial class Constants {
   }
   public unsafe partial class Frame {
+    private ISignalOnCompletion[] _ISignalOnCompletionSystems;
     partial void AllocGen() {
       _globals = (_globals_*)Context.Allocator.AllocAndClear(sizeof(_globals_));
     }
@@ -550,6 +558,7 @@ namespace Quantum {
     }
     partial void InitGen() {
       Initialize(this, this.SimulationConfig.Entities, 256);
+      _ISignalOnCompletionSystems = BuildSignalsArray<ISignalOnCompletion>();
       _ComponentSignalsOnAdded = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       _ComponentSignalsOnRemoved = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       BuildSignalsArrayOnComponentAdded<CharacterController2D>();
@@ -613,6 +622,15 @@ namespace Quantum {
       Physics3D.Init(_globals->PhysicsState3D.MapStaticCollidersState.TrackedMap);
     }
     public unsafe partial struct FrameSignals {
+      public void OnCompletion(Int32 x, Int32 y) {
+        var array = _f._ISignalOnCompletionSystems;
+        for (Int32 i = 0; i < array.Length; ++i) {
+          var s = array[i];
+          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
+            s.OnCompletion(_f, x, y);
+          }
+        }
+      }
     }
   }
   public unsafe partial class Statics {
