@@ -8,7 +8,9 @@ namespace Quantum
     {
         static partial void AddCommandFactoriesUser(ICollection<IDeterministicCommandFactory> factories, RuntimeConfig gameConfig, SimulationConfig simulationConfig)
         {
-            factories.Add(new SpawnCommand());
+            factories.Add(new QCommandGame());
+            factories.Add(new QCommandStoneCreated());
+            factories.Add(new QCommandStoneDestroy());
         }
     }
 }

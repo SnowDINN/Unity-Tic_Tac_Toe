@@ -94,8 +94,9 @@ namespace Redbean.Network
 					Debug.Log("Match !!");
 					return;
 				}
-			
-			f.Signals.OnNextTurn();
+
+			if (QuantumRunner.Default.NetworkClient.LocalPlayer.IsMasterClient)
+				QuantumRunner.DefaultGame.SendCommand(new QCommandGame());
 		}
 	}
 }

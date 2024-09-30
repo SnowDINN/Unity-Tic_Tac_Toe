@@ -562,16 +562,12 @@ namespace Quantum {
         serializer.Stream.Serialize(&p->Y);
     }
   }
-  public unsafe partial interface ISignalOnNextTurn : ISignal {
-    void OnNextTurn(Frame f);
-  }
   public unsafe partial interface ISignalOnStoneMatch : ISignal {
     void OnStoneMatch(Frame f, Int32 x, Int32 y);
   }
   public static unsafe partial class Constants {
   }
   public unsafe partial class Frame {
-    private ISignalOnNextTurn[] _ISignalOnNextTurnSystems;
     private ISignalOnStoneMatch[] _ISignalOnStoneMatchSystems;
     partial void AllocGen() {
       _globals = (_globals_*)Context.Allocator.AllocAndClear(sizeof(_globals_));
@@ -584,7 +580,6 @@ namespace Quantum {
     }
     partial void InitGen() {
       Initialize(this, this.SimulationConfig.Entities, 256);
-      _ISignalOnNextTurnSystems = BuildSignalsArray<ISignalOnNextTurn>();
       _ISignalOnStoneMatchSystems = BuildSignalsArray<ISignalOnStoneMatch>();
       _ComponentSignalsOnAdded = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       _ComponentSignalsOnRemoved = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
@@ -651,15 +646,6 @@ namespace Quantum {
       Physics3D.Init(_globals->PhysicsState3D.MapStaticCollidersState.TrackedMap);
     }
     public unsafe partial struct FrameSignals {
-      public void OnNextTurn() {
-        var array = _f._ISignalOnNextTurnSystems;
-        for (Int32 i = 0; i < array.Length; ++i) {
-          var s = array[i];
-          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
-            s.OnNextTurn(_f);
-          }
-        }
-      }
       public void OnStoneMatch(Int32 x, Int32 y) {
         var array = _f._ISignalOnStoneMatchSystems;
         for (Int32 i = 0; i < array.Length; ++i) {

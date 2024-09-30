@@ -3,7 +3,7 @@ using Quantum;
 
 namespace Redbean.Network
 {
-	public class SpawnCommand : DeterministicCommand
+	public class QCommandStoneCreated : DeterministicCommand
 	{
 		public AssetRef<EntityPrototype> Entity;
 		public int X;

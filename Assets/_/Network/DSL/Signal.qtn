@@ -1,2 +1,1 @@
-signal OnNextTurn();
 signal OnStoneMatch(int x, int y);

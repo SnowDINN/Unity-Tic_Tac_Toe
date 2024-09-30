@@ -21,7 +21,7 @@ namespace Redbean.Network
 			GameSubscriber.OnInteraction
 				.Subscribe(_ =>
 				{
-					QuantumRunner.Default.Game.SendCommand(new SpawnCommand
+					QuantumRunner.DefaultGame.SendCommand(new QCommandStoneCreated
 					{
 						Entity = NetworkAsset.Stone,
 						X = _.X,
@@ -38,7 +38,7 @@ namespace Redbean.Network
 
 		public override void Update(Frame f, ref Filter filter)
 		{
-			if (f.GetPlayerCommand(filter.LocalPlayer->Player) is not SpawnCommand command)
+			if (f.GetPlayerCommand(filter.LocalPlayer->Player) is not QCommandStoneCreated command)
 				return;
 			
 			command.Spawn(f, f.PlayerToActorId(filter.LocalPlayer->Player).Value, NetworkSetting.StoneDestroyTurn);
