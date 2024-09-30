@@ -7,6 +7,6 @@ component LocalPlayer
 [CodeGen(UnityWrapperFolder, "Assets/_/Network/Scripts/Data/Component")]
 component Stone
 {
-    int Index;
+    int Position;
     int Owner;
 }

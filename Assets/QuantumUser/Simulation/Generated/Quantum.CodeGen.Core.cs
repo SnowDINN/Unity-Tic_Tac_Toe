@@ -518,22 +518,22 @@ namespace Quantum {
   public unsafe partial struct Stone : Quantum.IComponent {
     public const Int32 SIZE = 8;
     public const Int32 ALIGNMENT = 4;
-    [FieldOffset(0)]
-    public Int32 Index;
     [FieldOffset(4)]
+    public Int32 Position;
+    [FieldOffset(0)]
     public Int32 Owner;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 10357;
-        hash = hash * 31 + Index.GetHashCode();
+        hash = hash * 31 + Position.GetHashCode();
         hash = hash * 31 + Owner.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (Stone*)ptr;
-        serializer.Stream.Serialize(&p->Index);
         serializer.Stream.Serialize(&p->Owner);
+        serializer.Stream.Serialize(&p->Position);
     }
   }
   public static unsafe partial class Constants {

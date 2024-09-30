@@ -7,10 +7,10 @@ namespace Redbean.Content
 		private static readonly Subject<int> onInteraction = new();
 		public static Observable<int> OnInteraction => onInteraction.Share();
 		
-		private static readonly Subject<(int index, int Owner)> onSpawn = new();
-		public static Observable<(int index, int Owner)> OnSpawn => onSpawn.Share();
+		private static readonly Subject<(int position, int owner)> onSpawn = new();
+		public static Observable<(int position, int owner)> OnSpawn => onSpawn.Share();
 
-		public static void Interaction(int index) => onInteraction.OnNext(index);
-		public static void Spawn(int index, int Owner) => onSpawn.OnNext((index, Owner));
+		public static void Interaction(int position) => onInteraction.OnNext(position);
+		public static void Spawn(int position, int owner) => onSpawn.OnNext((position, owner));
 	}
 }

@@ -13,25 +13,25 @@ namespace Redbean.Content
 		[SerializeField]
 		private Button Button;
 		
-		private int Index;
+		private int Position;
 
 		private void Awake()
 		{
 			Button.AsButtonObservable()
 				.Subscribe(_ =>
 				{
-					GameSubscriber.Interaction(Index);
+					GameSubscriber.Interaction(Position);
 				}).AddTo(this);
 
 			GameSubscriber.OnSpawn
 				.Subscribe(_ =>
 				{
-					if (_.index != Index)
+					if (_.position != Position)
 						return;
 
 					var go = Instantiate(Prefab, transform);
 					var stone = go.GetComponent<StoneReceiver>();
-					stone.UpdateView(_.Owner == QuantumRunner.Default.NetworkClient.LocalPlayer.ActorNumber);
+					stone.UpdateView(_.owner == QuantumRunner.Default.NetworkClient.LocalPlayer.ActorNumber);
 						
 					SetInteraction(false);
 				}).AddTo(this);
@@ -39,7 +39,7 @@ namespace Redbean.Content
 
 		private void Start()
 		{
-			Index = InteractionManager.GetIndex(GetInstanceID());
+			Position = InteractionManager.GetIndex(GetInstanceID());
 		}
 
 		private void SetInteraction(bool use)
