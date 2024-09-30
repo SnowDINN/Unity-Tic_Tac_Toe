@@ -1,14 +1,14 @@
-﻿namespace Quantum
-{
-    using System.Collections.Generic;
-    using Photon.Deterministic;
+﻿using System.Collections.Generic;
+using Photon.Deterministic;
+using Redbean.Network;
 
+namespace Quantum
+{
     public static partial class DeterministicCommandSetup
     {
         static partial void AddCommandFactoriesUser(ICollection<IDeterministicCommandFactory> factories, RuntimeConfig gameConfig, SimulationConfig simulationConfig)
         {
-            // Add or remove commands to the collection.
-            // factories.Add(new NavMeshAgentTestSystem.RunTest());
+            factories.Add(new SpawnCommand());
         }
     }
 }

@@ -52,10 +52,10 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Input))]
   public unsafe partial class InputPrototype : StructPrototype {
-    public Int32 Index;
+    [HideInInspector()]
+    public Int32 _empty_prototype_dummy_field_;
     partial void MaterializeUser(Frame frame, ref Quantum.Input result, in PrototypeMaterializationContext context);
     public void Materialize(Frame frame, ref Quantum.Input result, in PrototypeMaterializationContext context = default) {
-        result.Index = this.Index;
         MaterializeUser(frame, ref result, in context);
     }
   }

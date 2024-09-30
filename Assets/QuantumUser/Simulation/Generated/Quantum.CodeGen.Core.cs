@@ -404,11 +404,10 @@ namespace Quantum {
     public const Int32 SIZE = 4;
     public const Int32 ALIGNMENT = 4;
     [FieldOffset(0)]
-    public Int32 Index;
+    private fixed Byte _alignment_padding_[4];
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 19249;
-        hash = hash * 31 + Index.GetHashCode();
         return hash;
       }
     }
@@ -427,7 +426,6 @@ namespace Quantum {
     }
     static partial void SerializeCodeGen(void* ptr, FrameSerializer serializer) {
         var p = (Input*)ptr;
-        serializer.Stream.Serialize(&p->Index);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -601,7 +599,6 @@ namespace Quantum {
     partial void SetPlayerInputCodeGen(PlayerRef player, Input input) {
       if ((int)player >= (int)_globals->input.Length) { throw new System.ArgumentOutOfRangeException("player"); }
       var i = _globals->input.GetPointer(player);
-      i->Index = input.Index;
     }
     public Input* GetPlayerInput(PlayerRef player) {
       if ((int)player >= (int)_globals->input.Length) { throw new System.ArgumentOutOfRangeException("player"); }

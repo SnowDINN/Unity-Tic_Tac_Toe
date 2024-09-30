@@ -1,8 +1,10 @@
+[CodeGen(UnityWrapperFolder, "Assets/_/Network/Scripts/Data/Component")]
 component LocalPlayer
 {
     PlayerRef Player;
 }
 
+[CodeGen(UnityWrapperFolder, "Assets/_/Network/Scripts/Data/Component")]
 component Stone
 {
     FP Index;
