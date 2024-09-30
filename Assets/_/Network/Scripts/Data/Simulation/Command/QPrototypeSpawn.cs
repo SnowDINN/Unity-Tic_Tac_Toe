@@ -16,12 +16,13 @@ namespace Redbean.Network
 			stream.Serialize(ref Y);
 		}
 
-		public void Spawn(Frame f, int Owner) => 
+		public void Spawn(Frame f, int Owner, int DestroyTurn) => 
 			f.Set(f.Create(Entity), new Stone
 			{
 				X = X,
 				Y = Y,
-				Owner = Owner
+				Owner = Owner,
+				DestroyTurn = f.GetSingleton<Game>().CurrentTurn + DestroyTurn
 			});
 	}
 }

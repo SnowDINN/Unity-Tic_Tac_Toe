@@ -34,12 +34,22 @@ MonoBehaviour:
     StartDisabled: 0
     Children: []
   - SystemType:
-      AssemblyQualifiedName: Redbean.Network.OnSpawnSystem, Assembly-CSharp
+      AssemblyQualifiedName: Redbean.Network.OnGameSystem, Assembly-CSharp
     SystemName: 
     StartDisabled: 0
     Children: []
   - SystemType:
-      AssemblyQualifiedName: Redbean.Network.OnMatchSystem, Assembly-CSharp
+      AssemblyQualifiedName: Redbean.Network.OnStoneCreateSystem, Assembly-CSharp
+    SystemName: 
+    StartDisabled: 0
+    Children: []
+  - SystemType:
+      AssemblyQualifiedName: Redbean.Network.OnStoneDestroySystem, Assembly-CSharp
+    SystemName: 
+    StartDisabled: 0
+    Children: []
+  - SystemType:
+      AssemblyQualifiedName: Redbean.Network.OnBoardMatchSystem, Assembly-CSharp
     SystemName: 
     StartDisabled: 0
     Children: []

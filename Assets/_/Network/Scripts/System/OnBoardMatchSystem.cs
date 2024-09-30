@@ -6,9 +6,9 @@ using UnityEngine.Scripting;
 namespace Redbean.Network
 {
 	[Preserve]
-	public class OnMatchSystem : SystemSignalsOnly, ISignalOnMatch
+	public class OnBoardMatchSystem : SystemSignalsOnly, ISignalOnStoneMatch
 	{
-		public void OnMatch(Frame f, int x, int y)
+		public void OnStoneMatch(Frame f, int x, int y)
 		{
 			if (BoardManager.IsOwner(x + 1, y))
 				if (BoardManager.IsOwner(x + 2, y))
@@ -95,7 +95,7 @@ namespace Redbean.Network
 					return;
 				}
 			
-			Debug.Log("Continue Game");
+			f.Signals.OnNextTurn();
 		}
 	}
 }

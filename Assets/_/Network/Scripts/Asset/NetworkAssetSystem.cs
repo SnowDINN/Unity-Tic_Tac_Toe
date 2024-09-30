@@ -20,4 +20,9 @@ namespace Redbean.Network
 		public static AssetRef<EntityPrototype> Player => system.Player;
 		public static AssetRef<EntityPrototype> Stone => system.Stone;
 	}
+
+	public class NetworkSetting
+	{
+		public const int StoneDestroyTurn = 2;
+	}
 }

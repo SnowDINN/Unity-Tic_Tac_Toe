@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e52af8caeaa4a45b55d929ed88e3537, type: 3}
   m_Name: NetworkAsset
   m_EditorClassIdentifier: 
+  Game:
+    Id:
+      Value: 1310427192902391597
   Player:
     Id:
       Value: 1525669992600785634

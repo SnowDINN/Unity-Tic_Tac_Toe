@@ -6,7 +6,7 @@ using UnityEngine.Scripting;
 namespace Redbean.Network
 {
 	[Preserve]
-	public unsafe class OnSpawnSystem : SystemMainThreadFilter<OnSpawnSystem.Filter>
+	public unsafe class OnStoneCreateSystem : SystemMainThreadFilter<OnStoneCreateSystem.Filter>
 	{
 		public struct Filter
 		{
@@ -25,7 +25,7 @@ namespace Redbean.Network
 					{
 						Entity = NetworkAsset.Stone,
 						X = _.X,
-						Y = _.Y
+						Y = _.Y,
 					});
 				}).AddTo(disposables);
 		}
@@ -41,7 +41,7 @@ namespace Redbean.Network
 			if (f.GetPlayerCommand(filter.LocalPlayer->Player) is not SpawnCommand command)
 				return;
 			
-			command.Spawn(f, f.PlayerToActorId(filter.LocalPlayer->Player).Value);
+			command.Spawn(f, f.PlayerToActorId(filter.LocalPlayer->Player).Value, NetworkSetting.StoneDestroyTurn);
 		}
 	}
 }

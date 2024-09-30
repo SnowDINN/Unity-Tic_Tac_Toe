@@ -1,4 +1,10 @@
 [CodeGen(UnityWrapperFolder, "Assets/_/Network/Scripts/Data/Component")]
+singleton component Game
+{
+    int CurrentTurn;
+}
+
+[CodeGen(UnityWrapperFolder, "Assets/_/Network/Scripts/Data/Component")]
 component LocalPlayer
 {
     PlayerRef Player;
@@ -7,7 +13,8 @@ component LocalPlayer
 [CodeGen(UnityWrapperFolder, "Assets/_/Network/Scripts/Data/Component")]
 component Stone
 {
-    int Owner;
     int X;
     int Y;
+    int Owner;
+    int DestroyTurn;
 }

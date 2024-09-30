@@ -50,6 +50,21 @@ namespace Quantum.Prototypes {
   #endif //;
   
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.Game))]
+  public unsafe partial class GamePrototype : ComponentPrototype<Quantum.Game> {
+    public Int32 CurrentTurn;
+    partial void MaterializeUser(Frame frame, ref Quantum.Game result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.Game component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.Game result, in PrototypeMaterializationContext context = default) {
+        result.CurrentTurn = this.CurrentTurn;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Input))]
   public unsafe partial class InputPrototype : StructPrototype {
     [HideInInspector()]
@@ -77,9 +92,10 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Stone))]
   public unsafe partial class StonePrototype : ComponentPrototype<Quantum.Stone> {
-    public Int32 Owner;
     public Int32 X;
     public Int32 Y;
+    public Int32 Owner;
+    public Int32 DestroyTurn;
     partial void MaterializeUser(Frame frame, ref Quantum.Stone result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.Stone component = default;
@@ -87,9 +103,10 @@ namespace Quantum.Prototypes {
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
     public void Materialize(Frame frame, ref Quantum.Stone result, in PrototypeMaterializationContext context = default) {
-        result.Owner = this.Owner;
         result.X = this.X;
         result.Y = this.Y;
+        result.Owner = this.Owner;
+        result.DestroyTurn = this.DestroyTurn;
         MaterializeUser(frame, ref result, in context);
     }
   }

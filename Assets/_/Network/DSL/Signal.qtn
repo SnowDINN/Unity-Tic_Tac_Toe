@@ -1,1 +1,2 @@
-signal OnMatch(int x, int y);
+signal OnNextTurn();
+signal OnStoneMatch(int x, int y);

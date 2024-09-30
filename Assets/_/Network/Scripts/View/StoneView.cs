@@ -22,7 +22,7 @@ namespace Redbean.Network
 				Y = y
 			});
 
-			frame.Signals.OnMatch(x, y);
+			frame.Signals.OnStoneMatch(x, y);
 		}
 	}
 }	
