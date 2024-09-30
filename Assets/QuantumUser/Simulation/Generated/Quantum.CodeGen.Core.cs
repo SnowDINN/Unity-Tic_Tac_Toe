@@ -540,13 +540,13 @@ namespace Quantum {
         serializer.Stream.Serialize(&p->Y);
     }
   }
-  public unsafe partial interface ISignalOnCompletion : ISignal {
-    void OnCompletion(Frame f, Int32 x, Int32 y);
+  public unsafe partial interface ISignalOnMatch : ISignal {
+    void OnMatch(Frame f, Int32 x, Int32 y);
   }
   public static unsafe partial class Constants {
   }
   public unsafe partial class Frame {
-    private ISignalOnCompletion[] _ISignalOnCompletionSystems;
+    private ISignalOnMatch[] _ISignalOnMatchSystems;
     partial void AllocGen() {
       _globals = (_globals_*)Context.Allocator.AllocAndClear(sizeof(_globals_));
     }
@@ -558,7 +558,7 @@ namespace Quantum {
     }
     partial void InitGen() {
       Initialize(this, this.SimulationConfig.Entities, 256);
-      _ISignalOnCompletionSystems = BuildSignalsArray<ISignalOnCompletion>();
+      _ISignalOnMatchSystems = BuildSignalsArray<ISignalOnMatch>();
       _ComponentSignalsOnAdded = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       _ComponentSignalsOnRemoved = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       BuildSignalsArrayOnComponentAdded<CharacterController2D>();
@@ -622,12 +622,12 @@ namespace Quantum {
       Physics3D.Init(_globals->PhysicsState3D.MapStaticCollidersState.TrackedMap);
     }
     public unsafe partial struct FrameSignals {
-      public void OnCompletion(Int32 x, Int32 y) {
-        var array = _f._ISignalOnCompletionSystems;
+      public void OnMatch(Int32 x, Int32 y) {
+        var array = _f._ISignalOnMatchSystems;
         for (Int32 i = 0; i < array.Length; ++i) {
           var s = array[i];
           if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
-            s.OnCompletion(_f, x, y);
+            s.OnMatch(_f, x, y);
           }
         }
       }

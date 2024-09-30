@@ -21,6 +21,8 @@ namespace Redbean.Network
 				X = x,
 				Y = y
 			});
+
+			frame.Signals.OnMatch(x, y);
 		}
 	}
 }	

@@ -1,1 +1,1 @@
-signal OnCompletion(int x, int y);
+signal OnMatch(int x, int y);

@@ -16,6 +16,8 @@ namespace Redbean.Content
 		private int X;
 		private int Y;
 
+		public StoneSpot CurrentStone;
+
 		private void Awake()
 		{
 			Button.AsButtonObservable()
@@ -33,12 +35,14 @@ namespace Redbean.Content
 				{
 					if (_.X != X || _.Y != Y)
 						return;
+					
+					SetInteraction(false);
 
 					var go = Instantiate(Prefab, transform);
-					var stone = go.GetComponent<StonePrinter>();
+					var stone = go.GetComponent<StoneSpot>();
 					stone.UpdateView(_.Owner == QuantumRunner.Default.NetworkClient.LocalPlayer.ActorNumber);
-						
-					SetInteraction(false);
+
+					CurrentStone = stone;
 				}).AddTo(this);
 		}
 
