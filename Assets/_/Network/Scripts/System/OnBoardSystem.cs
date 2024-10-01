@@ -1,14 +1,13 @@
 using Quantum;
 using Redbean.Content;
-using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace Redbean.Network
 {
 	[Preserve]
-	public class OnBoardMatchSystem : SystemSignalsOnly, ISignalOnStoneMatch
+	public class OnBoardSystem : SystemSignalsOnly, ISignalOnBoardMatch, ISignalOnStoneDestroy
 	{
-		public void OnStoneMatch(Frame f, int x, int y)
+		public void OnBoardMatch(Frame f, int x, int y)
 		{
 			if (!BoardManager.IsOwner(x, y))
 				return;
@@ -88,10 +87,15 @@ namespace Redbean.Network
 				
 			QuantumRunner.DefaultGame.SendCommand(new QCommandNextTurn());
 		}
+		
+		public void OnStoneDestroy(Frame f, EntityRef entity)
+		{
+			f.Destroy(entity);
+		}
 
 		private void MatchSuccess()
 		{
-			QuantumRunner.DefaultGame.SendCommand(new QCommandStoneMatch());
+			QuantumRunner.DefaultGame.SendCommand(new QCommandBoardMatch());
 		}
 	}
 }

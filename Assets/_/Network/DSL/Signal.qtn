@@ -1,1 +1,2 @@
-signal OnStoneMatch(int x, int y);
+signal OnBoardMatch(int x, int y);
+signal OnStoneDestroy(EntityRef entity);

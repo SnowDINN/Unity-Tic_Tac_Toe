@@ -22,7 +22,7 @@ namespace Redbean.Network
 				Y = y
 			});
 
-			frame.Signals.OnStoneMatch(x, y);
+			frame.Signals.OnBoardMatch(x, y);
 		}
 
 		public override void OnDeactivate()

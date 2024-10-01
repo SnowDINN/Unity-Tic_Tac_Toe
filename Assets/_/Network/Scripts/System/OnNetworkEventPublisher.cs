@@ -15,7 +15,7 @@ namespace Redbean.Network
 
 		public override void Update(Frame frame, ref Filter filter)
 		{
-			if (frame.GetPlayerCommand(filter.LocalPlayer->Player) is QCommandStoneCreate qCommandStoneCreate)
+			if (frame.GetPlayerCommand(filter.LocalPlayer->Player) is QCommandBoardInteraction qCommandStoneCreate)
 				NetworkSubscriber.Publish(new NetworkEventStream
 				{
 					Frame = frame,
@@ -23,20 +23,12 @@ namespace Redbean.Network
 					Command = qCommandStoneCreate
 				});
 			
-			if (frame.GetPlayerCommand(filter.LocalPlayer->Player) is QCommandStoneDestroy qCommandStoneDestroy)
+			if (frame.GetPlayerCommand(filter.LocalPlayer->Player) is QCommandBoardMatch qCommandBoardMatch)
 				NetworkSubscriber.Publish(new NetworkEventStream
 				{
 					Frame = frame,
 					Player = filter.LocalPlayer->Player,
-					Command = qCommandStoneDestroy
-				});
-			
-			if (frame.GetPlayerCommand(filter.LocalPlayer->Player) is QCommandStoneMatch qCommandStoneMatch)
-				NetworkSubscriber.Publish(new NetworkEventStream
-				{
-					Frame = frame,
-					Player = filter.LocalPlayer->Player,
-					Command = qCommandStoneMatch
+					Command = qCommandBoardMatch
 				});
 			
 			if (frame.GetPlayerCommand(filter.LocalPlayer->Player) is QCommandNextTurn qCommandNextTurn)

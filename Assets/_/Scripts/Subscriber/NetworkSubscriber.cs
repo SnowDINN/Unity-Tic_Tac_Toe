@@ -1,5 +1,4 @@
-﻿using System;
-using Photon.Deterministic;
+﻿using Photon.Deterministic;
 using Quantum;
 using R3;
 

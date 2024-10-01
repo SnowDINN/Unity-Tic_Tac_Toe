@@ -14,24 +14,17 @@ namespace Redbean.Network
 		public override void OnEnabled(Frame f)
 		{
 			NetworkSubscriber.OnNetworkEvent
-				.Where(_ => _.Command.GetType() == typeof(QCommandStoneCreate))
+				.Where(_ => _.Command.GetType() == typeof(QCommandBoardInteraction))
 				.Subscribe(_ =>
 				{
-					OnStoneCreateSystem(_.Frame, _.Player, _.Command as QCommandStoneCreate);
+					OnBoardInteraction(_.Frame, _.Player, _.Command as QCommandBoardInteraction);
 				}).AddTo(disposables);
 			
 			NetworkSubscriber.OnNetworkEvent
-				.Where(_ => _.Command.GetType() == typeof(QCommandStoneDestroy))
+				.Where(_ => _.Command.GetType() == typeof(QCommandBoardMatch))
 				.Subscribe(_ =>
 				{
-					OnStoneDestroySystem(_.Frame, _.Player, _.Command as QCommandStoneDestroy);
-				}).AddTo(disposables);
-			
-			NetworkSubscriber.OnNetworkEvent
-				.Where(_ => _.Command.GetType() == typeof(QCommandStoneMatch))
-				.Subscribe(_ =>
-				{
-					OnStoneMatchSystem(_.Frame, _.Player, _.Command as QCommandStoneMatch);
+					OnBoardMatchSystem(_.Frame, _.Player, _.Command as QCommandBoardMatch);
 				}).AddTo(disposables);
 			
 			NetworkSubscriber.OnNetworkEvent
@@ -50,7 +43,7 @@ namespace Redbean.Network
 
 #region Event Method
 
-		private void OnStoneCreateSystem(Frame frame, PlayerRef player, QCommandStoneCreate command)
+		private void OnBoardInteraction(Frame frame, PlayerRef player, QCommandBoardInteraction command)
 		{
 			frame.Set(frame.Create(command.Entity), new Stone
 			{
@@ -61,12 +54,7 @@ namespace Redbean.Network
 			});
 		}
 		
-		private void OnStoneDestroySystem(Frame frame, PlayerRef player, QCommandStoneDestroy command)
-		{
-			frame.Destroy(command.Entity);
-		}
-		
-		private void OnStoneMatchSystem(Frame frame, PlayerRef player, QCommandStoneMatch command)
+		private void OnBoardMatchSystem(Frame frame, PlayerRef player, QCommandBoardMatch command)
 		{
 			Debug.Log($"[ {frame.GetPlayerData(player).PlayerNickname} ] Match !!");
 		}
@@ -88,12 +76,7 @@ namespace Redbean.Network
 
 					case <= 0:
 					{
-						if (QuantumRunner.Default.NetworkClient.LocalPlayer.IsMasterClient)
-							QuantumRunner.DefaultGame.SendCommand(new QCommandStoneDestroy
-							{
-								Entity = entity
-							});
-
+						frame.Signals.OnStoneDestroy(entity);
 						break;
 					}
 				}

@@ -2,7 +2,7 @@
 
 namespace Redbean.Network
 {
-	public class QCommandStoneMatch : DeterministicCommand
+	public class QCommandBoardMatch : DeterministicCommand
 	{
 		public override void Serialize(BitStream stream)
 		{

@@ -566,13 +566,17 @@ namespace Quantum {
         serializer.Stream.Serialize(&p->Y);
     }
   }
-  public unsafe partial interface ISignalOnStoneMatch : ISignal {
-    void OnStoneMatch(Frame f, Int32 x, Int32 y);
+  public unsafe partial interface ISignalOnBoardMatch : ISignal {
+    void OnBoardMatch(Frame f, Int32 x, Int32 y);
+  }
+  public unsafe partial interface ISignalOnStoneDestroy : ISignal {
+    void OnStoneDestroy(Frame f, EntityRef entity);
   }
   public static unsafe partial class Constants {
   }
   public unsafe partial class Frame {
-    private ISignalOnStoneMatch[] _ISignalOnStoneMatchSystems;
+    private ISignalOnBoardMatch[] _ISignalOnBoardMatchSystems;
+    private ISignalOnStoneDestroy[] _ISignalOnStoneDestroySystems;
     partial void AllocGen() {
       _globals = (_globals_*)Context.Allocator.AllocAndClear(sizeof(_globals_));
     }
@@ -584,7 +588,8 @@ namespace Quantum {
     }
     partial void InitGen() {
       Initialize(this, this.SimulationConfig.Entities, 256);
-      _ISignalOnStoneMatchSystems = BuildSignalsArray<ISignalOnStoneMatch>();
+      _ISignalOnBoardMatchSystems = BuildSignalsArray<ISignalOnBoardMatch>();
+      _ISignalOnStoneDestroySystems = BuildSignalsArray<ISignalOnStoneDestroy>();
       _ComponentSignalsOnAdded = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       _ComponentSignalsOnRemoved = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       BuildSignalsArrayOnComponentAdded<CharacterController2D>();
@@ -650,12 +655,21 @@ namespace Quantum {
       Physics3D.Init(_globals->PhysicsState3D.MapStaticCollidersState.TrackedMap);
     }
     public unsafe partial struct FrameSignals {
-      public void OnStoneMatch(Int32 x, Int32 y) {
-        var array = _f._ISignalOnStoneMatchSystems;
+      public void OnBoardMatch(Int32 x, Int32 y) {
+        var array = _f._ISignalOnBoardMatchSystems;
         for (Int32 i = 0; i < array.Length; ++i) {
           var s = array[i];
           if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
-            s.OnStoneMatch(_f, x, y);
+            s.OnBoardMatch(_f, x, y);
+          }
+        }
+      }
+      public void OnStoneDestroy(EntityRef entity) {
+        var array = _f._ISignalOnStoneDestroySystems;
+        for (Int32 i = 0; i < array.Length; ++i) {
+          var s = array[i];
+          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
+            s.OnStoneDestroy(_f, entity);
           }
         }
       }
