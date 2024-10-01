@@ -86,12 +86,12 @@ namespace Redbean.Network
 				return;
 			}
 				
-			QuantumRunner.DefaultGame.SendCommand(new QPrototypeNextTurn());
+			QuantumRunner.DefaultGame.SendCommand(new QCommandNextTurn());
 		}
 
 		private void MatchSuccess()
 		{
-			QuantumRunner.DefaultGame.SendCommand(new QPrototypeMatch());
+			QuantumRunner.DefaultGame.SendCommand(new QCommandStoneMatch());
 		}
 	}
 }

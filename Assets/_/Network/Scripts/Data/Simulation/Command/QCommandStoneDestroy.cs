@@ -11,7 +11,5 @@ namespace Redbean.Network
 		{
 			stream.Serialize(ref Entity);
 		}
-
-		public void StoneDestroy(Frame frame) => frame.Destroy(Entity);
 	}
 }

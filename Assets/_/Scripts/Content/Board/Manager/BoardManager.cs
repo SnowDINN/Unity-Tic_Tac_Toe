@@ -15,7 +15,7 @@ namespace Redbean.Content
 			GameSubscriber.OnInteraction
 				.Subscribe(_ =>
 				{
-					QuantumRunner.DefaultGame.SendCommand(new QCommandStoneCreated
+					QuantumRunner.DefaultGame.SendCommand(new QCommandStoneCreate
 					{
 						Entity = NetworkAsset.Stone,
 						X = _.X,
