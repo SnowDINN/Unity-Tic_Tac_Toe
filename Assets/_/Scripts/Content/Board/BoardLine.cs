@@ -16,7 +16,7 @@ namespace Redbean.Content
 				component.value.SetPosition(component.index, y);
 		}
 
-		public StoneSpot GetStone(int x)
+		public StoneListener GetStone(int x)
 		{
 			if (x < 0 || x >= components.Length)
 				return default;

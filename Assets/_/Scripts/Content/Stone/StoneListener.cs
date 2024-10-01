@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Redbean.Content
 {
-	public class StoneSpot : MonoBehaviour
+	public class StoneListener : MonoBehaviour
 	{
 		[SerializeField]
 		private GameObject IsMine;

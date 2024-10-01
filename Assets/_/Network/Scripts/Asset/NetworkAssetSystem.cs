@@ -23,6 +23,6 @@ namespace Redbean.Network
 
 	public class NetworkSetting
 	{
-		public const int StoneDestroyTurn = 4;
+		public const int StoneDestroyTurn = 8;
 	}
 }

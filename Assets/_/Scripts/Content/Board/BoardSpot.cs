@@ -17,7 +17,7 @@ namespace Redbean.Content
 		private int x;
 		private int y;
 
-		public StoneSpot CurrentStone;
+		public StoneListener CurrentStone;
 
 		private void Awake()
 		{
@@ -38,7 +38,7 @@ namespace Redbean.Content
 						return;
 
 					instance = Instantiate(Prefab, transform);
-					CurrentStone = instance.GetComponent<StoneSpot>();
+					CurrentStone = instance.GetComponent<StoneListener>();
 					CurrentStone.UpdateView(x, y, _.OwnerId == QuantumRunner.Default.NetworkClient.LocalPlayer.ActorNumber);
 					
 					SetInteraction(false);

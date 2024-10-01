@@ -56,7 +56,7 @@ namespace Redbean.Network
 		
 		private void OnBoardMatchSystem(Frame frame, PlayerRef player, QCommandBoardMatch command)
 		{
-			Debug.Log($"[ {frame.GetPlayerData(player).PlayerNickname} ] Match !!");
+			frame.Events.BoardMatch(command.ActorId);
 		}
 
 		private void OnNextTurnSystem(Frame frame, PlayerRef player, QCommandNextTurn command)

@@ -95,7 +95,10 @@ namespace Redbean.Network
 
 		private void MatchSuccess()
 		{
-			QuantumRunner.DefaultGame.SendCommand(new QCommandBoardMatch());
+			QuantumRunner.DefaultGame.SendCommand(new QCommandBoardMatch
+			{
+				ActorId = QuantumRunner.Default.NetworkClient.LocalPlayer.ActorNumber
+			});
 		}
 	}
 }

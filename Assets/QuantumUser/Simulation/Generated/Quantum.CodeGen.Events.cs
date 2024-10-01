@@ -52,7 +52,7 @@ namespace Quantum {
   public unsafe partial class Frame {
     public unsafe partial struct FrameEvents {
       static partial void GetEventTypeCountCodeGen(ref Int32 eventCount) {
-        eventCount = 2;
+        eventCount = 3;
       }
       static partial void GetParentEventIDCodeGen(Int32 eventID, ref Int32 parentEventID) {
         switch (eventID) {
@@ -61,9 +61,16 @@ namespace Quantum {
       }
       static partial void GetEventTypeCodeGen(Int32 eventID, ref System.Type result) {
         switch (eventID) {
+          case EventBoardMatch.ID: result = typeof(EventBoardMatch); return;
           case EventStoneHighlight.ID: result = typeof(EventStoneHighlight); return;
           default: break;
         }
+      }
+      public EventBoardMatch BoardMatch(Int32 ActorId) {
+        var ev = _f.Context.AcquireEvent<EventBoardMatch>(EventBoardMatch.ID);
+        ev.ActorId = ActorId;
+        _f.AddEvent(ev);
+        return ev;
       }
       public EventStoneHighlight StoneHighlight(Stone Stone) {
         var ev = _f.Context.AcquireEvent<EventStoneHighlight>(EventStoneHighlight.ID);
@@ -73,13 +80,13 @@ namespace Quantum {
       }
     }
   }
-  public unsafe partial class EventStoneHighlight : EventBase {
+  public unsafe partial class EventBoardMatch : EventBase {
     public new const Int32 ID = 1;
-    public Stone Stone;
-    protected EventStoneHighlight(Int32 id, EventFlags flags) : 
+    public Int32 ActorId;
+    protected EventBoardMatch(Int32 id, EventFlags flags) : 
         base(id, flags) {
     }
-    public EventStoneHighlight() : 
+    public EventBoardMatch() : 
         base(1, EventFlags.Server|EventFlags.Client) {
     }
     public new QuantumGame Game {
@@ -93,6 +100,31 @@ namespace Quantum {
     public override Int32 GetHashCode() {
       unchecked {
         var hash = 41;
+        hash = hash * 31 + ActorId.GetHashCode();
+        return hash;
+      }
+    }
+  }
+  public unsafe partial class EventStoneHighlight : EventBase {
+    public new const Int32 ID = 2;
+    public Stone Stone;
+    protected EventStoneHighlight(Int32 id, EventFlags flags) : 
+        base(id, flags) {
+    }
+    public EventStoneHighlight() : 
+        base(2, EventFlags.Server|EventFlags.Client) {
+    }
+    public new QuantumGame Game {
+      get {
+        return (QuantumGame)base.Game;
+      }
+      set {
+        base.Game = value;
+      }
+    }
+    public override Int32 GetHashCode() {
+      unchecked {
+        var hash = 43;
         hash = hash * 31 + Stone.GetHashCode();
         return hash;
       }
