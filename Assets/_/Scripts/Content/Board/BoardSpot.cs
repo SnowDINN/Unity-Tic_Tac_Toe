@@ -39,7 +39,7 @@ namespace Redbean.Content
 
 					instance = Instantiate(Prefab, transform);
 					CurrentStone = instance.GetComponent<StoneSpot>();
-					CurrentStone.UpdateView(_.OwnerId == QuantumRunner.Default.NetworkClient.LocalPlayer.ActorNumber);
+					CurrentStone.UpdateView(x, y, _.OwnerId == QuantumRunner.Default.NetworkClient.LocalPlayer.ActorNumber);
 					
 					SetInteraction(false);
 				}).AddTo(this);

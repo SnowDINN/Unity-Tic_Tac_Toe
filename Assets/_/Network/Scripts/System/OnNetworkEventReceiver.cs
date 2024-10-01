@@ -82,6 +82,7 @@ namespace Redbean.Network
 				{
 					case 1:
 					{
+						frame.Events.StoneHighlight(stone);
 						break;
 					}
 

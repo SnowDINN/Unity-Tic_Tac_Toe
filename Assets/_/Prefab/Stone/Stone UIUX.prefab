@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5005855438129472960}
   - component: {fileID: 7790393280108911104}
+  - component: {fileID: 4298603342309956760}
   m_Layer: 5
   m_Name: Stone UIUX
   m_TagString: Untagged
@@ -51,6 +52,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsMine: {fileID: 6382752955197632644}
   IsOther: {fileID: 8495384031909214408}
+  IsOwner: 0
+--- !u!111 &4298603342309956760
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2109942157777583254}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 7400000, guid: 9dedfc5b09578fa41849ab15edaebcf1, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 9dedfc5b09578fa41849ab15edaebcf1, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!1 &6382752955197632644
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,7 +144,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294901760
+    rgba: 2046754816
   m_fontColor: {r: 0, g: 0, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -298,7 +317,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190335
+    rgba: 2030043391
   m_fontColor: {r: 1, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
