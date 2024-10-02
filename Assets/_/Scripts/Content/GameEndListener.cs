@@ -1,5 +1,6 @@
 ﻿using Quantum;
 using R3;
+using Redbean.Network;
 using UnityEngine;
 
 namespace Redbean.Content
@@ -18,8 +19,8 @@ namespace Redbean.Content
 				.Where(_ => _.Status == GameStatus.End)
 				.Subscribe(_ =>
 				{
-					victory.SetActive(_.ActorId == QuantumRunner.Default.NetworkClient.LocalPlayer.ActorNumber);
-					defeat.SetActive(_.ActorId != QuantumRunner.Default.NetworkClient.LocalPlayer.ActorNumber);
+					victory.SetActive(_.ActorId == NetworkSetting.LocalPlayerId);
+					defeat.SetActive(_.ActorId != NetworkSetting.LocalPlayerId);
 				}).AddTo(this);
 		}
 	}

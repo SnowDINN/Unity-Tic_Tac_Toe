@@ -98,7 +98,10 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.QComponentSystem))]
   public unsafe partial class QComponentSystemPrototype : ComponentPrototype<Quantum.QComponentSystem> {
-    public Int32 PlayerTurn;
+    [DynamicCollectionAttribute()]
+    public PlayerRef[] CurrentPlayers = {};
+    public Int32 CurrentPlayerTurn;
+    public Int32 CurrentGameStatus;
     public Int32 TurnCount;
     partial void MaterializeUser(Frame frame, ref Quantum.QComponentSystem result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
@@ -107,7 +110,18 @@ namespace Quantum.Prototypes {
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
     public void Materialize(Frame frame, ref Quantum.QComponentSystem result, in PrototypeMaterializationContext context = default) {
-        result.PlayerTurn = this.PlayerTurn;
+        if (this.CurrentPlayers.Length == 0) {
+          result.CurrentPlayers = default;
+        } else {
+          var list = frame.AllocateList(out result.CurrentPlayers, this.CurrentPlayers.Length);
+          for (int i = 0; i < this.CurrentPlayers.Length; ++i) {
+            PlayerRef tmp = default;
+            tmp = this.CurrentPlayers[i];
+            list.Add(tmp);
+          }
+        }
+        result.CurrentPlayerTurn = this.CurrentPlayerTurn;
+        result.CurrentGameStatus = this.CurrentGameStatus;
         result.TurnCount = this.TurnCount;
         MaterializeUser(frame, ref result, in context);
     }

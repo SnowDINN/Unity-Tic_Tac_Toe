@@ -1,5 +1,6 @@
 ﻿using Quantum;
 using R3;
+using Redbean.Network;
 using UnityEngine;
 using Button = UnityEngine.UI.Button;
 
@@ -39,7 +40,7 @@ namespace Redbean.Content
 
 					instance = Instantiate(Prefab, transform);
 					CurrentStone = instance.GetComponent<StoneListener>();
-					CurrentStone.UpdateView(x, y, _.OwnerId == QuantumRunner.Default.NetworkClient.LocalPlayer.ActorNumber);
+					CurrentStone.UpdateView(x, y, _.OwnerId == NetworkSetting.LocalPlayerId);
 					
 					SetInteraction(false);
 				}).AddTo(this);

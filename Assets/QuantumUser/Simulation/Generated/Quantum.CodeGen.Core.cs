@@ -546,24 +546,39 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct QComponentSystem : Quantum.IComponentSingleton {
-    public const Int32 SIZE = 8;
+    public const Int32 SIZE = 16;
     public const Int32 ALIGNMENT = 4;
-    [FieldOffset(0)]
-    public Int32 PlayerTurn;
+    [FieldOffset(12)]
+    public QListPtr<PlayerRef> CurrentPlayers;
     [FieldOffset(4)]
+    public Int32 CurrentPlayerTurn;
+    [FieldOffset(0)]
+    public Int32 CurrentGameStatus;
+    [FieldOffset(8)]
     public Int32 TurnCount;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 13381;
-        hash = hash * 31 + PlayerTurn.GetHashCode();
+        hash = hash * 31 + CurrentPlayers.GetHashCode();
+        hash = hash * 31 + CurrentPlayerTurn.GetHashCode();
+        hash = hash * 31 + CurrentGameStatus.GetHashCode();
         hash = hash * 31 + TurnCount.GetHashCode();
         return hash;
       }
     }
+    public void ClearPointers(FrameBase f, EntityRef entity) {
+      CurrentPlayers = default;
+    }
+    public static void OnRemoved(FrameBase frame, EntityRef entity, void* ptr) {
+      var p = (Quantum.QComponentSystem*)ptr;
+      p->ClearPointers((Frame)frame, entity);
+    }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (QComponentSystem*)ptr;
-        serializer.Stream.Serialize(&p->PlayerTurn);
+        serializer.Stream.Serialize(&p->CurrentGameStatus);
+        serializer.Stream.Serialize(&p->CurrentPlayerTurn);
         serializer.Stream.Serialize(&p->TurnCount);
+        QList.Serialize(&p->CurrentPlayers, serializer, Statics.SerializePlayerRef);
     }
   }
   public unsafe partial interface ISignalOnMatchValidation : ISignal {
@@ -676,8 +691,10 @@ namespace Quantum {
     }
   }
   public unsafe partial class Statics {
+    public static FrameSerializer.Delegate SerializePlayerRef;
     public static FrameSerializer.Delegate SerializeInput;
     static partial void InitStaticDelegatesGen() {
+      SerializePlayerRef = PlayerRef.Serialize;
       SerializeInput = Quantum.Input.Serialize;
     }
     static partial void RegisterSimulationTypesGen(TypeRegistry typeRegistry) {
@@ -767,7 +784,7 @@ namespace Quantum {
         .AddBuiltInComponents()
         .Add<Quantum.QComponentPlayer>(Quantum.QComponentPlayer.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.QComponentStone>(Quantum.QComponentStone.Serialize, null, null, ComponentFlags.None)
-        .Add<Quantum.QComponentSystem>(Quantum.QComponentSystem.Serialize, null, null, ComponentFlags.Singleton)
+        .Add<Quantum.QComponentSystem>(Quantum.QComponentSystem.Serialize, null, Quantum.QComponentSystem.OnRemoved, ComponentFlags.Singleton)
         .Finish();
     }
     [Preserve()]

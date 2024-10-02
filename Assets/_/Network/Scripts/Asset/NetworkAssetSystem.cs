@@ -23,6 +23,8 @@ namespace Redbean.Network
 
 	public class NetworkSetting
 	{
+		public static int LocalPlayerId => QuantumRunner.Default.NetworkClient.LocalPlayer.ActorNumber;
+		
 		public const int StoneDestroyTurn = 7;
 	}
 }
