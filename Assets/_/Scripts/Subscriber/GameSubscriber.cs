@@ -4,6 +4,8 @@ namespace Redbean.Content
 {
 	public class GameSubscriber
 	{
+		
+		
 		private static readonly Subject<PositionStream> onInteraction = new();
 		public static Observable<PositionStream> OnInteraction => onInteraction.Share();
 		

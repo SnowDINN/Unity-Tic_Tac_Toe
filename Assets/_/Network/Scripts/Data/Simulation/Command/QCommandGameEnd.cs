@@ -2,13 +2,13 @@
 
 namespace Redbean.Network
 {
-	public class QCommandBoardMatch : DeterministicCommand
+	public class QCommandGameEnd : DeterministicCommand
 	{
-		public int ActorId;
+		public int WinnerId;
 		
 		public override void Serialize(BitStream stream)
 		{
-			stream.Serialize(ref ActorId);
+			stream.Serialize(ref WinnerId);
 		}
 	}
 }

@@ -8,9 +8,9 @@ namespace Quantum
     {
         static partial void AddCommandFactoriesUser(ICollection<IDeterministicCommandFactory> factories, RuntimeConfig gameConfig, SimulationConfig simulationConfig)
         {
-            factories.Add(new QCommandBoardMatch());
+            factories.Add(new QCommandGameEnd());
             factories.Add(new QCommandNextTurn());
-            factories.Add(new QCommandBoardInteraction());
+            factories.Add(new QCommandTurnEnd());
         }
     }
 }

@@ -20,6 +20,11 @@ namespace Redbean.Network
 			{
 				Player = player,
 			});
+
+			if (frame.PlayerCount >= 2)
+			{
+				
+			}
 		}
 	}
 }

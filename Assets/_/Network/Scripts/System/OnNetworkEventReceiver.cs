@@ -13,17 +13,17 @@ namespace Redbean.Network
 		public override void OnEnabled(Frame f)
 		{
 			NetworkSubscriber.OnNetworkEvent
-				.Where(_ => _.Command.GetType() == typeof(QCommandBoardInteraction))
+				.Where(_ => _.Command.GetType() == typeof(QCommandTurnEnd))
 				.Subscribe(_ =>
 				{
-					OnBoardInteraction(_.Frame, _.Player, _.Command as QCommandBoardInteraction);
+					OnBoardInteraction(_.Frame, _.Player, _.Command as QCommandTurnEnd);
 				}).AddTo(disposables);
 			
 			NetworkSubscriber.OnNetworkEvent
-				.Where(_ => _.Command.GetType() == typeof(QCommandBoardMatch))
+				.Where(_ => _.Command.GetType() == typeof(QCommandGameEnd))
 				.Subscribe(_ =>
 				{
-					OnBoardMatchSystem(_.Frame, _.Player, _.Command as QCommandBoardMatch);
+					OnBoardMatchSystem(_.Frame, _.Player, _.Command as QCommandGameEnd);
 				}).AddTo(disposables);
 			
 			NetworkSubscriber.OnNetworkEvent
@@ -42,7 +42,7 @@ namespace Redbean.Network
 
 #region Event Method
 
-		private void OnBoardInteraction(Frame frame, PlayerRef player, QCommandBoardInteraction command)
+		private void OnBoardInteraction(Frame frame, PlayerRef player, QCommandTurnEnd command)
 		{
 			frame.Set(frame.Create(command.Entity), new QComponentStone
 			{
@@ -53,9 +53,9 @@ namespace Redbean.Network
 			});
 		}
 		
-		private void OnBoardMatchSystem(Frame frame, PlayerRef player, QCommandBoardMatch command)
+		private void OnBoardMatchSystem(Frame frame, PlayerRef player, QCommandGameEnd command)
 		{
-			frame.Events.OnGameEnd(command.ActorId);
+			frame.Events.OnGameEnd(command.WinnerId);
 		}
 
 		private void OnNextTurnSystem(Frame frame, PlayerRef player, QCommandNextTurn command)
