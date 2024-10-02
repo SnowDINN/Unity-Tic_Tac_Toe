@@ -12,7 +12,7 @@ namespace Redbean.Content
 		
 		private void Awake()
 		{
-			GameSubscriber.OnInteraction
+			GameSubscriber.OnBoardSelect
 				.Subscribe(_ =>
 				{
 					QuantumRunner.DefaultGame.SendCommand(new QCommandTurnEnd

@@ -1,9 +1,0 @@
-event OnGameEnd
-{
-    int WinnerId;
-}
-
-event OnNextTurnRemoveStone
-{
-    QComponentStone Stone;
-}

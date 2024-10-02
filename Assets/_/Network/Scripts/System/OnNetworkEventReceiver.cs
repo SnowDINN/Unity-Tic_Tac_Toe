@@ -23,7 +23,7 @@ namespace Redbean.Network
 				.Where(_ => _.Command.GetType() == typeof(QCommandGameEnd))
 				.Subscribe(_ =>
 				{
-					OnBoardMatchSystem(_.Frame, _.Player, _.Command as QCommandGameEnd);
+					OnGameEnd(_.Frame, _.Player, _.Command as QCommandGameEnd);
 				}).AddTo(disposables);
 			
 			NetworkSubscriber.OnNetworkEvent
@@ -53,9 +53,13 @@ namespace Redbean.Network
 			});
 		}
 		
-		private void OnBoardMatchSystem(Frame frame, PlayerRef player, QCommandGameEnd command)
+		private void OnGameEnd(Frame frame, PlayerRef player, QCommandGameEnd command)
 		{
-			frame.Events.OnGameEnd(command.WinnerId);
+			GameSubscriber.SetGameStatus(new EVT_GameStatus
+			{
+				Status = GameStatus.End,
+				ActorId = command.WinnerId
+			});
 		}
 
 		private void OnNextTurnSystem(Frame frame, PlayerRef player, QCommandNextTurn command)
@@ -69,7 +73,7 @@ namespace Redbean.Network
 				{
 					case 1:
 					{
-						frame.Events.OnNextTurnRemoveStone(stone);
+						GameSubscriber.SetStoneHighlight(stone);
 						break;
 					}
 

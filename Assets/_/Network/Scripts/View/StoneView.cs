@@ -15,11 +15,14 @@ namespace Redbean.Network
 			y = frame.Get<QComponentStone>(EntityRef).Y;
 			ownerId = frame.Get<QComponentStone>(EntityRef).OwnerId;
 			
-			GameSubscriber.StoneCreate(new StoneCreateStream
+			GameSubscriber.SetStoneCreate(new EVT_PositionAndOwner
 			{
 				OwnerId = ownerId,
-				X = x,
-				Y = y
+				Position = new EVT_Position
+				{
+					X = x,
+					Y = y
+				}
 			});
 
 			frame.Signals.OnMatchValidation(x, y);
@@ -27,7 +30,7 @@ namespace Redbean.Network
 
 		public override void OnDeactivate()
 		{
-			GameSubscriber.StoneDestroy(new StoneDestroyStream
+			GameSubscriber.SetStoneDestroy(new EVT_Position
 			{
 				X = x,
 				Y = y

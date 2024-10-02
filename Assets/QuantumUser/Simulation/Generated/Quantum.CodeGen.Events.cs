@@ -52,7 +52,7 @@ namespace Quantum {
   public unsafe partial class Frame {
     public unsafe partial struct FrameEvents {
       static partial void GetEventTypeCountCodeGen(ref Int32 eventCount) {
-        eventCount = 3;
+        eventCount = 1;
       }
       static partial void GetParentEventIDCodeGen(Int32 eventID, ref Int32 parentEventID) {
         switch (eventID) {
@@ -61,72 +61,8 @@ namespace Quantum {
       }
       static partial void GetEventTypeCodeGen(Int32 eventID, ref System.Type result) {
         switch (eventID) {
-          case EventOnGameEnd.ID: result = typeof(EventOnGameEnd); return;
-          case EventOnNextTurnRemoveStone.ID: result = typeof(EventOnNextTurnRemoveStone); return;
           default: break;
         }
-      }
-      public EventOnGameEnd OnGameEnd(Int32 WinnerId) {
-        var ev = _f.Context.AcquireEvent<EventOnGameEnd>(EventOnGameEnd.ID);
-        ev.WinnerId = WinnerId;
-        _f.AddEvent(ev);
-        return ev;
-      }
-      public EventOnNextTurnRemoveStone OnNextTurnRemoveStone(QComponentStone Stone) {
-        var ev = _f.Context.AcquireEvent<EventOnNextTurnRemoveStone>(EventOnNextTurnRemoveStone.ID);
-        ev.Stone = Stone;
-        _f.AddEvent(ev);
-        return ev;
-      }
-    }
-  }
-  public unsafe partial class EventOnGameEnd : EventBase {
-    public new const Int32 ID = 1;
-    public Int32 WinnerId;
-    protected EventOnGameEnd(Int32 id, EventFlags flags) : 
-        base(id, flags) {
-    }
-    public EventOnGameEnd() : 
-        base(1, EventFlags.Server|EventFlags.Client) {
-    }
-    public new QuantumGame Game {
-      get {
-        return (QuantumGame)base.Game;
-      }
-      set {
-        base.Game = value;
-      }
-    }
-    public override Int32 GetHashCode() {
-      unchecked {
-        var hash = 41;
-        hash = hash * 31 + WinnerId.GetHashCode();
-        return hash;
-      }
-    }
-  }
-  public unsafe partial class EventOnNextTurnRemoveStone : EventBase {
-    public new const Int32 ID = 2;
-    public QComponentStone Stone;
-    protected EventOnNextTurnRemoveStone(Int32 id, EventFlags flags) : 
-        base(id, flags) {
-    }
-    public EventOnNextTurnRemoveStone() : 
-        base(2, EventFlags.Server|EventFlags.Client) {
-    }
-    public new QuantumGame Game {
-      get {
-        return (QuantumGame)base.Game;
-      }
-      set {
-        base.Game = value;
-      }
-    }
-    public override Int32 GetHashCode() {
-      unchecked {
-        var hash = 43;
-        hash = hash * 31 + Stone.GetHashCode();
-        return hash;
       }
     }
   }

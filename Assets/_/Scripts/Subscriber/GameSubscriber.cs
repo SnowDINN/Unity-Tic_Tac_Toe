@@ -1,41 +1,29 @@
-﻿using R3;
+﻿using Quantum;
+using R3;
 
 namespace Redbean.Content
 {
 	public class GameSubscriber
 	{
-		
-		
-		private static readonly Subject<PositionStream> onInteraction = new();
-		public static Observable<PositionStream> OnInteraction => onInteraction.Share();
-		
-		private static readonly Subject<StoneCreateStream> onStoneCreate = new();
-		public static Observable<StoneCreateStream> OnStoneCreate => onStoneCreate.Share();
-		
-		private static readonly Subject<StoneDestroyStream> onStoneDestroy = new();
-		public static Observable<StoneDestroyStream> OnStoneDestroy => onStoneDestroy.Share();
+		private static readonly Subject<EVT_GameStatus> onGameStatus = new();
+		public static Observable<EVT_GameStatus> OnGameStatus => onGameStatus.Share();
 
-		public static void Interaction(PositionStream stream) => onInteraction.OnNext(stream);
-		public static void StoneCreate(StoneCreateStream stream) => onStoneCreate.OnNext(stream);
-		public static void StoneDestroy(StoneDestroyStream stream) => onStoneDestroy.OnNext(stream);
-	}
+		private static readonly Subject<EVT_Position> onBoardSelect = new();
+		public static Observable<EVT_Position> OnBoardSelect => onBoardSelect.Share();
 
-	public class PositionStream
-	{
-		public int X;
-		public int Y;
-	}
+		private static readonly Subject<EVT_PositionAndOwner> onStoneCreate = new();
+		public static Observable<EVT_PositionAndOwner> OnStoneCreate => onStoneCreate.Share();
 
-	public class StoneCreateStream
-	{
-		public int OwnerId;
-		public int X;
-		public int Y;
-	}
-	
-	public class StoneDestroyStream
-	{
-		public int X;
-		public int Y;
+		private static readonly Subject<EVT_Position> onStoneDestroy = new();
+		public static Observable<EVT_Position> OnStoneDestroy => onStoneDestroy.Share();
+		
+		private static readonly Subject<QComponentStone> onStoneHighlight = new();
+		public static Observable<QComponentStone> OnStoneHighlight => onStoneHighlight.Share();
+		
+		public static void SetGameStatus(EVT_GameStatus evt) => onGameStatus.OnNext(evt);
+		public static void SetBoardSelect(EVT_Position evt) => onBoardSelect.OnNext(evt);
+		public static void SetStoneCreate(EVT_PositionAndOwner evt) => onStoneCreate.OnNext(evt);
+		public static void SetStoneDestroy(EVT_Position evt) => onStoneDestroy.OnNext(evt);
+		public static void SetStoneHighlight(QComponentStone evt) => onStoneHighlight.OnNext(evt);
 	}
 }

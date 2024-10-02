@@ -1,4 +1,4 @@
-using Quantum;
+using R3;
 using UnityEngine;
 
 namespace Redbean.Content
@@ -15,23 +15,17 @@ namespace Redbean.Content
 		private int y;
 
 		public bool IsOwner;
-
-		private DispatcherSubscription subscription;
 		
-		private void OnEnable()
+		private void Awake()
 		{
-			subscription = QuantumEvent.Subscribe<EventOnNextTurnRemoveStone>(this, _ =>
-			{
-				if (x != _.Stone.X || y != _.Stone.Y)
-					return;
+			GameSubscriber.OnStoneHighlight
+				.Subscribe(_ =>
+				{
+					if (x != _.X || y != _.Y)
+						return;
 				
-				GetComponent<Animation>().Play("Highlight");
-			});
-		}
-
-		private void OnDisable()
-		{
-			QuantumEvent.Unsubscribe(subscription);
+					GetComponent<Animation>().Play("Highlight");
+				}).AddTo(this);
 		}
 
 		public void UpdateView(int x, int y, bool isOwner)

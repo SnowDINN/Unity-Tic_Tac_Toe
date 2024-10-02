@@ -24,7 +24,7 @@ namespace Redbean.Content
 			Button.AsButtonObservable()
 				.Subscribe(_ =>
 				{
-					GameSubscriber.Interaction(new PositionStream
+					GameSubscriber.SetBoardSelect(new EVT_Position
 					{
 						X = x,
 						Y = y
@@ -34,7 +34,7 @@ namespace Redbean.Content
 			GameSubscriber.OnStoneCreate
 				.Subscribe(_ =>
 				{
-					if (_.X != x || _.Y != y)
+					if (_.Position.X != x || _.Position.Y != y)
 						return;
 
 					instance = Instantiate(Prefab, transform);
