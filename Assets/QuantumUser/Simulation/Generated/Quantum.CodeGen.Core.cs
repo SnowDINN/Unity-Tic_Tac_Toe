@@ -546,23 +546,20 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct QComponentSystem : Quantum.IComponentSingleton {
-    public const Int32 SIZE = 16;
+    public const Int32 SIZE = 12;
     public const Int32 ALIGNMENT = 4;
-    [FieldOffset(12)]
-    public QListPtr<PlayerRef> CurrentPlayers;
-    [FieldOffset(4)]
-    public Int32 CurrentPlayerTurn;
-    [FieldOffset(0)]
-    public Int32 CurrentGameStatus;
     [FieldOffset(8)]
-    public Int32 TurnCount;
+    public QListPtr<PlayerRef> CurrentPlayers;
+    [FieldOffset(0)]
+    public Int32 CurrentPlayerTurn;
+    [FieldOffset(4)]
+    public Int32 CurrentTurn;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 13381;
         hash = hash * 31 + CurrentPlayers.GetHashCode();
         hash = hash * 31 + CurrentPlayerTurn.GetHashCode();
-        hash = hash * 31 + CurrentGameStatus.GetHashCode();
-        hash = hash * 31 + TurnCount.GetHashCode();
+        hash = hash * 31 + CurrentTurn.GetHashCode();
         return hash;
       }
     }
@@ -575,9 +572,8 @@ namespace Quantum {
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (QComponentSystem*)ptr;
-        serializer.Stream.Serialize(&p->CurrentGameStatus);
         serializer.Stream.Serialize(&p->CurrentPlayerTurn);
-        serializer.Stream.Serialize(&p->TurnCount);
+        serializer.Stream.Serialize(&p->CurrentTurn);
         QList.Serialize(&p->CurrentPlayers, serializer, Statics.SerializePlayerRef);
     }
   }

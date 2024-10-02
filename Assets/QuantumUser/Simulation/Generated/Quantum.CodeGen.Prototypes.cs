@@ -101,8 +101,7 @@ namespace Quantum.Prototypes {
     [DynamicCollectionAttribute()]
     public PlayerRef[] CurrentPlayers = {};
     public Int32 CurrentPlayerTurn;
-    public Int32 CurrentGameStatus;
-    public Int32 TurnCount;
+    public Int32 CurrentTurn;
     partial void MaterializeUser(Frame frame, ref Quantum.QComponentSystem result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.QComponentSystem component = default;
@@ -121,8 +120,7 @@ namespace Quantum.Prototypes {
           }
         }
         result.CurrentPlayerTurn = this.CurrentPlayerTurn;
-        result.CurrentGameStatus = this.CurrentGameStatus;
-        result.TurnCount = this.TurnCount;
+        result.CurrentTurn = this.CurrentTurn;
         MaterializeUser(frame, ref result, in context);
     }
   }

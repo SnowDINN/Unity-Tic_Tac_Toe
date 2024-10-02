@@ -29,9 +29,6 @@ namespace Redbean.Network
 		{
 			if (frame.PlayerConnectedCount > 0)
 			{
-				if (system->CurrentGameStatus != (int)GameStatus.Wait)
-					return;
-				
 				var random = frame.RNG->Next(0, frame.PlayerConnectedCount + 1);
 				var players = frame.AllocateList<PlayerRef>();
 
@@ -41,7 +38,6 @@ namespace Redbean.Network
 
 				system->CurrentPlayers = players;
 				system->CurrentPlayerTurn = frame.PlayerToActorId(players[random]).Value;
-				system->CurrentGameStatus = (int)GameStatus.Start;
 
 				GameSubscriber.SetGameStatus(new EVT_GameStatus
 				{
@@ -51,8 +47,6 @@ namespace Redbean.Network
 			}
 			else
 			{
-				system->CurrentGameStatus = (int)GameStatus.Wait;
-				
 				GameSubscriber.SetGameStatus(new EVT_GameStatus
 				{
 					Status = GameStatus.Wait

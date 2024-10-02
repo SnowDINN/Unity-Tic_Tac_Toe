@@ -51,7 +51,7 @@ namespace Redbean.Network
 			var nextPlayer = frame.ResolveList(system->CurrentPlayers)
 				.FirstOrDefault(_ => frame.PlayerToActorId(_).Value != system->CurrentPlayerTurn);
 			system->CurrentPlayerTurn = frame.PlayerToActorId(nextPlayer).Value;
-			system->TurnCount += 1;
+			system->CurrentTurn += 1;
 
 			var createdEntity = frame.Create(command.Entity);
 			var createdStone = new QComponentStone
@@ -59,7 +59,7 @@ namespace Redbean.Network
 				X = command.X,
 				Y = command.Y,
 				OwnerId = frame.PlayerToActorId(player).Value,
-				DestroyTurn = system->TurnCount + NetworkSetting.StoneDestroyTurn
+				DestroyTurn = system->CurrentTurn + NetworkSetting.StoneDestroyTurn
 			};
 			frame.Set(createdEntity, createdStone);
 			frame.Events.OnStoneCreated(createdStone);
@@ -67,7 +67,7 @@ namespace Redbean.Network
 			var destroyedStones = frame.Filter<QComponentStone>();
 			while (destroyedStones.Next(out var destroyedEntity, out var destroyedStone))
 			{
-				switch (destroyedStone.DestroyTurn - system->TurnCount)
+				switch (destroyedStone.DestroyTurn - system->CurrentTurn)
 				{
 					case 1:
 						frame.Events.OnStoneHighlighted(destroyedStone);

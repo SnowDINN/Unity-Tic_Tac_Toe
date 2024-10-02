@@ -3,8 +3,7 @@ singleton component QComponentSystem
 {
     list<PlayerRef> CurrentPlayers;
     int CurrentPlayerTurn;
-    int CurrentGameStatus;
-    int TurnCount;
+    int CurrentTurn;
 }
 
 [CodeGen(UnityWrapperFolder, "Assets/_/Network/Scripts/Data/Component")]
