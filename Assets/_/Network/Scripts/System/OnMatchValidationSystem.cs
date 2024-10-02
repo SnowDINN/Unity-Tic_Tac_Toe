@@ -1,5 +1,7 @@
+using System.Linq;
 using Quantum;
 using Redbean.Content;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace Redbean.Network
@@ -86,9 +88,12 @@ namespace Redbean.Network
 			}
 
 			var system = f.GetSingleton<QComponentSystem>();
+			var otherTurn = f.ResolveList(system.CurrentPlayers)
+				.FirstOrDefault(_ => f.PlayerToActorId(_).Value != system.CurrentPlayerTurn);
+			
 			QuantumRunner.DefaultGame.SendCommand(new QCommandNextTurn
 			{
-				NextPlayerTurn = 1
+				NextPlayerTurn = f.PlayerToActorId(otherTurn).Value
 			});
 		}
 		

@@ -44,7 +44,7 @@ MonoBehaviour:
     StartDisabled: 0
     Children: []
   - SystemType:
-      AssemblyQualifiedName: Redbean.Network.OnBoardSystem, Assembly-CSharp
+      AssemblyQualifiedName: Redbean.Network.OnMatchValidationSystem, Assembly-CSharp
     SystemName: 
     StartDisabled: 0
     Children: []

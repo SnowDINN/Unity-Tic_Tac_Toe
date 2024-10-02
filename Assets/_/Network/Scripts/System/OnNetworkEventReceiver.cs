@@ -13,13 +13,6 @@ namespace Redbean.Network
 		public override void OnEnabled(Frame f)
 		{
 			NetworkSubscriber.OnNetworkEvent
-				.Where(_ => _.Command.GetType() == typeof(QCommandTurnEnd))
-				.Subscribe(_ =>
-				{
-					OnBoardInteraction(_.Frame, _.Player, _.Command as QCommandTurnEnd);
-				}).AddTo(disposables);
-			
-			NetworkSubscriber.OnNetworkEvent
 				.Where(_ => _.Command.GetType() == typeof(QCommandGameEnd))
 				.Subscribe(_ =>
 				{
@@ -27,10 +20,17 @@ namespace Redbean.Network
 				}).AddTo(disposables);
 			
 			NetworkSubscriber.OnNetworkEvent
+				.Where(_ => _.Command.GetType() == typeof(QCommandTurnEnd))
+				.Subscribe(_ =>
+				{
+					OnTurnEnd(_.Frame, _.Player, _.Command as QCommandTurnEnd);
+				}).AddTo(disposables);
+			
+			NetworkSubscriber.OnNetworkEvent
 				.Where(_ => _.Command.GetType() == typeof(QCommandNextTurn))
 				.Subscribe(_ =>
 				{
-					OnNextTurnSystem(_.Frame, _.Player, _.Command as QCommandNextTurn);
+					OnNextTurn(_.Frame, _.Player, _.Command as QCommandNextTurn);
 				}).AddTo(disposables);
 		}
 
@@ -41,17 +41,6 @@ namespace Redbean.Network
 		}
 
 #region Event Method
-
-		private void OnBoardInteraction(Frame frame, PlayerRef player, QCommandTurnEnd command)
-		{
-			frame.Set(frame.Create(command.Entity), new QComponentStone
-			{
-				X = command.X,
-				Y = command.Y,
-				OwnerId = frame.PlayerToActorId(player).Value,
-				DestroyTurn = frame.GetSingleton<QComponentSystem>().TurnCount + NetworkSetting.StoneDestroyTurn
-			});
-		}
 		
 		private void OnGameEnd(Frame frame, PlayerRef player, QCommandGameEnd command)
 		{
@@ -62,14 +51,27 @@ namespace Redbean.Network
 			});
 		}
 
-		private void OnNextTurnSystem(Frame frame, PlayerRef player, QCommandNextTurn command)
+		private void OnTurnEnd(Frame frame, PlayerRef player, QCommandTurnEnd command)
 		{
-			var currentTurn = frame.Unsafe.GetPointerSingleton<QComponentSystem>()->NextTurn();
+			frame.Set(frame.Create(command.Entity), new QComponentStone
+			{
+				X = command.X,
+				Y = command.Y,
+				OwnerId = frame.PlayerToActorId(player).Value,
+				DestroyTurn = frame.GetSingleton<QComponentSystem>().TurnCount + NetworkSetting.StoneDestroyTurn
+			});
+		}
+
+		private void OnNextTurn(Frame frame, PlayerRef player, QCommandNextTurn command)
+		{
+			var system = frame.Unsafe.GetPointerSingleton<QComponentSystem>();
+			system->CurrentPlayerTurn = command.NextPlayerTurn;
+			system->TurnCount += 1;
 			
 			var stones = frame.Filter<QComponentStone>();
 			while (stones.Next(out var entity, out var stone))
 			{
-				switch (stone.DestroyTurn - currentTurn)
+				switch (stone.DestroyTurn - system->TurnCount)
 				{
 					case 1:
 					{
@@ -84,6 +86,12 @@ namespace Redbean.Network
 					}
 				}
 			}
+			
+			GameSubscriber.SetGameStatus(new EVT_GameStatus
+			{
+				Status = GameStatus.Start,
+				ActorId = system->CurrentPlayerTurn
+			});
 		}
 
 #endregion
