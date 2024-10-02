@@ -20,7 +20,7 @@ namespace Redbean.Content
 		
 		private void OnEnable()
 		{
-			subscription = QuantumEvent.Subscribe<EventStoneHighlight>(this, _ =>
+			subscription = QuantumEvent.Subscribe<EventOnNextTurnRemoveStone>(this, _ =>
 			{
 				if (x != _.Stone.X || y != _.Stone.Y)
 					return;

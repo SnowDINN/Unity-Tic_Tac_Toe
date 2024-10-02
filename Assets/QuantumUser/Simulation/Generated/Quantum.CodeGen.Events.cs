@@ -61,32 +61,32 @@ namespace Quantum {
       }
       static partial void GetEventTypeCodeGen(Int32 eventID, ref System.Type result) {
         switch (eventID) {
-          case EventBoardMatch.ID: result = typeof(EventBoardMatch); return;
-          case EventStoneHighlight.ID: result = typeof(EventStoneHighlight); return;
+          case EventOnGameEnd.ID: result = typeof(EventOnGameEnd); return;
+          case EventOnNextTurnRemoveStone.ID: result = typeof(EventOnNextTurnRemoveStone); return;
           default: break;
         }
       }
-      public EventBoardMatch BoardMatch(Int32 ActorId) {
-        var ev = _f.Context.AcquireEvent<EventBoardMatch>(EventBoardMatch.ID);
-        ev.ActorId = ActorId;
+      public EventOnGameEnd OnGameEnd(Int32 WinnerId) {
+        var ev = _f.Context.AcquireEvent<EventOnGameEnd>(EventOnGameEnd.ID);
+        ev.WinnerId = WinnerId;
         _f.AddEvent(ev);
         return ev;
       }
-      public EventStoneHighlight StoneHighlight(Stone Stone) {
-        var ev = _f.Context.AcquireEvent<EventStoneHighlight>(EventStoneHighlight.ID);
+      public EventOnNextTurnRemoveStone OnNextTurnRemoveStone(QComponentStone Stone) {
+        var ev = _f.Context.AcquireEvent<EventOnNextTurnRemoveStone>(EventOnNextTurnRemoveStone.ID);
         ev.Stone = Stone;
         _f.AddEvent(ev);
         return ev;
       }
     }
   }
-  public unsafe partial class EventBoardMatch : EventBase {
+  public unsafe partial class EventOnGameEnd : EventBase {
     public new const Int32 ID = 1;
-    public Int32 ActorId;
-    protected EventBoardMatch(Int32 id, EventFlags flags) : 
+    public Int32 WinnerId;
+    protected EventOnGameEnd(Int32 id, EventFlags flags) : 
         base(id, flags) {
     }
-    public EventBoardMatch() : 
+    public EventOnGameEnd() : 
         base(1, EventFlags.Server|EventFlags.Client) {
     }
     public new QuantumGame Game {
@@ -100,18 +100,18 @@ namespace Quantum {
     public override Int32 GetHashCode() {
       unchecked {
         var hash = 41;
-        hash = hash * 31 + ActorId.GetHashCode();
+        hash = hash * 31 + WinnerId.GetHashCode();
         return hash;
       }
     }
   }
-  public unsafe partial class EventStoneHighlight : EventBase {
+  public unsafe partial class EventOnNextTurnRemoveStone : EventBase {
     public new const Int32 ID = 2;
-    public Stone Stone;
-    protected EventStoneHighlight(Int32 id, EventFlags flags) : 
+    public QComponentStone Stone;
+    protected EventOnNextTurnRemoveStone(Int32 id, EventFlags flags) : 
         base(id, flags) {
     }
-    public EventStoneHighlight() : 
+    public EventOnNextTurnRemoveStone() : 
         base(2, EventFlags.Server|EventFlags.Client) {
     }
     public new QuantumGame Game {

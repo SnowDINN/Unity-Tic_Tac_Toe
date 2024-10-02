@@ -1,7 +1,6 @@
 ﻿using Quantum;
 using R3;
 using Redbean.Content;
-using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace Redbean.Network
@@ -45,38 +44,38 @@ namespace Redbean.Network
 
 		private void OnBoardInteraction(Frame frame, PlayerRef player, QCommandBoardInteraction command)
 		{
-			frame.Set(frame.Create(command.Entity), new Stone
+			frame.Set(frame.Create(command.Entity), new QComponentStone
 			{
 				X = command.X,
 				Y = command.Y,
 				OwnerId = frame.PlayerToActorId(player).Value,
-				DestroyTurn = frame.GetSingleton<Game>().TurnCount + NetworkSetting.StoneDestroyTurn
+				DestroyTurn = frame.GetSingleton<QComponentSystem>().TurnCount + NetworkSetting.StoneDestroyTurn
 			});
 		}
 		
 		private void OnBoardMatchSystem(Frame frame, PlayerRef player, QCommandBoardMatch command)
 		{
-			frame.Events.BoardMatch(command.ActorId);
+			frame.Events.OnGameEnd(command.ActorId);
 		}
 
 		private void OnNextTurnSystem(Frame frame, PlayerRef player, QCommandNextTurn command)
 		{
-			var currentTurn = frame.Unsafe.GetPointerSingleton<Game>()->NextTurn();
+			var currentTurn = frame.Unsafe.GetPointerSingleton<QComponentSystem>()->NextTurn();
 			
-			var stones = frame.Filter<Stone>();
+			var stones = frame.Filter<QComponentStone>();
 			while (stones.Next(out var entity, out var stone))
 			{
 				switch (stone.DestroyTurn - currentTurn)
 				{
 					case 1:
 					{
-						frame.Events.StoneHighlight(stone);
+						frame.Events.OnNextTurnRemoveStone(stone);
 						break;
 					}
 
 					case <= 0:
 					{
-						frame.Signals.OnStoneDestroy(entity);
+						frame.Signals.OnRemoveStone(entity);
 						break;
 					}
 				}

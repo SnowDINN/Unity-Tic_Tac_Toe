@@ -14,14 +14,14 @@ namespace Quantum {
   using UnityEngine;
   
   [UnityEngine.DisallowMultipleComponent()]
-  public unsafe partial class QPrototypeStone : QuantumUnityComponentPrototype<Quantum.Prototypes.StonePrototype>, IQuantumUnityPrototypeWrapperForComponent<Quantum.Stone> {
-    partial void CreatePrototypeUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.StonePrototype prototype);
+  public unsafe partial class QPrototypeQComponentPlayer : QuantumUnityComponentPrototype<Quantum.Prototypes.QComponentPlayerPrototype>, IQuantumUnityPrototypeWrapperForComponent<Quantum.QComponentPlayer> {
+    partial void CreatePrototypeUser(Quantum.QuantumEntityPrototypeConverter converter, ref Quantum.Prototypes.QComponentPlayerPrototype prototype);
     [DrawInline()]
     [ReadOnly(InEditMode = false)]
-    public Quantum.Prototypes.StonePrototype Prototype;
+    public Quantum.Prototypes.QComponentPlayerPrototype Prototype;
     public override System.Type ComponentType {
       get {
-        return typeof(Quantum.Stone);
+        return typeof(Quantum.QComponentPlayer);
       }
     }
     public override ComponentPrototype CreatePrototype(Quantum.QuantumEntityPrototypeConverter converter) {

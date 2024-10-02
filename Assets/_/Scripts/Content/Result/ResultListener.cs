@@ -15,10 +15,10 @@ namespace Redbean.Content
 		
 		private void OnEnable()
 		{
-			subscription = QuantumEvent.Subscribe<EventBoardMatch>(this, _ =>
+			subscription = QuantumEvent.Subscribe<EventOnGameEnd>(this, _ =>
 			{
-				victory.SetActive(_.ActorId == QuantumRunner.Default.NetworkClient.LocalPlayer.ActorNumber);
-				defeat.SetActive(_.ActorId != QuantumRunner.Default.NetworkClient.LocalPlayer.ActorNumber);
+				victory.SetActive(_.WinnerId == QuantumRunner.Default.NetworkClient.LocalPlayer.ActorNumber);
+				defeat.SetActive(_.WinnerId != QuantumRunner.Default.NetworkClient.LocalPlayer.ActorNumber);
 			});
 		}
 

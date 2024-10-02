@@ -1,9 +1,9 @@
-event BoardMatch
+event OnGameEnd
 {
-    int ActorId;
+    int WinnerId;
 }
 
-event StoneHighlight
+event OnNextTurnRemoveStone
 {
-    Stone Stone;
+    QComponentStone Stone;
 }

@@ -497,47 +497,25 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
-  public unsafe partial struct Game : Quantum.IComponentSingleton {
-    public const Int32 SIZE = 8;
-    public const Int32 ALIGNMENT = 4;
-    [FieldOffset(0)]
-    public Int32 PlayerTurn;
-    [FieldOffset(4)]
-    public Int32 TurnCount;
-    public override Int32 GetHashCode() {
-      unchecked { 
-        var hash = 6079;
-        hash = hash * 31 + PlayerTurn.GetHashCode();
-        hash = hash * 31 + TurnCount.GetHashCode();
-        return hash;
-      }
-    }
-    public static void Serialize(void* ptr, FrameSerializer serializer) {
-        var p = (Game*)ptr;
-        serializer.Stream.Serialize(&p->PlayerTurn);
-        serializer.Stream.Serialize(&p->TurnCount);
-    }
-  }
-  [StructLayout(LayoutKind.Explicit)]
-  public unsafe partial struct LocalPlayer : Quantum.IComponent {
+  public unsafe partial struct QComponentPlayer : Quantum.IComponent {
     public const Int32 SIZE = 4;
     public const Int32 ALIGNMENT = 4;
     [FieldOffset(0)]
     public PlayerRef Player;
     public override Int32 GetHashCode() {
       unchecked { 
-        var hash = 7043;
+        var hash = 5347;
         hash = hash * 31 + Player.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
-        var p = (LocalPlayer*)ptr;
+        var p = (QComponentPlayer*)ptr;
         PlayerRef.Serialize(&p->Player, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
-  public unsafe partial struct Stone : Quantum.IComponent {
+  public unsafe partial struct QComponentStone : Quantum.IComponent {
     public const Int32 SIZE = 16;
     public const Int32 ALIGNMENT = 4;
     [FieldOffset(8)]
@@ -550,7 +528,7 @@ namespace Quantum {
     public Int32 DestroyTurn;
     public override Int32 GetHashCode() {
       unchecked { 
-        var hash = 10357;
+        var hash = 13709;
         hash = hash * 31 + X.GetHashCode();
         hash = hash * 31 + Y.GetHashCode();
         hash = hash * 31 + OwnerId.GetHashCode();
@@ -559,24 +537,46 @@ namespace Quantum {
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
-        var p = (Stone*)ptr;
+        var p = (QComponentStone*)ptr;
         serializer.Stream.Serialize(&p->DestroyTurn);
         serializer.Stream.Serialize(&p->OwnerId);
         serializer.Stream.Serialize(&p->X);
         serializer.Stream.Serialize(&p->Y);
     }
   }
-  public unsafe partial interface ISignalOnBoardMatch : ISignal {
-    void OnBoardMatch(Frame f, Int32 x, Int32 y);
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct QComponentSystem : Quantum.IComponentSingleton {
+    public const Int32 SIZE = 8;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    public Int32 PlayerTurn;
+    [FieldOffset(4)]
+    public Int32 TurnCount;
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 13381;
+        hash = hash * 31 + PlayerTurn.GetHashCode();
+        hash = hash * 31 + TurnCount.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (QComponentSystem*)ptr;
+        serializer.Stream.Serialize(&p->PlayerTurn);
+        serializer.Stream.Serialize(&p->TurnCount);
+    }
   }
-  public unsafe partial interface ISignalOnStoneDestroy : ISignal {
-    void OnStoneDestroy(Frame f, EntityRef entity);
+  public unsafe partial interface ISignalOnMatchValidation : ISignal {
+    void OnMatchValidation(Frame f, Int32 x, Int32 y);
+  }
+  public unsafe partial interface ISignalOnRemoveStone : ISignal {
+    void OnRemoveStone(Frame f, EntityRef entity);
   }
   public static unsafe partial class Constants {
   }
   public unsafe partial class Frame {
-    private ISignalOnBoardMatch[] _ISignalOnBoardMatchSystems;
-    private ISignalOnStoneDestroy[] _ISignalOnStoneDestroySystems;
+    private ISignalOnMatchValidation[] _ISignalOnMatchValidationSystems;
+    private ISignalOnRemoveStone[] _ISignalOnRemoveStoneSystems;
     partial void AllocGen() {
       _globals = (_globals_*)Context.Allocator.AllocAndClear(sizeof(_globals_));
     }
@@ -588,18 +588,14 @@ namespace Quantum {
     }
     partial void InitGen() {
       Initialize(this, this.SimulationConfig.Entities, 256);
-      _ISignalOnBoardMatchSystems = BuildSignalsArray<ISignalOnBoardMatch>();
-      _ISignalOnStoneDestroySystems = BuildSignalsArray<ISignalOnStoneDestroy>();
+      _ISignalOnMatchValidationSystems = BuildSignalsArray<ISignalOnMatchValidation>();
+      _ISignalOnRemoveStoneSystems = BuildSignalsArray<ISignalOnRemoveStone>();
       _ComponentSignalsOnAdded = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       _ComponentSignalsOnRemoved = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       BuildSignalsArrayOnComponentAdded<CharacterController2D>();
       BuildSignalsArrayOnComponentRemoved<CharacterController2D>();
       BuildSignalsArrayOnComponentAdded<CharacterController3D>();
       BuildSignalsArrayOnComponentRemoved<CharacterController3D>();
-      BuildSignalsArrayOnComponentAdded<Quantum.Game>();
-      BuildSignalsArrayOnComponentRemoved<Quantum.Game>();
-      BuildSignalsArrayOnComponentAdded<Quantum.LocalPlayer>();
-      BuildSignalsArrayOnComponentRemoved<Quantum.LocalPlayer>();
       BuildSignalsArrayOnComponentAdded<MapEntityLink>();
       BuildSignalsArrayOnComponentRemoved<MapEntityLink>();
       BuildSignalsArrayOnComponentAdded<NavMeshAvoidanceAgent>();
@@ -626,8 +622,12 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<PhysicsJoints2D>();
       BuildSignalsArrayOnComponentAdded<PhysicsJoints3D>();
       BuildSignalsArrayOnComponentRemoved<PhysicsJoints3D>();
-      BuildSignalsArrayOnComponentAdded<Quantum.Stone>();
-      BuildSignalsArrayOnComponentRemoved<Quantum.Stone>();
+      BuildSignalsArrayOnComponentAdded<Quantum.QComponentPlayer>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.QComponentPlayer>();
+      BuildSignalsArrayOnComponentAdded<Quantum.QComponentStone>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.QComponentStone>();
+      BuildSignalsArrayOnComponentAdded<Quantum.QComponentSystem>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.QComponentSystem>();
       BuildSignalsArrayOnComponentAdded<Transform2D>();
       BuildSignalsArrayOnComponentRemoved<Transform2D>();
       BuildSignalsArrayOnComponentAdded<Transform2DVertical>();
@@ -655,21 +655,21 @@ namespace Quantum {
       Physics3D.Init(_globals->PhysicsState3D.MapStaticCollidersState.TrackedMap);
     }
     public unsafe partial struct FrameSignals {
-      public void OnBoardMatch(Int32 x, Int32 y) {
-        var array = _f._ISignalOnBoardMatchSystems;
+      public void OnMatchValidation(Int32 x, Int32 y) {
+        var array = _f._ISignalOnMatchValidationSystems;
         for (Int32 i = 0; i < array.Length; ++i) {
           var s = array[i];
           if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
-            s.OnBoardMatch(_f, x, y);
+            s.OnMatchValidation(_f, x, y);
           }
         }
       }
-      public void OnStoneDestroy(EntityRef entity) {
-        var array = _f._ISignalOnStoneDestroySystems;
+      public void OnRemoveStone(EntityRef entity) {
+        var array = _f._ISignalOnRemoveStoneSystems;
         for (Int32 i = 0; i < array.Length; ++i) {
           var s = array[i];
           if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
-            s.OnStoneDestroy(_f, entity);
+            s.OnRemoveStone(_f, entity);
           }
         }
       }
@@ -712,7 +712,6 @@ namespace Quantum {
       typeRegistry.Register(typeof(FPVector3), FPVector3.SIZE);
       typeRegistry.Register(typeof(FrameMetaData), FrameMetaData.SIZE);
       typeRegistry.Register(typeof(FrameTimer), FrameTimer.SIZE);
-      typeRegistry.Register(typeof(Quantum.Game), Quantum.Game.SIZE);
       typeRegistry.Register(typeof(HingeJoint), HingeJoint.SIZE);
       typeRegistry.Register(typeof(HingeJoint3D), HingeJoint3D.SIZE);
       typeRegistry.Register(typeof(Hit), Hit.SIZE);
@@ -722,7 +721,6 @@ namespace Quantum {
       typeRegistry.Register(typeof(Joint), Joint.SIZE);
       typeRegistry.Register(typeof(Joint3D), Joint3D.SIZE);
       typeRegistry.Register(typeof(LayerMask), LayerMask.SIZE);
-      typeRegistry.Register(typeof(Quantum.LocalPlayer), Quantum.LocalPlayer.SIZE);
       typeRegistry.Register(typeof(MapEntityId), MapEntityId.SIZE);
       typeRegistry.Register(typeof(MapEntityLink), MapEntityLink.SIZE);
       typeRegistry.Register(typeof(NavMeshAvoidanceAgent), NavMeshAvoidanceAgent.SIZE);
@@ -748,6 +746,9 @@ namespace Quantum {
       typeRegistry.Register(typeof(PlayerRef), PlayerRef.SIZE);
       typeRegistry.Register(typeof(Ptr), Ptr.SIZE);
       typeRegistry.Register(typeof(QBoolean), QBoolean.SIZE);
+      typeRegistry.Register(typeof(Quantum.QComponentPlayer), Quantum.QComponentPlayer.SIZE);
+      typeRegistry.Register(typeof(Quantum.QComponentStone), Quantum.QComponentStone.SIZE);
+      typeRegistry.Register(typeof(Quantum.QComponentSystem), Quantum.QComponentSystem.SIZE);
       typeRegistry.Register(typeof(Quantum.Ptr), Quantum.Ptr.SIZE);
       typeRegistry.Register(typeof(QueryOptions), 2);
       typeRegistry.Register(typeof(RNGSession), RNGSession.SIZE);
@@ -755,7 +756,6 @@ namespace Quantum {
       typeRegistry.Register(typeof(Shape3D), Shape3D.SIZE);
       typeRegistry.Register(typeof(SpringJoint), SpringJoint.SIZE);
       typeRegistry.Register(typeof(SpringJoint3D), SpringJoint3D.SIZE);
-      typeRegistry.Register(typeof(Quantum.Stone), Quantum.Stone.SIZE);
       typeRegistry.Register(typeof(Transform2D), Transform2D.SIZE);
       typeRegistry.Register(typeof(Transform2DVertical), Transform2DVertical.SIZE);
       typeRegistry.Register(typeof(Transform3D), Transform3D.SIZE);
@@ -765,9 +765,9 @@ namespace Quantum {
     static partial void InitComponentTypeIdGen() {
       ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 3)
         .AddBuiltInComponents()
-        .Add<Quantum.Game>(Quantum.Game.Serialize, null, null, ComponentFlags.Singleton)
-        .Add<Quantum.LocalPlayer>(Quantum.LocalPlayer.Serialize, null, null, ComponentFlags.None)
-        .Add<Quantum.Stone>(Quantum.Stone.Serialize, null, null, ComponentFlags.None)
+        .Add<Quantum.QComponentPlayer>(Quantum.QComponentPlayer.Serialize, null, null, ComponentFlags.None)
+        .Add<Quantum.QComponentStone>(Quantum.QComponentStone.Serialize, null, null, ComponentFlags.None)
+        .Add<Quantum.QComponentSystem>(Quantum.QComponentSystem.Serialize, null, null, ComponentFlags.Singleton)
         .Finish();
     }
     [Preserve()]

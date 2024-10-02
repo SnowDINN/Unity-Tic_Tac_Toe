@@ -11,9 +11,9 @@ namespace Redbean.Network
 
 		public override void OnActivate(Frame frame)
 		{
-			x = frame.Get<Stone>(EntityRef).X;
-			y = frame.Get<Stone>(EntityRef).Y;
-			ownerId = frame.Get<Stone>(EntityRef).OwnerId;
+			x = frame.Get<QComponentStone>(EntityRef).X;
+			y = frame.Get<QComponentStone>(EntityRef).Y;
+			ownerId = frame.Get<QComponentStone>(EntityRef).OwnerId;
 			
 			GameSubscriber.StoneCreate(new StoneCreateStream
 			{
@@ -22,7 +22,7 @@ namespace Redbean.Network
 				Y = y
 			});
 
-			frame.Signals.OnBoardMatch(x, y);
+			frame.Signals.OnMatchValidation(x, y);
 		}
 
 		public override void OnDeactivate()

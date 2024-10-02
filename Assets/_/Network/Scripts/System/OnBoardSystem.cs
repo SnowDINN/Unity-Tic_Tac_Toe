@@ -5,9 +5,9 @@ using UnityEngine.Scripting;
 namespace Redbean.Network
 {
 	[Preserve]
-	public class OnBoardSystem : SystemSignalsOnly, ISignalOnBoardMatch, ISignalOnStoneDestroy
+	public class OnBoardSystem : SystemSignalsOnly, ISignalOnMatchValidation, ISignalOnRemoveStone
 	{
-		public void OnBoardMatch(Frame f, int x, int y)
+		public void OnMatchValidation(Frame f, int x, int y)
 		{
 			if (!BoardManager.IsOwner(x, y))
 				return;
@@ -88,7 +88,7 @@ namespace Redbean.Network
 			QuantumRunner.DefaultGame.SendCommand(new QCommandNextTurn());
 		}
 		
-		public void OnStoneDestroy(Frame f, EntityRef entity)
+		public void OnRemoveStone(Frame f, EntityRef entity)
 		{
 			f.Destroy(entity);
 		}

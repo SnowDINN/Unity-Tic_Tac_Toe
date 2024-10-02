@@ -10,7 +10,7 @@ namespace Redbean.Network
 		public struct Filter
 		{
 			public EntityRef Entity;
-			public LocalPlayer* LocalPlayer;
+			public QComponentPlayer* LocalPlayer;
 		}
 
 		public override void Update(Frame frame, ref Filter filter)

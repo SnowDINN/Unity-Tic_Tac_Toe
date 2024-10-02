@@ -50,23 +50,6 @@ namespace Quantum.Prototypes {
   #endif //;
   
   [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.Game))]
-  public unsafe partial class GamePrototype : ComponentPrototype<Quantum.Game> {
-    public Int32 PlayerTurn;
-    public Int32 TurnCount;
-    partial void MaterializeUser(Frame frame, ref Quantum.Game result, in PrototypeMaterializationContext context);
-    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
-        Quantum.Game component = default;
-        Materialize((Frame)f, ref component, in context);
-        return f.Set(entity, component) == SetResult.ComponentAdded;
-    }
-    public void Materialize(Frame frame, ref Quantum.Game result, in PrototypeMaterializationContext context = default) {
-        result.PlayerTurn = this.PlayerTurn;
-        result.TurnCount = this.TurnCount;
-        MaterializeUser(frame, ref result, in context);
-    }
-  }
-  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Input))]
   public unsafe partial class InputPrototype : StructPrototype {
     [HideInInspector()]
@@ -77,38 +60,55 @@ namespace Quantum.Prototypes {
     }
   }
   [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.LocalPlayer))]
-  public unsafe partial class LocalPlayerPrototype : ComponentPrototype<Quantum.LocalPlayer> {
+  [Quantum.Prototypes.Prototype(typeof(Quantum.QComponentPlayer))]
+  public unsafe partial class QComponentPlayerPrototype : ComponentPrototype<Quantum.QComponentPlayer> {
     public PlayerRef Player;
-    partial void MaterializeUser(Frame frame, ref Quantum.LocalPlayer result, in PrototypeMaterializationContext context);
+    partial void MaterializeUser(Frame frame, ref Quantum.QComponentPlayer result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
-        Quantum.LocalPlayer component = default;
+        Quantum.QComponentPlayer component = default;
         Materialize((Frame)f, ref component, in context);
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
-    public void Materialize(Frame frame, ref Quantum.LocalPlayer result, in PrototypeMaterializationContext context = default) {
+    public void Materialize(Frame frame, ref Quantum.QComponentPlayer result, in PrototypeMaterializationContext context = default) {
         result.Player = this.Player;
         MaterializeUser(frame, ref result, in context);
     }
   }
   [System.SerializableAttribute()]
-  [Quantum.Prototypes.Prototype(typeof(Quantum.Stone))]
-  public unsafe partial class StonePrototype : ComponentPrototype<Quantum.Stone> {
+  [Quantum.Prototypes.Prototype(typeof(Quantum.QComponentStone))]
+  public unsafe partial class QComponentStonePrototype : ComponentPrototype<Quantum.QComponentStone> {
     public Int32 X;
     public Int32 Y;
     public Int32 OwnerId;
     public Int32 DestroyTurn;
-    partial void MaterializeUser(Frame frame, ref Quantum.Stone result, in PrototypeMaterializationContext context);
+    partial void MaterializeUser(Frame frame, ref Quantum.QComponentStone result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
-        Quantum.Stone component = default;
+        Quantum.QComponentStone component = default;
         Materialize((Frame)f, ref component, in context);
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
-    public void Materialize(Frame frame, ref Quantum.Stone result, in PrototypeMaterializationContext context = default) {
+    public void Materialize(Frame frame, ref Quantum.QComponentStone result, in PrototypeMaterializationContext context = default) {
         result.X = this.X;
         result.Y = this.Y;
         result.OwnerId = this.OwnerId;
         result.DestroyTurn = this.DestroyTurn;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.QComponentSystem))]
+  public unsafe partial class QComponentSystemPrototype : ComponentPrototype<Quantum.QComponentSystem> {
+    public Int32 PlayerTurn;
+    public Int32 TurnCount;
+    partial void MaterializeUser(Frame frame, ref Quantum.QComponentSystem result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.QComponentSystem component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.QComponentSystem result, in PrototypeMaterializationContext context = default) {
+        result.PlayerTurn = this.PlayerTurn;
+        result.TurnCount = this.TurnCount;
         MaterializeUser(frame, ref result, in context);
     }
   }

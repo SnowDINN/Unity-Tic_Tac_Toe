@@ -8,7 +8,7 @@ namespace Redbean.Network
 	{
 		public override void OnInit(Frame f)
 		{
-			f.SetSingleton(new Game());
+			f.SetSingleton(new QComponentSystem());
 		}
 		
 		public void OnPlayerAdded(Frame frame, PlayerRef player, bool firstTime)
@@ -16,7 +16,7 @@ namespace Redbean.Network
 			var asset = frame.FindAsset(NetworkAsset.Player);
 			var entity = frame.Create(asset);
 
-			frame.Set(entity, new LocalPlayer
+			frame.Set(entity, new QComponentPlayer
 			{
 				Player = player,
 			});
