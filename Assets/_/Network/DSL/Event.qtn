@@ -1,0 +1,20 @@
+event OnStoneCreated
+{
+    QComponentStone Stone;
+}
+
+event OnStoneDestroyed
+{
+    QComponentStone Stone;
+}
+
+event OnStoneHighlighted
+{
+    QComponentStone Stone;
+}
+
+event OnStoneMatchValidation
+{
+    int X;
+    int Y;
+}

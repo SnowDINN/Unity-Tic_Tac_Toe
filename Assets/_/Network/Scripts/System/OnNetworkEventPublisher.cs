@@ -30,14 +30,6 @@ namespace Redbean.Network
 					Player = filter.LocalPlayer->Player,
 					Command = qCommandBoardMatch
 				});
-			
-			if (frame.GetPlayerCommand(filter.LocalPlayer->Player) is QCommandNextTurn qCommandNextTurn)
-				NetworkSubscriber.Publish(new NetworkEventStream
-				{
-					Frame = frame,
-					Player = filter.LocalPlayer->Player,
-					Command = qCommandNextTurn
-				});
 		}
 	}
 }

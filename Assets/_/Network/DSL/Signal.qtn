@@ -1,2 +1,0 @@
-signal OnMatchValidation(int x, int y);
-signal OnRemoveStone(EntityRef entity);

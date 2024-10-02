@@ -1,6 +1,5 @@
 ﻿using Quantum;
 using Redbean.Content;
-using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace Redbean.Network
@@ -8,9 +7,9 @@ namespace Redbean.Network
 	[Preserve]
 	public unsafe class OnConnectSystem : SystemSignalsOnly, ISignalOnPlayerAdded
 	{
-		public override void OnInit(Frame f)
+		public override void OnInit(Frame frame)
 		{
-			f.SetSingleton(new QComponentSystem());
+			frame.SetSingleton(new QComponentSystem());
 		}
 
 		public void OnPlayerAdded(Frame frame, PlayerRef player, bool firstTime)
@@ -22,9 +21,6 @@ namespace Redbean.Network
 			{
 				Player = player
 			});
-			
-			Debug.Log($"[{frame.GetPlayerData(player).PlayerNickname}] Connect | Actor ID : {frame.PlayerToActorId(player)}");
-			Debug.Log($"Player Connected Count : {frame.PlayerConnectedCount}");
 
 			GameStart(frame, frame.Unsafe.GetPointerSingleton<QComponentSystem>());
 		}

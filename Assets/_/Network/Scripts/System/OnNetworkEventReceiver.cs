@@ -1,4 +1,5 @@
-﻿using Quantum;
+﻿using System.Linq;
+using Quantum;
 using R3;
 using Redbean.Content;
 using UnityEngine.Scripting;
@@ -10,7 +11,7 @@ namespace Redbean.Network
 	{
 		private readonly CompositeDisposable disposables = new();
 
-		public override void OnEnabled(Frame f)
+		public override void OnEnabled(Frame frame)
 		{
 			NetworkSubscriber.OnNetworkEvent
 				.Where(_ => _.Command.GetType() == typeof(QCommandGameEnd))
@@ -25,16 +26,9 @@ namespace Redbean.Network
 				{
 					OnTurnEnd(_.Frame, _.Player, _.Command as QCommandTurnEnd);
 				}).AddTo(disposables);
-			
-			NetworkSubscriber.OnNetworkEvent
-				.Where(_ => _.Command.GetType() == typeof(QCommandNextTurn))
-				.Subscribe(_ =>
-				{
-					OnNextTurn(_.Frame, _.Player, _.Command as QCommandNextTurn);
-				}).AddTo(disposables);
 		}
 
-		public override void OnDisabled(Frame f)
+		public override void OnDisabled(Frame frame)
 		{
 			disposables?.Clear();
 			disposables?.Dispose();
@@ -53,39 +47,39 @@ namespace Redbean.Network
 
 		private void OnTurnEnd(Frame frame, PlayerRef player, QCommandTurnEnd command)
 		{
-			frame.Set(frame.Create(command.Entity), new QComponentStone
+			var system = frame.Unsafe.GetPointerSingleton<QComponentSystem>();
+			var nextPlayer = frame.ResolveList(system->CurrentPlayers)
+				.FirstOrDefault(_ => frame.PlayerToActorId(_).Value != system->CurrentPlayerTurn);
+			system->CurrentPlayerTurn = frame.PlayerToActorId(nextPlayer).Value;
+			system->TurnCount += 1;
+
+			var createdEntity = frame.Create(command.Entity);
+			var createdStone = new QComponentStone
 			{
 				X = command.X,
 				Y = command.Y,
 				OwnerId = frame.PlayerToActorId(player).Value,
-				DestroyTurn = frame.GetSingleton<QComponentSystem>().TurnCount + NetworkSetting.StoneDestroyTurn
-			});
-		}
-
-		private void OnNextTurn(Frame frame, PlayerRef player, QCommandNextTurn command)
-		{
-			var system = frame.Unsafe.GetPointerSingleton<QComponentSystem>();
-			system->CurrentPlayerTurn = command.NextPlayerTurn;
-			system->TurnCount += 1;
+				DestroyTurn = system->TurnCount + NetworkSetting.StoneDestroyTurn
+			};
+			frame.Set(createdEntity, createdStone);
+			frame.Events.OnStoneCreated(createdStone);
 			
-			var stones = frame.Filter<QComponentStone>();
-			while (stones.Next(out var entity, out var stone))
+			var destroyedStones = frame.Filter<QComponentStone>();
+			while (destroyedStones.Next(out var destroyedEntity, out var destroyedStone))
 			{
-				switch (stone.DestroyTurn - system->TurnCount)
+				switch (destroyedStone.DestroyTurn - system->TurnCount)
 				{
 					case 1:
-					{
-						GameSubscriber.SetStoneHighlight(stone);
+						frame.Events.OnStoneHighlighted(destroyedStone);
 						break;
-					}
 
 					case <= 0:
-					{
-						frame.Signals.OnRemoveStone(entity);
+						frame.Events.OnStoneDestroyed(destroyedStone);
+						frame.Destroy(destroyedEntity);
 						break;
-					}
 				}
 			}
+			frame.Events.OnStoneMatchValidation(command.X, command.Y);
 			
 			GameSubscriber.SetGameStatus(new EVT_GameStatus
 			{
