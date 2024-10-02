@@ -64,8 +64,8 @@ namespace Redbean.Network
 			frame.Set(createdEntity, createdStone);
 			frame.Events.OnStoneCreated(createdStone);
 			
-			var destroyedStones = frame.Filter<QComponentStone>();
-			while (destroyedStones.Next(out var destroyedEntity, out var destroyedStone))
+			var filter = frame.Filter<QComponentStone>();
+			while (filter.Next(out var destroyedEntity, out var destroyedStone))
 			{
 				switch (destroyedStone.DestroyTurn - system->CurrentTurn)
 				{
