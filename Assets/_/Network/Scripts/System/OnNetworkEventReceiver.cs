@@ -16,6 +16,10 @@ namespace Redbean.Network
 				case QCommandGameEnd qCommand:
 					OnGameEnd(frame, player, qCommand);
 					break;
+				
+				case QCommandGameRetry qCommand:
+					OnGameRetry(frame, player, qCommand);
+					break;
 
 				case QCommandTurnEnd qCommand:
 					OnTurnEnd(frame, player, qCommand);
@@ -34,10 +38,29 @@ namespace Redbean.Network
 			});
 		}
 
+		private void OnGameRetry(Frame frame, PlayerRef player, QCommandGameRetry command)
+		{
+			var system = frame.Unsafe.GetPointerSingleton<QComponentSystem>();
+			var retryPlayers = frame.ResolveList(system->RetryPlayers);
+			if (!retryPlayers.Contains(command.ActorId))
+				retryPlayers.Add(command.ActorId);
+
+			system->RetryPlayers = retryPlayers;
+
+			if (frame.PlayerConnectedCount == retryPlayers.Count)
+				frame.Signals.OnGameStart();
+			
+			GameSubscriber.SetGameRetry(new EVT_GameRetry
+			{
+				RequestRetryCount = retryPlayers.Count,
+				RequireRetryCount = frame.PlayerConnectedCount
+			});
+		}
+
 		private void OnTurnEnd(Frame frame, PlayerRef player, QCommandTurnEnd command)
 		{
 			var system = frame.Unsafe.GetPointerSingleton<QComponentSystem>();
-			var nextPlayer = frame.ResolveList(system->CurrentPlayers)
+			var nextPlayer = frame.ResolveList(system->Players)
 				.FirstOrDefault(_ => frame.PlayerToActorId(_).Value != system->CurrentPlayerTurn);
 			system->CurrentPlayerTurn = frame.PlayerToActorId(nextPlayer).Value;
 			system->CurrentTurn += 1;

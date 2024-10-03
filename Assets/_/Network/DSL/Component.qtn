@@ -1,7 +1,8 @@
 [CodeGen(UnityWrapperFolder, "Assets/_/Network/Scripts/Data/Component")]
 singleton component QComponentSystem
 {
-    list<PlayerRef> CurrentPlayers;
+    list<PlayerRef> Players;
+    list<int> RetryPlayers;
     int CurrentPlayerTurn;
     int CurrentTurn;
 }

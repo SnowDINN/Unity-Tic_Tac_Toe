@@ -546,10 +546,12 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct QComponentSystem : Quantum.IComponentSingleton {
-    public const Int32 SIZE = 12;
+    public const Int32 SIZE = 16;
     public const Int32 ALIGNMENT = 4;
+    [FieldOffset(12)]
+    public QListPtr<PlayerRef> Players;
     [FieldOffset(8)]
-    public QListPtr<PlayerRef> CurrentPlayers;
+    public QListPtr<Int32> RetryPlayers;
     [FieldOffset(0)]
     public Int32 CurrentPlayerTurn;
     [FieldOffset(4)]
@@ -557,14 +559,16 @@ namespace Quantum {
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 13381;
-        hash = hash * 31 + CurrentPlayers.GetHashCode();
+        hash = hash * 31 + Players.GetHashCode();
+        hash = hash * 31 + RetryPlayers.GetHashCode();
         hash = hash * 31 + CurrentPlayerTurn.GetHashCode();
         hash = hash * 31 + CurrentTurn.GetHashCode();
         return hash;
       }
     }
     public void ClearPointers(FrameBase f, EntityRef entity) {
-      CurrentPlayers = default;
+      Players = default;
+      RetryPlayers = default;
     }
     public static void OnRemoved(FrameBase frame, EntityRef entity, void* ptr) {
       var p = (Quantum.QComponentSystem*)ptr;
@@ -574,15 +578,20 @@ namespace Quantum {
         var p = (QComponentSystem*)ptr;
         serializer.Stream.Serialize(&p->CurrentPlayerTurn);
         serializer.Stream.Serialize(&p->CurrentTurn);
-        QList.Serialize(&p->CurrentPlayers, serializer, Statics.SerializePlayerRef);
+        QList.Serialize(&p->RetryPlayers, serializer, Statics.SerializeInt32);
+        QList.Serialize(&p->Players, serializer, Statics.SerializePlayerRef);
     }
   }
+  public unsafe partial interface ISignalOnGameStart : ISignal {
+    void OnGameStart(Frame f);
+  }
   public unsafe partial interface ISignalOnEventReceive : ISignal {
-    void OnEventReceive(Frame f, PlayerRef Player, DeterministicCommand Command);
+    void OnEventReceive(Frame f, PlayerRef player, DeterministicCommand evt);
   }
   public static unsafe partial class Constants {
   }
   public unsafe partial class Frame {
+    private ISignalOnGameStart[] _ISignalOnGameStartSystems;
     private ISignalOnEventReceive[] _ISignalOnEventReceiveSystems;
     partial void AllocGen() {
       _globals = (_globals_*)Context.Allocator.AllocAndClear(sizeof(_globals_));
@@ -595,6 +604,7 @@ namespace Quantum {
     }
     partial void InitGen() {
       Initialize(this, this.SimulationConfig.Entities, 256);
+      _ISignalOnGameStartSystems = BuildSignalsArray<ISignalOnGameStart>();
       _ISignalOnEventReceiveSystems = BuildSignalsArray<ISignalOnEventReceive>();
       _ComponentSignalsOnAdded = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       _ComponentSignalsOnRemoved = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
@@ -661,12 +671,21 @@ namespace Quantum {
       Physics3D.Init(_globals->PhysicsState3D.MapStaticCollidersState.TrackedMap);
     }
     public unsafe partial struct FrameSignals {
-      public void OnEventReceive(PlayerRef Player, DeterministicCommand Command) {
+      public void OnGameStart() {
+        var array = _f._ISignalOnGameStartSystems;
+        for (Int32 i = 0; i < array.Length; ++i) {
+          var s = array[i];
+          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
+            s.OnGameStart(_f);
+          }
+        }
+      }
+      public void OnEventReceive(PlayerRef player, DeterministicCommand evt) {
         var array = _f._ISignalOnEventReceiveSystems;
         for (Int32 i = 0; i < array.Length; ++i) {
           var s = array[i];
           if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
-            s.OnEventReceive(_f, Player, Command);
+            s.OnEventReceive(_f, player, evt);
           }
         }
       }
@@ -674,9 +693,11 @@ namespace Quantum {
   }
   public unsafe partial class Statics {
     public static FrameSerializer.Delegate SerializePlayerRef;
+    public static FrameSerializer.Delegate SerializeInt32;
     public static FrameSerializer.Delegate SerializeInput;
     static partial void InitStaticDelegatesGen() {
       SerializePlayerRef = PlayerRef.Serialize;
+      SerializeInt32 = (v, s) => {{ s.Stream.Serialize((Int32*)v); }};
       SerializeInput = Quantum.Input.Serialize;
     }
     static partial void RegisterSimulationTypesGen(TypeRegistry typeRegistry) {

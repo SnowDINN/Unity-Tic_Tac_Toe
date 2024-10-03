@@ -7,6 +7,9 @@ namespace Redbean.Content
 {
 	public class BoardSpot : MonoBehaviour
 	{
+		[HideInInspector]
+		public StoneListener CurrentStone;
+		
 		[SerializeField]
 		private GameObject Prefab;
 		
@@ -16,8 +19,6 @@ namespace Redbean.Content
 		private GameObject instance;
 		private int x;
 		private int y;
-
-		public StoneListener CurrentStone;
 
 		private void Awake()
 		{

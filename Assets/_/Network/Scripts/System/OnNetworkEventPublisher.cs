@@ -19,6 +19,7 @@ namespace Redbean.Network
 			{
 				case QCommandTurnEnd:
 				case QCommandGameEnd:
+				case QCommandGameRetry:
 					frame.Signals.OnEventReceive(filter.LocalPlayer->Player, command);
 					break;
 			}

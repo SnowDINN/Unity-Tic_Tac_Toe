@@ -5,13 +5,19 @@ namespace Redbean
 		Start,
 		Wait,
 		End,
-		Restart
+		Reset
 	}
 
 	public class EVT_GameStatus
 	{
 		public GameStatus Status;
 		public int ActorId;
+	}
+
+	public class EVT_GameRetry
+	{
+		public int RequestRetryCount;
+		public int RequireRetryCount;
 	}
 	
 	public class EVT_Position

@@ -99,7 +99,9 @@ namespace Quantum.Prototypes {
   [Quantum.Prototypes.Prototype(typeof(Quantum.QComponentSystem))]
   public unsafe partial class QComponentSystemPrototype : ComponentPrototype<Quantum.QComponentSystem> {
     [DynamicCollectionAttribute()]
-    public PlayerRef[] CurrentPlayers = {};
+    public PlayerRef[] Players = {};
+    [DynamicCollectionAttribute()]
+    public Int32[] RetryPlayers = {};
     public Int32 CurrentPlayerTurn;
     public Int32 CurrentTurn;
     partial void MaterializeUser(Frame frame, ref Quantum.QComponentSystem result, in PrototypeMaterializationContext context);
@@ -109,13 +111,23 @@ namespace Quantum.Prototypes {
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
     public void Materialize(Frame frame, ref Quantum.QComponentSystem result, in PrototypeMaterializationContext context = default) {
-        if (this.CurrentPlayers.Length == 0) {
-          result.CurrentPlayers = default;
+        if (this.Players.Length == 0) {
+          result.Players = default;
         } else {
-          var list = frame.AllocateList(out result.CurrentPlayers, this.CurrentPlayers.Length);
-          for (int i = 0; i < this.CurrentPlayers.Length; ++i) {
+          var list = frame.AllocateList(out result.Players, this.Players.Length);
+          for (int i = 0; i < this.Players.Length; ++i) {
             PlayerRef tmp = default;
-            tmp = this.CurrentPlayers[i];
+            tmp = this.Players[i];
+            list.Add(tmp);
+          }
+        }
+        if (this.RetryPlayers.Length == 0) {
+          result.RetryPlayers = default;
+        } else {
+          var list = frame.AllocateList(out result.RetryPlayers, this.RetryPlayers.Length);
+          for (int i = 0; i < this.RetryPlayers.Length; ++i) {
+            Int32 tmp = default;
+            tmp = this.RetryPlayers[i];
             list.Add(tmp);
           }
         }

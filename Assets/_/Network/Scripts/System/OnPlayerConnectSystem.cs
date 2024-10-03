@@ -5,7 +5,7 @@ using UnityEngine.Scripting;
 namespace Redbean.Network
 {
 	[Preserve]
-	public unsafe class OnPlayerConnectSystem : SystemSignalsOnly, ISignalOnPlayerConnected, ISignalOnPlayerDisconnected
+	public unsafe class OnPlayerConnectSystem : SystemSignalsOnly, ISignalOnPlayerConnected, ISignalOnPlayerDisconnected, ISignalOnGameStart
 	{
 		public override void OnInit(Frame frame)
 		{
@@ -22,7 +22,7 @@ namespace Redbean.Network
 				Player = player
 			});
 
-			GameStart(frame, frame.Unsafe.GetPointerSingleton<QComponentSystem>());
+			frame.Signals.OnGameStart();
 		}
 		
 		public void OnPlayerDisconnected(Frame frame, PlayerRef player)
@@ -34,23 +34,24 @@ namespace Redbean.Network
 					frame.Destroy(entity);
 			}
 			
-			GameStart(frame, frame.Unsafe.GetPointerSingleton<QComponentSystem>());
+			frame.Signals.OnGameStart();
 		}
-
-		private void GameStart(Frame frame, QComponentSystem* system)
+		
+		public void OnGameStart(Frame frame)
 		{
-			GameReset(frame, system);
-			
+			var system = GameReset(frame);
 			if (frame.PlayerConnectedCount > 1)
 			{
 				var random = frame.RNG->Next(0, frame.PlayerConnectedCount + 1);
 				var players = frame.AllocateList<PlayerRef>();
+				var retryPlayers = frame.AllocateList<int>();
 
 				var filter = frame.Filter<QComponentPlayer>();
 				while (filter.Next(out _, out var player))
 					players.Add(player.Player);
 
-				system->CurrentPlayers = players;
+				system->Players = players;
+				system->RetryPlayers = retryPlayers;
 				system->CurrentPlayerTurn = frame.PlayerToActorId(players[random]).Value;
 
 				GameSubscriber.SetGameStatus(new EVT_GameStatus
@@ -68,9 +69,11 @@ namespace Redbean.Network
 			}
 		}
 
-		private void GameReset(Frame frame, QComponentSystem* system)
+		private QComponentSystem* GameReset(Frame frame)
 		{
-			system->CurrentPlayers = default;
+			var system = frame.Unsafe.GetPointerSingleton<QComponentSystem>();
+			system->Players = default;
+			system->RetryPlayers = default;
 			system->CurrentPlayerTurn = default;
 			system->CurrentTurn = default;
 			
@@ -83,8 +86,10 @@ namespace Redbean.Network
 			
 			GameSubscriber.SetGameStatus(new EVT_GameStatus
 			{
-				Status = GameStatus.Restart
+				Status = GameStatus.Reset
 			});
+
+			return system;
 		}
 	}
 }

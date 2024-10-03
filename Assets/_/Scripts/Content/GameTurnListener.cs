@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Redbean.Content
 {
-	public class GameStartListener : MonoBehaviour
+	public class GameTurnListener : MonoBehaviour
 	{
 		[SerializeField]
 		private GameObject myTurn;
@@ -23,7 +23,7 @@ namespace Redbean.Content
 				}).AddTo(this);
 			
 			GameSubscriber.OnGameStatus
-				.Where(_ => _.Status == GameStatus.Restart)
+				.Where(_ => _.Status == GameStatus.Reset)
 				.Subscribe(_ =>
 				{
 					myTurn.SetActive(false);
