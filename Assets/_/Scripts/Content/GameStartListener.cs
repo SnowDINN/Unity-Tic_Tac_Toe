@@ -21,6 +21,14 @@ namespace Redbean.Content
 					myTurn.SetActive(_.ActorId == NetworkSetting.LocalPlayerId);
 					otherTurn.SetActive(_.ActorId != NetworkSetting.LocalPlayerId);
 				}).AddTo(this);
+			
+			GameSubscriber.OnGameStatus
+				.Where(_ => _.Status == GameStatus.Restart)
+				.Subscribe(_ =>
+				{
+					myTurn.SetActive(false);
+					otherTurn.SetActive(false);
+				}).AddTo(this);
 		}
 	}
 }

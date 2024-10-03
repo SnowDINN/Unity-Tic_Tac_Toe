@@ -18,13 +18,13 @@ MonoBehaviour:
       Value: 429847154662797849
   Entries:
   - SystemType:
-      AssemblyQualifiedName: Quantum.Core.EntityPrototypeSystem, Quantum.Simulation,
-        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+      AssemblyQualifiedName: Quantum.Core.PlayerConnectedSystem, Quantum.Simulation
     SystemName: 
     StartDisabled: 0
     Children: []
   - SystemType:
-      AssemblyQualifiedName: Quantum.Core.PlayerConnectedSystem, Quantum.Simulation
+      AssemblyQualifiedName: Quantum.Core.EntityPrototypeSystem, Quantum.Simulation,
+        Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     SystemName: 
     StartDisabled: 0
     Children: []

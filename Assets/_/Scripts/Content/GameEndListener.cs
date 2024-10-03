@@ -21,6 +21,14 @@ namespace Redbean.Content
 					victory.SetActive(_.ActorId == NetworkSetting.LocalPlayerId);
 					defeat.SetActive(_.ActorId != NetworkSetting.LocalPlayerId);
 				}).AddTo(this);
+			
+			GameSubscriber.OnGameStatus
+				.Where(_ => _.Status == GameStatus.Restart)
+				.Subscribe(_ =>
+				{
+					victory.SetActive(false);
+					defeat.SetActive(false);
+				}).AddTo(this);
 		}
 	}
 }

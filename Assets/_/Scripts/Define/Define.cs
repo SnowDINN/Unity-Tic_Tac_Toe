@@ -4,7 +4,8 @@ namespace Redbean
 	{
 		Start,
 		Wait,
-		End
+		End,
+		Restart
 	}
 
 	public class EVT_GameStatus
