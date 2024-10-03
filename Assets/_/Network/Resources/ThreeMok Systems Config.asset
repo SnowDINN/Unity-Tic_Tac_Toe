@@ -29,7 +29,7 @@ MonoBehaviour:
     StartDisabled: 0
     Children: []
   - SystemType:
-      AssemblyQualifiedName: Redbean.Network.OnConnectSystem, Assembly-CSharp
+      AssemblyQualifiedName: Redbean.Network.OnPlayerConnectSystem, Assembly-CSharp
     SystemName: 
     StartDisabled: 0
     Children: []
@@ -40,6 +40,11 @@ MonoBehaviour:
     Children: []
   - SystemType:
       AssemblyQualifiedName: Redbean.Network.OnNetworkEventReceiver, Assembly-CSharp
+    SystemName: 
+    StartDisabled: 0
+    Children: []
+  - SystemType:
+      AssemblyQualifiedName: Redbean.Network.OnNetworkEventBridge, Assembly-CSharp
     SystemName: 
     StartDisabled: 0
     Children: []

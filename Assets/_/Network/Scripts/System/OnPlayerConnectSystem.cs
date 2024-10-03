@@ -1,18 +1,19 @@
 ﻿using Quantum;
 using Redbean.Content;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace Redbean.Network
 {
 	[Preserve]
-	public unsafe class OnConnectSystem : SystemSignalsOnly, ISignalOnPlayerAdded
+	public unsafe class OnPlayerConnectSystem : SystemSignalsOnly, ISignalOnPlayerConnected, ISignalOnPlayerDisconnected
 	{
 		public override void OnInit(Frame frame)
 		{
 			frame.SetSingleton(new QComponentSystem());
 		}
 
-		public void OnPlayerAdded(Frame frame, PlayerRef player, bool firstTime)
+		public void OnPlayerConnected(Frame frame, PlayerRef player)
 		{
 			var asset = frame.FindAsset(NetworkAsset.Player);
 			var entity = frame.Create(asset);
@@ -24,10 +25,15 @@ namespace Redbean.Network
 
 			GameStart(frame, frame.Unsafe.GetPointerSingleton<QComponentSystem>());
 		}
+		
+		public void OnPlayerDisconnected(Frame f, PlayerRef player)
+		{
+			Debug.Log("!");
+		}
 
 		private void GameStart(Frame frame, QComponentSystem* system)
 		{
-			if (frame.PlayerConnectedCount > 0)
+			if (frame.PlayerConnectedCount > 1)
 			{
 				var random = frame.RNG->Next(0, frame.PlayerConnectedCount + 1);
 				var players = frame.AllocateList<PlayerRef>();

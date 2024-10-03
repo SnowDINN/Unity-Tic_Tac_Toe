@@ -1,5 +1,4 @@
 using Quantum;
-using Redbean.Content;
 using UnityEngine.Scripting;
 
 namespace Redbean.Network
@@ -15,21 +14,14 @@ namespace Redbean.Network
 
 		public override void Update(Frame frame, ref Filter filter)
 		{
-			if (frame.GetPlayerCommand(filter.LocalPlayer->Player) is QCommandTurnEnd qCommandStoneCreate)
-				NetworkSubscriber.Publish(new NetworkEventStream
-				{
-					Frame = frame,
-					Player = filter.LocalPlayer->Player,
-					Command = qCommandStoneCreate
-				});
-			
-			if (frame.GetPlayerCommand(filter.LocalPlayer->Player) is QCommandGameEnd qCommandBoardMatch)
-				NetworkSubscriber.Publish(new NetworkEventStream
-				{
-					Frame = frame,
-					Player = filter.LocalPlayer->Player,
-					Command = qCommandBoardMatch
-				});
+			var command = frame.GetPlayerCommand(filter.LocalPlayer->Player);
+			switch (command)
+			{
+				case QCommandTurnEnd:
+				case QCommandGameEnd:
+					frame.Signals.OnEventReceive(filter.LocalPlayer->Player, command);
+					break;
+			}
 		}
 	}
 }

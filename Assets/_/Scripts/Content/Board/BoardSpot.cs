@@ -32,11 +32,9 @@ namespace Redbean.Content
 				}).AddTo(this);
 
 			GameSubscriber.OnStoneCreate
+				.Where(_ => _.Position.X == x && _.Position.Y == y)
 				.Subscribe(_ =>
 				{
-					if (_.Position.X != x || _.Position.Y != y)
-						return;
-
 					instance = Instantiate(Prefab, transform);
 					CurrentStone = instance.GetComponent<StoneListener>();
 					CurrentStone.UpdateView(x, y, _.OwnerId == NetworkSetting.LocalPlayerId);
@@ -45,13 +43,12 @@ namespace Redbean.Content
 				}).AddTo(this);
 
 			GameSubscriber.OnStoneDestroy
+				.Where(_ => _.X == x && _.Y == y)
 				.Subscribe(_ =>
 				{
-					if (_.X != x || _.Y != y)
-						return;
-					
 					if (instance)
 						Destroy(instance);
+					
 					CurrentStone = default;
 					
 					SetInteraction(true);

@@ -1,39 +1,28 @@
 ﻿using System.Linq;
+using Photon.Deterministic;
 using Quantum;
-using R3;
 using Redbean.Content;
 using UnityEngine.Scripting;
 
 namespace Redbean.Network
 {
 	[Preserve]
-	public unsafe class OnNetworkEventReceiver : SystemSignalsOnly
+	public unsafe class OnNetworkEventReceiver : SystemSignalsOnly, ISignalOnEventReceive
 	{
-		private readonly CompositeDisposable disposables = new();
-
-		public override void OnEnabled(Frame frame)
+		public void OnEventReceive(Frame frame, PlayerRef player, DeterministicCommand command)
 		{
-			NetworkSubscriber.OnNetworkEvent
-				.Where(_ => _.Command.GetType() == typeof(QCommandGameEnd))
-				.Subscribe(_ =>
-				{
-					OnGameEnd(_.Frame, _.Player, _.Command as QCommandGameEnd);
-				}).AddTo(disposables);
-			
-			NetworkSubscriber.OnNetworkEvent
-				.Where(_ => _.Command.GetType() == typeof(QCommandTurnEnd))
-				.Subscribe(_ =>
-				{
-					OnTurnEnd(_.Frame, _.Player, _.Command as QCommandTurnEnd);
-				}).AddTo(disposables);
-		}
+			switch (command)
+			{
+				case QCommandGameEnd qCommand:
+					OnGameEnd(frame, player, qCommand);
+					break;
 
-		public override void OnDisabled(Frame frame)
-		{
-			disposables?.Clear();
-			disposables?.Dispose();
+				case QCommandTurnEnd qCommand:
+					OnTurnEnd(frame, player, qCommand);
+					break;
+			}
 		}
-
+		
 #region Event Method
 		
 		private void OnGameEnd(Frame frame, PlayerRef player, QCommandGameEnd command)

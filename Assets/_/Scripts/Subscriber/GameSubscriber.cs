@@ -20,10 +20,14 @@ namespace Redbean.Content
 		private static readonly Subject<QComponentStone> onStoneHighlight = new();
 		public static Observable<QComponentStone> OnStoneHighlight => onStoneHighlight.Share();
 		
+		private static readonly Subject<EVT_Position> onStoneMatchValidation = new();
+		public static Observable<EVT_Position> OnStoneMatchValidation => onStoneMatchValidation.Share();
+		
 		public static void SetGameStatus(EVT_GameStatus evt) => onGameStatus.OnNext(evt);
 		public static void SetBoardSelect(EVT_Position evt) => onBoardSelect.OnNext(evt);
 		public static void SetStoneCreate(EVT_PositionAndOwner evt) => onStoneCreate.OnNext(evt);
 		public static void SetStoneDestroy(EVT_Position evt) => onStoneDestroy.OnNext(evt);
 		public static void SetStoneHighlight(QComponentStone evt) => onStoneHighlight.OnNext(evt);
+		public static void SetStoneMatchValidation(EVT_Position evt) => onStoneMatchValidation.OnNext(evt);
 	}
 }
