@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Redbean.Content
 {
-	public class BoardManager : MonoBehaviour
+	public class GameLogicListener : MonoBehaviour
 	{
 		private static BoardLine[] components;
 		

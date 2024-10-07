@@ -1,7 +1,7 @@
 ﻿using Quantum;
 using R3;
 
-namespace Redbean.Content
+namespace Redbean
 {
 	public class GameSubscriber
 	{

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Redbean.Network
 {
 	[CreateAssetMenu(fileName = "NetworkAsset", menuName = "Redbean/Network/NetworkAsset")]
-	public class NetworkAssetSystem : ScriptableObject
+	public class NetworkAssetResource : ScriptableObject
 	{
 		[Header("Player Asset")]
 		public AssetRef<EntityPrototype> Player;
@@ -15,7 +15,7 @@ namespace Redbean.Network
 
 	public class NetworkAsset
 	{
-		private static NetworkAssetSystem system => Resources.Load<NetworkAssetSystem>("NetworkAsset");
+		private static NetworkAssetResource system => Resources.Load<NetworkAssetResource>("NetworkAsset");
 		
 		public static AssetRef<EntityPrototype> Player => system.Player;
 		public static AssetRef<EntityPrototype> Stone => system.Stone;

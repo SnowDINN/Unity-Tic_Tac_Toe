@@ -69,24 +69,28 @@ namespace Quantum {
         }
       }
       public EventOnStoneCreated OnStoneCreated(QComponentStone Stone) {
+        if (_f.IsPredicted) return null;
         var ev = _f.Context.AcquireEvent<EventOnStoneCreated>(EventOnStoneCreated.ID);
         ev.Stone = Stone;
         _f.AddEvent(ev);
         return ev;
       }
       public EventOnStoneDestroyed OnStoneDestroyed(QComponentStone Stone) {
+        if (_f.IsPredicted) return null;
         var ev = _f.Context.AcquireEvent<EventOnStoneDestroyed>(EventOnStoneDestroyed.ID);
         ev.Stone = Stone;
         _f.AddEvent(ev);
         return ev;
       }
       public EventOnStoneHighlighted OnStoneHighlighted(QComponentStone Stone) {
+        if (_f.IsPredicted) return null;
         var ev = _f.Context.AcquireEvent<EventOnStoneHighlighted>(EventOnStoneHighlighted.ID);
         ev.Stone = Stone;
         _f.AddEvent(ev);
         return ev;
       }
       public EventOnStoneMatchValidation OnStoneMatchValidation(Int32 X, Int32 Y) {
+        if (_f.IsPredicted) return null;
         var ev = _f.Context.AcquireEvent<EventOnStoneMatchValidation>(EventOnStoneMatchValidation.ID);
         ev.X = X;
         ev.Y = Y;
@@ -102,7 +106,7 @@ namespace Quantum {
         base(id, flags) {
     }
     public EventOnStoneCreated() : 
-        base(1, EventFlags.Server|EventFlags.Client) {
+        base(1, EventFlags.Server|EventFlags.Client|EventFlags.Synced) {
     }
     public new QuantumGame Game {
       get {
@@ -127,7 +131,7 @@ namespace Quantum {
         base(id, flags) {
     }
     public EventOnStoneDestroyed() : 
-        base(2, EventFlags.Server|EventFlags.Client) {
+        base(2, EventFlags.Server|EventFlags.Client|EventFlags.Synced) {
     }
     public new QuantumGame Game {
       get {
@@ -152,7 +156,7 @@ namespace Quantum {
         base(id, flags) {
     }
     public EventOnStoneHighlighted() : 
-        base(3, EventFlags.Server|EventFlags.Client) {
+        base(3, EventFlags.Server|EventFlags.Client|EventFlags.Synced) {
     }
     public new QuantumGame Game {
       get {
@@ -178,7 +182,7 @@ namespace Quantum {
         base(id, flags) {
     }
     public EventOnStoneMatchValidation() : 
-        base(4, EventFlags.Server|EventFlags.Client) {
+        base(4, EventFlags.Server|EventFlags.Client|EventFlags.Synced) {
     }
     public new QuantumGame Game {
       get {

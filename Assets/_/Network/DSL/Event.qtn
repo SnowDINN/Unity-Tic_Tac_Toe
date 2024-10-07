@@ -1,19 +1,19 @@
-event OnStoneCreated
+synced event OnStoneCreated
 {
     QComponentStone Stone;
 }
 
-event OnStoneDestroyed
+synced event OnStoneDestroyed
 {
     QComponentStone Stone;
 }
 
-event OnStoneHighlighted
+synced event OnStoneHighlighted
 {
     QComponentStone Stone;
 }
 
-event OnStoneMatchValidation
+synced event OnStoneMatchValidation
 {
     int X;
     int Y;

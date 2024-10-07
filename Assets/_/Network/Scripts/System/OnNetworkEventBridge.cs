@@ -1,6 +1,5 @@
 ﻿using Quantum;
 using R3;
-using Redbean.Content;
 using UnityEngine.Scripting;
 
 namespace Redbean.Network

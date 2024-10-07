@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Photon.Deterministic;
 using Quantum;
-using Redbean.Content;
+using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace Redbean.Network

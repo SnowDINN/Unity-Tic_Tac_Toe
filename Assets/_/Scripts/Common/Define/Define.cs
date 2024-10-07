@@ -1,11 +1,23 @@
 namespace Redbean
 {
+	public enum ConnectStatus
+	{
+		Before,
+		After
+	}
+	
 	public enum GameStatus
 	{
 		Start,
 		Wait,
 		End,
 		Reset
+	}
+	
+	public class EVT_ConnectStatus
+	{
+		public ConnectStatus Status;
+		public int ReasonCode;
 	}
 
 	public class EVT_GameStatus

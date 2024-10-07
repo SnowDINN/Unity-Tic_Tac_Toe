@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using Quantum;
+using Quantum.Menu;
 using R3;
+using Redbean.Lobby;
 using Redbean.Network;
 using TMPro;
 using UnityEngine;
@@ -8,23 +10,30 @@ using Button = UnityEngine.UI.Button;
 
 namespace Redbean.Content
 {
-	public class GameUIListener : MonoBehaviour
+	public class GameUiListener : MonoBehaviour
 	{
-		[SerializeField]
-		private GameObject victory;
-
-		[SerializeField]
-		private GameObject defeat;
+		[Header("Game Wait")]
+		[SerializeField] private GameObject wait;
+		
+		[Header("Game Result")]
+		[SerializeField] private GameObject victory;
+		[SerializeField] private GameObject defeat;
 
 		[Header("Retry Components")]
-		[SerializeField]
-		private Button[] retryButtons;
-		
-		[SerializeField]
-		private TextMeshProUGUI[] retryTexts;
+		[SerializeField] private Button[] disconnectButtons;
+		[SerializeField] private Button[] retryButtons;
+		[SerializeField] private TextMeshProUGUI[] retryTexts;
 		
 		private void Awake()
 		{
+			disconnectButtons
+				.Select(_ => _.AsButtonObservable())
+				.Merge()
+				.Subscribe(async _ =>
+				{
+					await NetworkManager.Default.Disconnect(ConnectFailReason.UserRequest);
+				}).AddTo(this);
+			
 			retryButtons
 				.Select(_ => _.AsButtonObservable())
 				.Merge()
@@ -42,6 +51,12 @@ namespace Redbean.Content
 				{
 					foreach (var text in retryTexts)
 						text.text = "Retry";
+				}).AddTo(this);
+			
+			GameSubscriber.OnGameStatus
+				.Subscribe(_ =>
+				{
+					wait.SetActive(_.Status == GameStatus.Wait);
 				}).AddTo(this);
 			
 			GameSubscriber.OnGameStatus

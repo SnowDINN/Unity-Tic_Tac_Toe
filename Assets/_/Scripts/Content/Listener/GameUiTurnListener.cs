@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Redbean.Content
 {
-	public class GameTurnListener : MonoBehaviour
+	public class GameUiTurnListener : MonoBehaviour
 	{
 		[SerializeField]
 		private GameObject myTurn;

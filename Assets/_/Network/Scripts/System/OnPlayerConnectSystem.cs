@@ -1,5 +1,5 @@
 ﻿using Quantum;
-using Redbean.Content;
+using R3;
 using UnityEngine.Scripting;
 
 namespace Redbean.Network
@@ -7,9 +7,22 @@ namespace Redbean.Network
 	[Preserve]
 	public unsafe class OnPlayerConnectSystem : SystemSignalsOnly, ISignalOnPlayerConnected, ISignalOnPlayerDisconnected, ISignalOnGameStart
 	{
+		private readonly CompositeDisposable disposables = new();
+		
 		public override void OnInit(Frame frame)
 		{
 			frame.SetSingleton(new QComponentSystem());
+
+			LobbySubscriber.OnDisconnect
+				.Where(_ => _.Status == ConnectStatus.Before)
+				.Subscribe(_ =>
+				{
+					foreach (var system in frame.SystemsAll)
+						frame.SystemDisable(system);
+					
+					disposables?.Clear();
+					disposables?.Dispose();
+				}).AddTo(disposables);
 		}
 
 		public void OnPlayerConnected(Frame frame, PlayerRef player)
@@ -42,14 +55,14 @@ namespace Redbean.Network
 			var system = GameReset(frame);
 			if (frame.PlayerConnectedCount > 1)
 			{
-				var random = frame.RNG->Next(0, frame.PlayerConnectedCount + 1);
+				var random = frame.RNG->Next(0, frame.PlayerConnectedCount);
 				var players = frame.AllocateList<PlayerRef>();
 				var retryPlayers = frame.AllocateList<int>();
 
 				var filter = frame.Filter<QComponentPlayer>();
 				while (filter.Next(out _, out var player))
 					players.Add(player.Player);
-
+				
 				system->Players = players;
 				system->RetryPlayers = retryPlayers;
 				system->CurrentPlayerTurn = frame.PlayerToActorId(players[random]).Value;
