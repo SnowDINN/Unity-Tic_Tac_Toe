@@ -10,7 +10,7 @@ using Button = UnityEngine.UI.Button;
 
 namespace Redbean.Content
 {
-	public class GameUiListener : MonoBehaviour
+	public class GameUiStatusListener : MonoBehaviour
 	{
 		[Header("Game Wait")]
 		[SerializeField] private GameObject wait;
@@ -39,14 +39,15 @@ namespace Redbean.Content
 				.Merge()
 				.Subscribe(_ =>
 				{
-					QuantumRunner.DefaultGame.SendCommand(new QCommandGameRetry
+					QuantumRunner.DefaultGame.SendCommand(new QCommandGameVote
 					{
+						VoteType = (int)GameVote.Retry,
 						ActorId = NetworkSetting.LocalPlayerId
 					});
 				}).AddTo(this);
 			
 			GameSubscriber.OnGameStatus
-				.Where(_ => _.Status == GameStatus.Start)
+				.Where(_ => _.Type == GameStatus.Start)
 				.Subscribe(_ =>
 				{
 					foreach (var text in retryTexts)
@@ -56,11 +57,18 @@ namespace Redbean.Content
 			GameSubscriber.OnGameStatus
 				.Subscribe(_ =>
 				{
-					wait.SetActive(_.Status == GameStatus.Wait);
+					wait.SetActive(_.Type == GameStatus.Ready);
+					
+					if (_.Type == GameStatus.Ready)
+						QuantumRunner.DefaultGame.SendCommand(new QCommandGameVote
+						{
+							VoteType = (int)GameVote.Ready,
+							ActorId = NetworkSetting.LocalPlayerId
+						});
 				}).AddTo(this);
 			
 			GameSubscriber.OnGameStatus
-				.Where(_ => _.Status == GameStatus.End)
+				.Where(_ => _.Type == GameStatus.End)
 				.Subscribe(_ =>
 				{
 					victory.SetActive(_.ActorId == NetworkSetting.LocalPlayerId);
@@ -75,7 +83,7 @@ namespace Redbean.Content
 				}).AddTo(this);
 			
 			GameSubscriber.OnGameStatus
-				.Where(_ => _.Status == GameStatus.Reset)
+				.Where(_ => _.Type is GameStatus.Start or GameStatus.Ready)
 				.Subscribe(_ =>
 				{
 					victory.SetActive(false);

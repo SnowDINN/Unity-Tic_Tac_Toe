@@ -5,13 +5,20 @@ namespace Redbean
 		Before,
 		After
 	}
+
+	public enum GameVote
+	{
+		Ready,
+		Retry
+	}
 	
 	public enum GameStatus
 	{
 		Start,
-		Wait,
 		End,
-		Reset
+		Next,
+		Ready,
+		Retry
 	}
 	
 	public class EVT_ConnectStatus
@@ -22,7 +29,7 @@ namespace Redbean
 
 	public class EVT_GameStatus
 	{
-		public GameStatus Status;
+		public GameStatus Type;
 		public int ActorId;
 	}
 

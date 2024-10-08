@@ -1,2 +1,2 @@
-signal OnGameStart();
+signal OnGameStatus(int type);
 signal OnEventReceive(PlayerRef player, DeterministicCommand evt);

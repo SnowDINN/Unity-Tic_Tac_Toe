@@ -9,15 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e52af8caeaa4a45b55d929ed88e3537, type: 3}
-  m_Name: NetworkAsset
+  m_Script: {fileID: -263916522, guid: b156eeaae3f741b40af66649a4748430, type: 3}
+  m_Name: InGame Map_mesh
   m_EditorClassIdentifier: 
-  Map:
-    Id:
-      Value: 404364666140916513
-  Player:
-    Id:
-      Value: 1525669992600785634
-  Stone:
-    Id:
-      Value: 1468477557002866951
+  Identifier:
+    Path: _/Network/Resources/Map/InGame Map_mesh
+    Guid:
+      Value: 484745421582406952
+  Data: 0000000000000000
+  IsCompressed: 0

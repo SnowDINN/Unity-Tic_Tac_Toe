@@ -6,6 +6,9 @@ namespace Redbean.Network
 	[CreateAssetMenu(fileName = "NetworkAsset", menuName = "Redbean/Network/NetworkAsset")]
 	public class NetworkAssetResource : ScriptableObject
 	{
+		[Header("Map Asset")]
+		public AssetRef<Map> Map;
+		
 		[Header("Player Asset")]
 		public AssetRef<EntityPrototype> Player;
 		
@@ -17,6 +20,7 @@ namespace Redbean.Network
 	{
 		private static NetworkAssetResource system => Resources.Load<NetworkAssetResource>("NetworkAsset");
 		
+		public static AssetRef<Map> Map => system.Map;
 		public static AssetRef<EntityPrototype> Player => system.Player;
 		public static AssetRef<EntityPrototype> Stone => system.Stone;
 	}

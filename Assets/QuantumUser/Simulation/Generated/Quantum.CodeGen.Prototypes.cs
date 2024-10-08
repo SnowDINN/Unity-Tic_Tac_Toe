@@ -101,6 +101,8 @@ namespace Quantum.Prototypes {
     [DynamicCollectionAttribute()]
     public PlayerRef[] Players = {};
     [DynamicCollectionAttribute()]
+    public Int32[] ReadyPlayers = {};
+    [DynamicCollectionAttribute()]
     public Int32[] RetryPlayers = {};
     public Int32 CurrentPlayerTurn;
     public Int32 CurrentTurn;
@@ -118,6 +120,16 @@ namespace Quantum.Prototypes {
           for (int i = 0; i < this.Players.Length; ++i) {
             PlayerRef tmp = default;
             tmp = this.Players[i];
+            list.Add(tmp);
+          }
+        }
+        if (this.ReadyPlayers.Length == 0) {
+          result.ReadyPlayers = default;
+        } else {
+          var list = frame.AllocateList(out result.ReadyPlayers, this.ReadyPlayers.Length);
+          for (int i = 0; i < this.ReadyPlayers.Length; ++i) {
+            Int32 tmp = default;
+            tmp = this.ReadyPlayers[i];
             list.Add(tmp);
           }
         }

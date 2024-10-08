@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Photon.Deterministic;
 using Quantum;
-using UnityEngine;
 using UnityEngine.Scripting;
 
 namespace Redbean.Network
@@ -17,8 +16,8 @@ namespace Redbean.Network
 					OnGameEnd(frame, player, qCommand);
 					break;
 				
-				case QCommandGameRetry qCommand:
-					OnGameRetry(frame, player, qCommand);
+				case QCommandGameVote qCommand:
+					OnGameVote(frame, player, qCommand);
 					break;
 
 				case QCommandTurnEnd qCommand:
@@ -31,55 +30,70 @@ namespace Redbean.Network
 		
 		private void OnGameEnd(Frame frame, PlayerRef player, QCommandGameEnd command)
 		{
-			GameSubscriber.SetGameStatus(new EVT_GameStatus
-			{
-				Status = GameStatus.End,
-				ActorId = command.WinnerId
-			});
+			frame.Events.OnGameStatus((int)GameStatus.End, command.WinnerId);
 		}
 
-		private void OnGameRetry(Frame frame, PlayerRef player, QCommandGameRetry command)
+		private void OnGameVote(Frame frame, PlayerRef player, QCommandGameVote command)
 		{
-			var system = frame.Unsafe.GetPointerSingleton<QComponentSystem>();
-			var retryPlayers = frame.ResolveList(system->RetryPlayers);
-			if (!retryPlayers.Contains(command.ActorId))
-				retryPlayers.Add(command.ActorId);
-
-			system->RetryPlayers = retryPlayers;
-
-			if (frame.PlayerConnectedCount == retryPlayers.Count)
-				frame.Signals.OnGameStart();
-			
-			GameSubscriber.SetGameRetry(new EVT_GameRetry
+			switch ((GameVote)command.VoteType)
 			{
-				RequestRetryCount = retryPlayers.Count,
-				RequireRetryCount = frame.PlayerConnectedCount
-			});
+				case GameVote.Ready:
+				{
+					var qSystem = frame.Unsafe.GetPointerSingleton<QComponentSystem>();
+					var readyPlayers = frame.ResolveList(qSystem->ReadyPlayers);
+					if (!readyPlayers.Contains(command.ActorId))
+						readyPlayers.Add(command.ActorId);
+					
+					qSystem->ReadyPlayers = readyPlayers;
+
+					if (frame.PlayerConnectedCount == readyPlayers.Count)
+						frame.Signals.OnGameStatus((int)GameStatus.Start);
+					
+					break;
+				}
+
+				case GameVote.Retry:
+				{
+					var qSystem = frame.Unsafe.GetPointerSingleton<QComponentSystem>();
+					var retryPlayers = frame.ResolveList(qSystem->RetryPlayers);
+					if (!retryPlayers.Contains(command.ActorId))
+						retryPlayers.Add(command.ActorId);
+
+					qSystem->RetryPlayers = retryPlayers;
+
+					if (frame.PlayerConnectedCount == retryPlayers.Count)
+						frame.Signals.OnGameStatus((int)GameStatus.Start);
+					else
+						frame.Signals.OnGameStatus((int)GameStatus.Retry);
+
+					break;
+				}
+			}
 		}
 
 		private void OnTurnEnd(Frame frame, PlayerRef player, QCommandTurnEnd command)
 		{
-			var system = frame.Unsafe.GetPointerSingleton<QComponentSystem>();
-			var nextPlayer = frame.ResolveList(system->Players)
-				.FirstOrDefault(_ => frame.PlayerToActorId(_).Value != system->CurrentPlayerTurn);
-			system->CurrentPlayerTurn = frame.PlayerToActorId(nextPlayer).Value;
-			system->CurrentTurn += 1;
+			var qSystem = frame.Unsafe.GetPointerSingleton<QComponentSystem>();
+			var nextPlayer = frame.ResolveList(qSystem->Players)
+				.FirstOrDefault(_ => frame.PlayerToActorId(_).Value != qSystem->CurrentPlayerTurn);
+			qSystem->CurrentPlayerTurn = frame.PlayerToActorId(nextPlayer).Value;
+			qSystem->CurrentTurn += 1;
 
-			var createdEntity = frame.Create(command.Entity);
-			var createdStone = new QComponentStone
+			var entity = frame.Create(command.Entity);
+			var qStone = new QComponentStone
 			{
 				X = command.X,
 				Y = command.Y,
 				OwnerId = frame.PlayerToActorId(player).Value,
-				DestroyTurn = system->CurrentTurn + NetworkSetting.StoneDestroyTurn
+				DestroyTurn = qSystem->CurrentTurn + NetworkSetting.StoneDestroyTurn
 			};
-			frame.Set(createdEntity, createdStone);
-			frame.Events.OnStoneCreated(createdStone);
+			frame.Set(entity, qStone);
+			frame.Events.OnStoneCreated(qStone);
 			
-			var filter = frame.Filter<QComponentStone>();
-			while (filter.Next(out var destroyedEntity, out var destroyedStone))
+			var qStoneFilter = frame.Filter<QComponentStone>();
+			while (qStoneFilter.Next(out var destroyedEntity, out var destroyedStone))
 			{
-				switch (destroyedStone.DestroyTurn - system->CurrentTurn)
+				switch (destroyedStone.DestroyTurn - qSystem->CurrentTurn)
 				{
 					case 1:
 						frame.Events.OnStoneHighlighted(destroyedStone);
@@ -92,12 +106,7 @@ namespace Redbean.Network
 				}
 			}
 			frame.Events.OnStoneMatchValidation(command.X, command.Y);
-			
-			GameSubscriber.SetGameStatus(new EVT_GameStatus
-			{
-				Status = GameStatus.Start,
-				ActorId = system->CurrentPlayerTurn
-			});
+			frame.Events.OnGameStatus((int)GameStatus.Next, qSystem->CurrentPlayerTurn);
 		}
 
 #endregion

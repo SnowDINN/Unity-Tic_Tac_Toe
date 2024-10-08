@@ -29,20 +29,6 @@ MonoBehaviour:
   - kr
   - us
   - usw
-  _availableScenes:
-  - Name: PlayScene
-    ScenePath: Assets/_/Scenes/PlayScene.unity
-    Preview: {fileID: -2278566297644842510, guid: aee746568658d0943a50545e197cc549, type: 3}
-    RuntimeConfig:
-      Seed: 1969113791
-      Map:
-        Id:
-          Value: 404364666140916513
-      SimulationConfig:
-        Id:
-          Value: 508998188058862661
-      SystemsConfig:
-        Id:
-          Value: 429847154662797849
+  _availableScenes: []
   _machineId: {fileID: -755480892457977500, guid: fbd1d0c57fd428c44b08e505acb8d851, type: 3}
   _codeGenerator: {fileID: 11400000, guid: e38f1fac5a1a5c94da2b4ef21bd48419, type: 2}

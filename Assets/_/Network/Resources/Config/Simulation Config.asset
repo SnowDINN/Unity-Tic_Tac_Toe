@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b30f6d93ec78efe4b808efdf1c8e136f, type: 3}
-  m_Name: Game Simulation Config
+  m_Name: Simulation Config
   m_EditorClassIdentifier: 
   Identifier:
-    Path: _/Network/Resources/Game Simulation Config
+    Path: _/Network/Resources/Config/Simulation Config
     Guid:
       Value: 508998188058862661
   Entities:

@@ -1,3 +1,9 @@
+synced event OnGameStatus
+{
+    int Type;
+    int ActorId;
+}
+
 synced event OnStoneCreated
 {
     QComponentStone Stone;

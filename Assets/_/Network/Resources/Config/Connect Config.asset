@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e8f98ff78397bdc4a9886959982c466e, type: 3}
-  m_Name: Game Lobby Config
+  m_Name: Connect Config
   m_EditorClassIdentifier: 
   _maxPlayers: 2
   _adaptFramerateForMobilePlatform: 1
@@ -30,14 +30,14 @@ MonoBehaviour:
   - us
   - usw
   _availableScenes:
-  - Name: PlayScene
-    ScenePath: Assets/_/Scenes/PlayScene.unity
-    Preview: {fileID: -2278566297644842510, guid: aee746568658d0943a50545e197cc549, type: 3}
+  - Name: MatchmakingScene
+    ScenePath: Assets/_/Scenes/MatchmakingScene.unity
+    Preview: {fileID: 0}
     RuntimeConfig:
-      Seed: 1969113791
+      Seed: 728668413
       Map:
         Id:
-          Value: 404364666140916513
+          Value: 522098638409032591
       SimulationConfig:
         Id:
           Value: 508998188058862661

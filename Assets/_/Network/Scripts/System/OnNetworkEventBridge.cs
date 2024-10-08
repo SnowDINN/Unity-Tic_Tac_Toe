@@ -1,5 +1,7 @@
-﻿using Quantum;
+﻿using System.Threading.Tasks;
+using Quantum;
 using R3;
+using Redbean.Content;
 using UnityEngine.Scripting;
 
 namespace Redbean.Network
@@ -11,6 +13,21 @@ namespace Redbean.Network
 		
 		public override void OnEnabled(Frame frame)
 		{
+			QuantumEvent.SubscribeManual<EventOnGameStatus>(async _ =>
+			{
+				while (!GameManager.Default)
+					await Task.Yield();
+				
+				while (!GameManager.Default.didStart)
+					await Task.Yield();
+				
+				GameSubscriber.SetGameStatus(new EVT_GameStatus
+				{
+					Type = (GameStatus)_.Type,
+					ActorId = _.ActorId
+				});
+			}).AddTo(disposables);
+			
 			QuantumEvent.SubscribeManual<EventOnStoneCreated>(_ =>
 			{
 				GameSubscriber.SetStoneCreate(new EVT_PositionAndOwner

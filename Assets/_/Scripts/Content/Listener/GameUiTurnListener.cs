@@ -15,7 +15,7 @@ namespace Redbean.Content
 		private void Awake()
 		{
 			GameSubscriber.OnGameStatus
-				.Where(_ => _.Status == GameStatus.Start)
+				.Where(_ => _.Type == GameStatus.Next)
 				.Subscribe(_ =>
 				{
 					myTurn.SetActive(_.ActorId == NetworkSetting.LocalPlayerId);
@@ -23,7 +23,7 @@ namespace Redbean.Content
 				}).AddTo(this);
 			
 			GameSubscriber.OnGameStatus
-				.Where(_ => _.Status == GameStatus.Reset)
+				.Where(_ => _.Type is GameStatus.Start or GameStatus.Ready)
 				.Subscribe(_ =>
 				{
 					myTurn.SetActive(false);
