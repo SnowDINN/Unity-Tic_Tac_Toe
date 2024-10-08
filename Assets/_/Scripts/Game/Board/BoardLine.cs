@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace Redbean.Content
+namespace Redbean.Game
 {
 	public class BoardLine : MonoBehaviour
 	{

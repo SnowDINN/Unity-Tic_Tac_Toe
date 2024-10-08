@@ -1,7 +1,7 @@
 using R3;
 using UnityEngine;
 
-namespace Redbean.Content
+namespace Redbean.Game
 {
 	public class StoneListener : MonoBehaviour
 	{

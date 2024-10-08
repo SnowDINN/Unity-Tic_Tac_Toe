@@ -341,7 +341,7 @@ GameObject:
   - component: {fileID: 222030093}
   - component: {fileID: 222030094}
   m_Layer: 5
-  m_Name: Table Prefab
+  m_Name: Table Entity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1786,7 +1786,7 @@ GameObject:
   - component: {fileID: 1090857671}
   - component: {fileID: 1090857670}
   m_Layer: 5
-  m_Name: Wait
+  m_Name: Ready
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1963,10 +1963,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1170884861}
+  - component: {fileID: 1170884866}
+  - component: {fileID: 1170884865}
+  - component: {fileID: 1170884864}
   - component: {fileID: 1170884863}
   - component: {fileID: 1170884862}
   m_Layer: 5
-  m_Name: Game Prefab
+  m_Name: UI Entity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2018,20 +2021,56 @@ MonoBehaviour:
   m_GameObject: {fileID: 1170884860}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e82758555df4c947a0fdc29ab9c0f85, type: 3}
+  m_Script: {fileID: 11500000, guid: c12c0f42b4fd49a09fb151c7d6ed3ed9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wait: {fileID: 1090857668}
-  victory: {fileID: 717540021}
-  defeat: {fileID: 1245010035}
-  disconnectButtons:
-  - {fileID: 974960757}
   retryButtons:
   - {fileID: 432621244}
   - {fileID: 1089757966}
   retryTexts:
   - {fileID: 462822707}
   - {fileID: 77874875}
+--- !u!114 &1170884864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170884860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29557c48b0604c2ca51109da68ac9c00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  victory: {fileID: 717540021}
+  defeat: {fileID: 1245010035}
+--- !u!114 &1170884865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170884860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35c16fc81e264ad08d388c205bc31a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ready: {fileID: 1090857668}
+--- !u!114 &1170884866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170884860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 536c40622abe4f5aa33688a0d0c1601f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  disconnectButtons:
+  - {fileID: 974960757}
 --- !u!1 &1186096484
 GameObject:
   m_ObjectHideFlags: 0

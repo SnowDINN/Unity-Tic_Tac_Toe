@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Quantum;
 using R3;
-using Redbean.Content;
+using Redbean.Game;
 using UnityEngine.Scripting;
 
 namespace Redbean.Network

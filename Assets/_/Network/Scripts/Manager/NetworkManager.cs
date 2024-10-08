@@ -1,7 +1,5 @@
 using System.Threading.Tasks;
 using Quantum.Menu;
-using R3;
-using Redbean.Content;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

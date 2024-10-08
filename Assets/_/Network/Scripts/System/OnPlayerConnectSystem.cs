@@ -28,11 +28,11 @@ namespace Redbean.Network
 		public void OnPlayerConnected(Frame frame, PlayerRef player)
 		{
 			var entity = frame.Create();
-			var component = new QComponentPlayer
+			var qPlayer = new QComponentPlayer
 			{
 				Player = player
 			};
-			frame.Add(entity, component);
+			frame.Add(entity, qPlayer);
 			
 			if (frame.PlayerConnectedCount < frame.PlayerCount)
 				return;
@@ -42,10 +42,10 @@ namespace Redbean.Network
 		
 		public void OnPlayerDisconnected(Frame frame, PlayerRef player)
 		{
-			var filter = frame.Filter<QComponentPlayer>();
-			while (filter.Next(out var entity, out var localPlayer))
+			var qPlayerFilter = frame.Filter<QComponentPlayer>();
+			while (qPlayerFilter.Next(out var entity, out var qPlayer))
 			{
-				if (frame.PlayerToActorId(localPlayer.Player) == frame.PlayerToActorId(player))
+				if (frame.PlayerToActorId(qPlayer.Player) == frame.PlayerToActorId(player))
 					frame.Destroy(entity);
 			}
 			

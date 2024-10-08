@@ -105,6 +105,7 @@ namespace Redbean.Network
 						break;
 				}
 			}
+			
 			frame.Events.OnStoneMatchValidation(command.X, command.Y);
 			frame.Events.OnGameStatus((int)GameStatus.Next, qSystem->CurrentPlayerTurn);
 		}

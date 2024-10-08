@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-namespace Redbean.Content
+namespace Redbean.Game
 {
 	public class GameManager : MonoBehaviour
 	{

@@ -3,7 +3,7 @@ using Redbean.Network;
 using UnityEngine;
 using Button = UnityEngine.UI.Button;
 
-namespace Redbean.Content
+namespace Redbean.Game
 {
 	public class BoardSpot : MonoBehaviour
 	{

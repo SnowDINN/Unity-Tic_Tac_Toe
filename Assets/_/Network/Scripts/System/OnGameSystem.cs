@@ -28,7 +28,8 @@ namespace Redbean.Network
 					var qPlayersFilter = frame.Filter<QComponentPlayer>();
 					while (qPlayersFilter.Next(out _, out var qPlayer))
 						qPlayers.Add(qPlayer.Player);
-				
+
+					var nextTurn = frame.PlayerToActorId(qPlayers[random]).Value;
 					var qSystem = frame.Unsafe.GetPointerSingleton<QComponentSystem>();
 					qSystem->Players = qPlayers;
 					qSystem->ReadyPlayers = frame.AllocateList<int>();
@@ -36,7 +37,7 @@ namespace Redbean.Network
 					qSystem->CurrentPlayerTurn = frame.PlayerToActorId(qPlayers[random]).Value;
 
 					frame.Events.OnGameStatus((int)GameStatus.Start, default);
-					frame.Events.OnGameStatus((int)GameStatus.Next, frame.PlayerToActorId(qPlayers[random]).Value);
+					frame.Events.OnGameStatus((int)GameStatus.Next, nextTurn);
 					break;
 				}
 

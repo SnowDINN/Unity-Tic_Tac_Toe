@@ -4,7 +4,7 @@ using R3;
 using Redbean.Network;
 using UnityEngine;
 
-namespace Redbean.Content
+namespace Redbean.Game
 {
 	public class GameLogicListener : MonoBehaviour
 	{
