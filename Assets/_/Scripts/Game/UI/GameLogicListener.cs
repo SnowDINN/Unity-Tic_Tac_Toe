@@ -17,7 +17,6 @@ namespace Redbean.Game
 				{
 					QuantumRunner.DefaultGame.SendCommand(new QCommandTurnEnd
 					{
-						Entity = NetworkAsset.Stone,
 						X = _.X,
 						Y = _.Y,
 					});

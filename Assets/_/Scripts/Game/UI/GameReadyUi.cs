@@ -15,13 +15,17 @@ namespace Redbean.Game
 				.Subscribe(_ =>
 				{
 					ready.SetActive(_.Type == GameStatus.Ready);
-					
-					if (_.Type == GameStatus.Ready)
-						QuantumRunner.DefaultGame.SendCommand(new QCommandGameVote
-						{
-							VoteType = (int)GameVote.Ready,
-							ActorId = NetworkSetting.LocalPlayerId
-						});
+				}).AddTo(this);
+			
+			GameSubscriber.OnGameStatus
+				.Where(_ => _.Type == GameStatus.Ready)
+				.Subscribe(_ =>
+				{
+					QuantumRunner.DefaultGame.SendCommand(new QCommandGameVote
+					{
+						VoteType = (int)GameVote.Ready,
+						ActorId = NetworkSetting.LocalPlayerId
+					});
 				}).AddTo(this);
 		}
 	}

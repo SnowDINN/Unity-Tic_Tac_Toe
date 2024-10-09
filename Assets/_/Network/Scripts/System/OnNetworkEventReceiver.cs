@@ -79,7 +79,7 @@ namespace Redbean.Network
 			qSystem->CurrentPlayerTurn = frame.PlayerToActorId(nextPlayer).Value;
 			qSystem->CurrentTurn += 1;
 
-			var entity = frame.Create(command.Entity);
+			var entity = frame.Create();
 			var qStone = new QComponentStone
 			{
 				X = command.X,

@@ -5,18 +5,18 @@ namespace Redbean.Game
 {
 	public class BoardLine : MonoBehaviour
 	{
-		private BoardSpot[] components;
+		private BoardPosition[] components;
 		
 		public void SetPosition(int y)
 		{
-			components = GetComponentsInChildren<BoardSpot>();
+			components = GetComponentsInChildren<BoardPosition>();
 			
 			var componentArray = components.Select((value, index) => (value, index));
 			foreach (var component in componentArray)
 				component.value.SetPosition(component.index, y);
 		}
 
-		public StoneListener GetStone(int x)
+		public StoneEntity GetStone(int x)
 		{
 			if (x < 0 || x >= components.Length)
 				return default;

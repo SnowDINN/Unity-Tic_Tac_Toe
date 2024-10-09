@@ -5,10 +5,10 @@ using Button = UnityEngine.UI.Button;
 
 namespace Redbean.Game
 {
-	public class BoardSpot : MonoBehaviour
+	public class BoardPosition : MonoBehaviour
 	{
 		[HideInInspector]
-		public StoneListener CurrentStone;
+		public StoneEntity CurrentStone;
 		
 		[SerializeField]
 		private GameObject Prefab;
@@ -37,7 +37,7 @@ namespace Redbean.Game
 				.Subscribe(_ =>
 				{
 					instance = Instantiate(Prefab, transform);
-					CurrentStone = instance.GetComponent<StoneListener>();
+					CurrentStone = instance.GetComponent<StoneEntity>();
 					CurrentStone.UpdateView(x, y, _.OwnerId == NetworkSetting.LocalPlayerId);
 					
 					SetInteraction(false);
