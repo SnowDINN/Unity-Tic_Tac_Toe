@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace Redbean.Game
 {
-	public class StoneEntity : MonoBehaviour
+	public class StoneUnit : MonoBehaviour
 	{
 		[SerializeField]
-		private GameObject IsMine;
+		private GameObject mineGO;
 
 		[SerializeField]
-		private GameObject IsOther;
+		private GameObject otherGO;
 
 		private int x;
 		private int y;
@@ -18,7 +18,7 @@ namespace Redbean.Game
 		
 		private void Awake()
 		{
-			GameSubscriber.OnStoneHighlight
+			RxGame.OnStoneHighlight
 				.Subscribe(_ =>
 				{
 					if (x != _.X || y != _.Y)
@@ -34,8 +34,8 @@ namespace Redbean.Game
 			this.y = y;
 			IsOwner = isOwner;
 			
-			IsMine.SetActive(isOwner);
-			IsOther.SetActive(!isOwner);
+			mineGO.SetActive(isOwner);
+			otherGO.SetActive(!isOwner);
 		}
 	}
 }

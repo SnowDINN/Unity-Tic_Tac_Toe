@@ -4,7 +4,7 @@ using UnityEngine.Scripting;
 namespace Redbean.Network
 {
 	[Preserve]
-	public unsafe class OnGameSystem : SystemSignalsOnly, ISignalOnGameStatus
+	public unsafe class NetworkGameStatusSystem : SystemSignalsOnly, ISignalOnGameStatus
 	{
 		public override void OnInit(Frame frame)
 		{
@@ -53,10 +53,11 @@ namespace Redbean.Network
 				case GameStatus.Retry:
 				{
 					var qSystem = frame.Unsafe.GetPointerSingleton<QComponentSystem>();
-					GameSubscriber.SetGameRetry(new EVT_GameRetry
+					RxGame.SetGameRetry(new EVT_GameVote
 					{
-						RequestRetryCount = frame.ResolveList(qSystem->RetryPlayers).Count,
-						RequireRetryCount = frame.PlayerConnectedCount
+						Type = GameVote.Retry,
+						CurrentCount = frame.ResolveList(qSystem->RetryPlayers).Count,
+						TotalCount = frame.PlayerConnectedCount
 					});
 					break;
 				}

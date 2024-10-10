@@ -1,9 +1,10 @@
 using System.Threading.Tasks;
 using Quantum.Menu;
+using R3;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Redbean.Lobby
+namespace Redbean.Network
 {
 	public class NetworkManager : MonoBehaviour
 	{
@@ -24,6 +25,10 @@ namespace Redbean.Lobby
 			DontDestroyOnLoad(this);
 
 			connectArgs.SetDefaults(connectionConfig);
+			connectionBehaviour.OnProgress
+				.AsObservable()
+				.Subscribe(RxNetwork.SetProgress)
+				.AddTo(this);
 		}
 
 		private void OnEnable()
@@ -38,39 +43,39 @@ namespace Redbean.Lobby
 
 		private void OnActiveSceneChanged(Scene current, Scene next)
 		{
-			LobbySubscriber.SetSceneChanged(next);
+			RxNetwork.SetSceneChanged(next);
 		}
 
 		public async Task ConnectAsync()
 		{
-			LobbySubscriber.SetConnect(new EVT_ConnectStatus
+			RxNetwork.SetConnect(new EVT_ConnectionStatus
 			{
-				Status = ConnectStatus.Before,
+				Status = ConnectionStatus.Before,
 				ReasonCode = 0
 			});
 			
 			var result = await connectionBehaviour.ConnectAsync(connectArgs);
 			
-			LobbySubscriber.SetConnect(new EVT_ConnectStatus
+			RxNetwork.SetConnect(new EVT_ConnectionStatus
 			{
-				Status = ConnectStatus.After,
+				Status = ConnectionStatus.After,
 				ReasonCode = result.FailReason
 			});
 		}
 
 		public async Task Disconnect(int reason)
 		{
-			LobbySubscriber.SetDisconnect(new EVT_ConnectStatus
+			RxNetwork.SetDisconnect(new EVT_ConnectionStatus
 			{
-				Status = ConnectStatus.Before,
+				Status = ConnectionStatus.Before,
 				ReasonCode = reason
 			});
 			
 			await connectionBehaviour.DisconnectAsync(reason);
 			
-			LobbySubscriber.SetDisconnect(new EVT_ConnectStatus
+			RxNetwork.SetDisconnect(new EVT_ConnectionStatus
 			{
-				Status = ConnectStatus.After,
+				Status = ConnectionStatus.After,
 				ReasonCode = reason
 			});
 		}

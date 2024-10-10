@@ -7,7 +7,7 @@ using UnityEngine.Scripting;
 namespace Redbean.Network
 {
 	[Preserve]
-	public class OnNetworkEventBridge : SystemSignalsOnly
+	public class NetworkEventBridgeSystem : SystemSignalsOnly
 	{
 		private readonly CompositeDisposable disposables = new();
 		
@@ -21,7 +21,7 @@ namespace Redbean.Network
 				while (!GameManager.Default.didStart)
 					await Task.Yield();
 				
-				GameSubscriber.SetGameStatus(new EVT_GameStatus
+				RxGame.SetGameStatus(new EVT_GameStatus
 				{
 					Type = (GameStatus)_.Type,
 					ActorId = _.ActorId
@@ -30,7 +30,7 @@ namespace Redbean.Network
 			
 			QuantumEvent.SubscribeManual<EventOnStoneCreated>(_ =>
 			{
-				GameSubscriber.SetStoneCreate(new EVT_PositionAndOwner
+				RxGame.SetStoneCreate(new EVT_PositionAndOwner
 				{
 					OwnerId = _.Stone.OwnerId,
 					Position = new EVT_Position
@@ -43,7 +43,7 @@ namespace Redbean.Network
 			
 			QuantumEvent.SubscribeManual<EventOnStoneDestroyed>(_ =>
 			{
-				GameSubscriber.SetStoneDestroy(new EVT_Position
+				RxGame.SetStoneDestroy(new EVT_Position
 				{
 					X = _.Stone.X,
 					Y = _.Stone.Y
@@ -52,12 +52,12 @@ namespace Redbean.Network
 			
 			QuantumEvent.SubscribeManual<EventOnStoneHighlighted>(this, _ =>
 			{
-				GameSubscriber.SetStoneHighlight(_.Stone);
+				RxGame.SetStoneHighlight(_.Stone);
 			}).AddTo(disposables);
 			
 			QuantumEvent.SubscribeManual<EventOnStoneMatchValidation>(this, _ =>
 			{
-				GameSubscriber.SetStoneMatchValidation(new EVT_Position
+				RxGame.SetStoneMatchValidation(new EVT_Position
 				{
 					X = _.X,
 					Y = _.Y

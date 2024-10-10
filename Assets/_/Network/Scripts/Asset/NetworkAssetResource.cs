@@ -17,10 +17,14 @@ namespace Redbean.Network
 		public static AssetRef<Map> Map => system.Map;
 	}
 
-	public class NetworkSetting
+	public class NetworkPlayer
 	{
 		public static int LocalPlayerId => QuantumRunner.Default.NetworkClient.LocalPlayer.ActorNumber;
-		
+	}
+
+	public class NetworkConst
+	{
 		public const int StoneDestroyTurn = 6;
+		public const int UserLeave = 1;
 	}
 }

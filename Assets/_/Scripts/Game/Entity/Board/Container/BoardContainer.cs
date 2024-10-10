@@ -1,28 +1,27 @@
 ﻿using System.Linq;
-using Quantum;
 using R3;
 using Redbean.Network;
 using UnityEngine;
 
 namespace Redbean.Game
 {
-	public class GameLogicListener : MonoBehaviour
+	public class BoardContainer : MonoBehaviour
 	{
-		private static BoardLine[] components;
+		private static BoardBundle[] components;
 		
 		private void Awake()
 		{
-			GameSubscriber.OnBoardSelect
+			RxGame.OnBoardSelect
 				.Subscribe(_ =>
 				{
-					QuantumRunner.DefaultGame.SendCommand(new QCommandTurnEnd
+					this.NetworkEventPublish(new QCommandTurnEnd
 					{
 						X = _.X,
 						Y = _.Y,
 					});
 				}).AddTo(this);
 
-			GameSubscriber.OnStoneMatchValidation
+			RxGame.OnStoneMatchValidation
 				.Subscribe(_ =>
 				{
 					if (!IsMatch(_.X, _.Y))
@@ -56,7 +55,7 @@ namespace Redbean.Game
 						GameEnd();
 				}).AddTo(this);
 			
-			components = GetComponentsInChildren<BoardLine>();
+			components = GetComponentsInChildren<BoardBundle>();
 			
 			var componentArray = components.Select((value, index) => (value, index));
 			foreach (var component in componentArray)
@@ -65,9 +64,9 @@ namespace Redbean.Game
 		
 		private void GameEnd()
 		{
-			QuantumRunner.DefaultGame.SendCommand(new QCommandGameEnd
+			this.NetworkEventPublish(new QCommandGameEnd
 			{
-				WinnerId = NetworkSetting.LocalPlayerId
+				WinnerId = NetworkPlayer.LocalPlayerId
 			});
 		}
 

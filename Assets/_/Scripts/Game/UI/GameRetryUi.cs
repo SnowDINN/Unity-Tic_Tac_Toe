@@ -1,10 +1,9 @@
 using System.Linq;
-using Quantum;
 using R3;
 using Redbean.Network;
 using TMPro;
 using UnityEngine;
-using Button = UnityEngine.UI.Button;
+using UnityEngine.UI;
 
 namespace Redbean.Game
 {
@@ -20,14 +19,14 @@ namespace Redbean.Game
 				.Merge()
 				.Subscribe(_ =>
 				{
-					QuantumRunner.DefaultGame.SendCommand(new QCommandGameVote
+					this.NetworkEventPublish(new QCommandGameVote
 					{
 						VoteType = (int)GameVote.Retry,
-						ActorId = NetworkSetting.LocalPlayerId
+						ActorId = NetworkPlayer.LocalPlayerId
 					});
 				}).AddTo(this);
 			
-			GameSubscriber.OnGameStatus
+			RxGame.OnGameStatus
 				.Where(_ => _.Type == GameStatus.Start)
 				.Subscribe(_ =>
 				{
@@ -35,11 +34,12 @@ namespace Redbean.Game
 						text.text = "Retry";
 				}).AddTo(this);
 			
-			GameSubscriber.OnGameRetry
+			RxGame.OnGameVote
+				.Where(_ => _.Type == GameVote.Retry)
 				.Subscribe(_ =>
 				{
 					foreach (var text in retryTexts)
-						text.text = $"Retry ({_.RequestRetryCount}/{_.RequireRetryCount})";
+						text.text = $"Retry ({_.CurrentCount}/{_.TotalCount})";
 				}).AddTo(this);
 		}
 	}

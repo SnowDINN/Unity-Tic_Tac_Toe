@@ -5,7 +5,7 @@ using UnityEngine.Scripting;
 namespace Redbean.Network
 {
 	[Preserve]
-	public class OnPlayerConnectSystem : SystemSignalsOnly, ISignalOnPlayerConnected, ISignalOnPlayerDisconnected
+	public class NetworkConnectionSystem : SystemSignalsOnly, ISignalOnPlayerConnected, ISignalOnPlayerDisconnected
 	{
 		private readonly CompositeDisposable disposables = new();
 		
@@ -13,8 +13,8 @@ namespace Redbean.Network
 		{
 			frame.SetSingleton(new QComponentSystem());
 
-			LobbySubscriber.OnDisconnect
-				.Where(_ => _.Status == ConnectStatus.Before)
+			RxNetwork.OnDisconnect
+				.Where(_ => _.Status == ConnectionStatus.Before)
 				.Subscribe(_ =>
 				{
 					foreach (var system in frame.SystemsAll)

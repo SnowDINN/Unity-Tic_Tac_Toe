@@ -29,27 +29,27 @@ MonoBehaviour:
     StartDisabled: 0
     Children: []
   - SystemType:
-      AssemblyQualifiedName: Redbean.Network.OnPlayerConnectSystem, Assembly-CSharp
+      AssemblyQualifiedName: Redbean.Network.NetworkConnectionSystem, Assembly-CSharp
     SystemName: 
     StartDisabled: 0
     Children: []
   - SystemType:
-      AssemblyQualifiedName: Redbean.Network.OnNetworkEventPublisher, Assembly-CSharp
+      AssemblyQualifiedName: Redbean.Network.NetworkEventPublisherSystem, Assembly-CSharp
     SystemName: 
     StartDisabled: 0
     Children: []
   - SystemType:
-      AssemblyQualifiedName: Redbean.Network.OnNetworkEventReceiver, Assembly-CSharp
+      AssemblyQualifiedName: Redbean.Network.NetworkEventReceiverSystem, Assembly-CSharp
     SystemName: 
     StartDisabled: 0
     Children: []
   - SystemType:
-      AssemblyQualifiedName: Redbean.Network.OnNetworkEventBridge, Assembly-CSharp
+      AssemblyQualifiedName: Redbean.Network.NetworkEventBridgeSystem, Assembly-CSharp
     SystemName: 
     StartDisabled: 0
     Children: []
   - SystemType:
-      AssemblyQualifiedName: Redbean.Network.OnGameSystem, Assembly-CSharp
+      AssemblyQualifiedName: Redbean.Network.NetworkGameStatusSystem, Assembly-CSharp
     SystemName: 
     StartDisabled: 0
     Children: []

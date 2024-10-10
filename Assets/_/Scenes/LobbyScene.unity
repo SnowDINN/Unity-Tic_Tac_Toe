@@ -251,6 +251,7 @@ GameObject:
   - component: {fileID: 83662113}
   - component: {fileID: 83662112}
   - component: {fileID: 83662115}
+  - component: {fileID: 83662116}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -329,8 +330,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1254135760}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &83662115
@@ -377,6 +377,18 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &83662116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83662111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f3dd4f9ff349dfaa4f7ead7b96be2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &346518551
 GameObject:
   m_ObjectHideFlags: 0
@@ -722,13 +734,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 896489863}
+  - component: {fileID: 896489864}
   m_Layer: 5
   m_Name: Match Making
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &896489863
 RectTransform:
   m_ObjectHideFlags: 0
@@ -749,6 +762,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &896489864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896489862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8577940eabb49f4adefe761712ee525, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainGO: {fileID: 1884164734}
+  cancelButton: {fileID: 19102936}
+  text: {fileID: 1482137347}
 --- !u!1 &917261397
 GameObject:
   m_ObjectHideFlags: 0
@@ -1089,7 +1117,7 @@ RectTransform:
   m_Children:
   - {fileID: 346518552}
   - {fileID: 896489863}
-  m_Father: {fileID: 83662114}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1108,10 +1136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1fab4bbfa96439b81ced5dc4e11fda8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  QuickPlayButton: {fileID: 346518553}
-  matchmaking: {fileID: 896489862}
-  matchmakingButton: {fileID: 19102936}
-  matchmakingText: {fileID: 1482137347}
+  button: {fileID: 346518553}
 --- !u!114 &1254135762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1124,7 +1149,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f3dd4f9ff349dfaa4f7ead7b96be2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiCamera: {fileID: 83662111}
 --- !u!114 &1254135763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1149,7 +1173,7 @@ GameObject:
   - component: {fileID: 1482137348}
   - component: {fileID: 1482137347}
   m_Layer: 5
-  m_Name: Searching Text
+  m_Name: Match Making Searching Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1285,12 +1309,12 @@ GameObject:
   - component: {fileID: 1884164737}
   - component: {fileID: 1884164736}
   m_Layer: 5
-  m_Name: Background
+  m_Name: Main
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1884164735
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1303,8 +1327,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1482137346}
   - {fileID: 19102935}
+  - {fileID: 1482137346}
   m_Father: {fileID: 896489863}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
@@ -1355,4 +1379,5 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 83662114}
+  - {fileID: 1254135760}
   - {fileID: 950810586}

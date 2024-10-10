@@ -1,7 +1,6 @@
 using System.Linq;
-using Quantum.Menu;
 using R3;
-using Redbean.Lobby;
+using Redbean.Network;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,7 +17,7 @@ namespace Redbean.Game
 				.Merge()
 				.Subscribe(async _ =>
 				{
-					await NetworkManager.Default.Disconnect(ConnectFailReason.UserRequest);
+					await NetworkManager.Default.Disconnect(NetworkConst.UserLeave);
 				}).AddTo(this);
 		}
 	}

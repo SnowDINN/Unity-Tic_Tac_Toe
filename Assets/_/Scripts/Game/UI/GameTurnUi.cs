@@ -14,15 +14,15 @@ namespace Redbean.Game
 		
 		private void Awake()
 		{
-			GameSubscriber.OnGameStatus
+			RxGame.OnGameStatus
 				.Where(_ => _.Type == GameStatus.Next)
 				.Subscribe(_ =>
 				{
-					myTurn.SetActive(_.ActorId == NetworkSetting.LocalPlayerId);
-					otherTurn.SetActive(_.ActorId != NetworkSetting.LocalPlayerId);
+					myTurn.SetActive(_.ActorId == NetworkPlayer.LocalPlayerId);
+					otherTurn.SetActive(_.ActorId != NetworkPlayer.LocalPlayerId);
 				}).AddTo(this);
 			
-			GameSubscriber.OnGameStatus
+			RxGame.OnGameStatus
 				.Where(_ => _.Type is GameStatus.Start or GameStatus.Ready)
 				.Subscribe(_ =>
 				{

@@ -1,54 +1,54 @@
 ﻿using R3;
 using Redbean.Network;
 using UnityEngine;
-using Button = UnityEngine.UI.Button;
+using UnityEngine.UI;
 
 namespace Redbean.Game
 {
-	public class BoardPosition : MonoBehaviour
+	public class BoardUnit : MonoBehaviour
 	{
 		[HideInInspector]
-		public StoneEntity CurrentStone;
+		public StoneUnit CurrentStone;
 		
 		[SerializeField]
-		private GameObject Prefab;
+		private GameObject spawnGO;
 		
 		[SerializeField]
-		private Button Button;
+		private Button button;
 
-		private GameObject instance;
+		private GameObject spawnInstance;
 		private int x;
 		private int y;
 
 		private void Awake()
 		{
-			Button.AsButtonObservable()
+			button.AsButtonObservable()
 				.Subscribe(_ =>
 				{
-					GameSubscriber.SetBoardSelect(new EVT_Position
+					RxGame.SetBoardSelect(new EVT_Position
 					{
 						X = x,
 						Y = y
 					});
 				}).AddTo(this);
 
-			GameSubscriber.OnStoneCreate
+			RxGame.OnStoneCreate
 				.Where(_ => _.Position.X == x && _.Position.Y == y)
 				.Subscribe(_ =>
 				{
-					instance = Instantiate(Prefab, transform);
-					CurrentStone = instance.GetComponent<StoneEntity>();
-					CurrentStone.UpdateView(x, y, _.OwnerId == NetworkSetting.LocalPlayerId);
+					spawnInstance = Instantiate(spawnGO, transform);
+					CurrentStone = spawnInstance.GetComponent<StoneUnit>();
+					CurrentStone.UpdateView(x, y, _.OwnerId == NetworkPlayer.LocalPlayerId);
 					
 					SetInteraction(false);
 				}).AddTo(this);
 
-			GameSubscriber.OnStoneDestroy
+			RxGame.OnStoneDestroy
 				.Where(_ => _.X == x && _.Y == y)
 				.Subscribe(_ =>
 				{
-					if (instance)
-						Destroy(instance);
+					if (spawnInstance)
+						Destroy(spawnInstance);
 					
 					CurrentStone = default;
 					
@@ -58,7 +58,7 @@ namespace Redbean.Game
 
 		private void SetInteraction(bool use)
 		{
-			Button.interactable = use;
+			button.interactable = use;
 		}
 
 		public void SetPosition(int x, int y)

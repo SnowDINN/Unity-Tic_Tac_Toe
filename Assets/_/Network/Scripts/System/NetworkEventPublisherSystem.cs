@@ -4,7 +4,7 @@ using UnityEngine.Scripting;
 namespace Redbean.Network
 {
 	[Preserve]
-	public unsafe class OnNetworkEventPublisher : SystemMainThreadFilter<OnNetworkEventPublisher.Filter>
+	public unsafe class NetworkEventPublisherSystem : SystemMainThreadFilter<NetworkEventPublisherSystem.Filter>
 	{
 		public struct Filter
 		{

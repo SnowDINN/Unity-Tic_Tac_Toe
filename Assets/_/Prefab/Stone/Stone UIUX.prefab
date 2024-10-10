@@ -50,8 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4b421c5c4964044b79915b94d6a9cf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsMine: {fileID: 6382752955197632644}
-  IsOther: {fileID: 8495384031909214408}
+  mineGO: {fileID: 6382752955197632644}
+  otherGO: {fileID: 8495384031909214408}
   IsOwner: 0
 --- !u!111 &4298603342309956760
 Animation:

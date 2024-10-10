@@ -1,6 +1,6 @@
 namespace Redbean
 {
-	public enum ConnectStatus
+	public enum ConnectionStatus
 	{
 		Before,
 		After
@@ -21,9 +21,9 @@ namespace Redbean
 		Retry
 	}
 	
-	public class EVT_ConnectStatus
+	public class EVT_ConnectionStatus
 	{
-		public ConnectStatus Status;
+		public ConnectionStatus Status;
 		public int ReasonCode;
 	}
 
@@ -33,10 +33,11 @@ namespace Redbean
 		public int ActorId;
 	}
 
-	public class EVT_GameRetry
+	public class EVT_GameVote
 	{
-		public int RequestRetryCount;
-		public int RequireRetryCount;
+		public GameVote Type;
+		public int CurrentCount;
+		public int TotalCount;
 	}
 	
 	public class EVT_Position

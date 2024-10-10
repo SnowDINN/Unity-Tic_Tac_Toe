@@ -185,6 +185,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28c3e77ec10d49feabde8b1a36ede530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 2109942157777583254, guid: 67c077af7a49f1b4b805692cd6a79850, type: 3}
-  Button: {fileID: 7208200228499985906}
-  Index: 0
+  CurrentStone: {fileID: 0}
+  spawnGO: {fileID: 2109942157777583254, guid: 67c077af7a49f1b4b805692cd6a79850, type: 3}
+  button: {fileID: 7208200228499985906}

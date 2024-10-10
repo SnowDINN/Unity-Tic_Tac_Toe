@@ -6,7 +6,7 @@ using UnityEngine.Scripting;
 namespace Redbean.Network
 {
 	[Preserve]
-	public unsafe class OnNetworkEventReceiver : SystemSignalsOnly, ISignalOnEventReceive
+	public unsafe class NetworkEventReceiverSystem : SystemSignalsOnly, ISignalOnEventReceive
 	{
 		public void OnEventReceive(Frame frame, PlayerRef player, DeterministicCommand command)
 		{
@@ -85,7 +85,7 @@ namespace Redbean.Network
 				X = command.X,
 				Y = command.Y,
 				OwnerId = frame.PlayerToActorId(player).Value,
-				DestroyTurn = qSystem->CurrentTurn + NetworkSetting.StoneDestroyTurn
+				DestroyTurn = qSystem->CurrentTurn + NetworkConst.StoneDestroyTurn
 			};
 			frame.Set(entity, qStone);
 			frame.Events.OnStoneCreated(qStone);

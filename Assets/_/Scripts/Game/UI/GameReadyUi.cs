@@ -1,4 +1,3 @@
-using Quantum;
 using R3;
 using Redbean.Network;
 using UnityEngine;
@@ -11,20 +10,20 @@ namespace Redbean.Game
 		
 		private void Awake()
 		{
-			GameSubscriber.OnGameStatus
+			RxGame.OnGameStatus
 				.Subscribe(_ =>
 				{
 					ready.SetActive(_.Type == GameStatus.Ready);
 				}).AddTo(this);
 			
-			GameSubscriber.OnGameStatus
+			RxGame.OnGameStatus
 				.Where(_ => _.Type == GameStatus.Ready)
 				.Subscribe(_ =>
 				{
-					QuantumRunner.DefaultGame.SendCommand(new QCommandGameVote
+					this.NetworkEventPublish(new QCommandGameVote
 					{
 						VoteType = (int)GameVote.Ready,
-						ActorId = NetworkSetting.LocalPlayerId
+						ActorId = NetworkPlayer.LocalPlayerId
 					});
 				}).AddTo(this);
 		}
