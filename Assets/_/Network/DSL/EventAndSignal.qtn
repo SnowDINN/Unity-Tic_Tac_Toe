@@ -1,9 +1,15 @@
 signal OnEvent(QEventCommand evt);
 signal OnGameStatus(QEventGameStatus evt);
+signal OnGameVote(QEventGameVote evt);
 
 synced event OnGameStatus
 {
-    QEventGameStatus Status;
+    QEventGameStatus Evt;
+}
+
+synced event OnGameVote
+{
+    QEventGameVote Evt;
 }
 
 synced event OnStoneCreated

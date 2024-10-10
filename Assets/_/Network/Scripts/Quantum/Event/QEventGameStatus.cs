@@ -11,8 +11,6 @@ namespace Quantum
 	{
 		Start,
 		End,
-		Ready,
-		Retry,
 		NextTurn,
 	}
 }

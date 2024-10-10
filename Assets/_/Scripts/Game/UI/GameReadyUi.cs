@@ -13,18 +13,20 @@ namespace Redbean.Game
 			RxGame.OnGameStatus
 				.Subscribe(_ =>
 				{
-					ready.SetActive(_.Type == GameStatus.Ready);
+					ready.SetActive(false);
 				}).AddTo(this);
 			
-			RxGame.OnGameStatus
-				.Where(_ => _.Type == GameStatus.Ready)
+			RxGame.OnGameVote
 				.Subscribe(_ =>
 				{
-					this.NetworkEventPublish(new QCommandGameVote
-					{
-						VoteType = (int)GameVote.Ready,
-						VotePlayer = NetworkPlayer.LocalPlayerId
-					});
+					ready.SetActive(_.Type == GameVote.Ready);
+					
+					if (_.Type == GameVote.Ready)
+						this.NetworkEventPublish(new QCommandGameVote
+						{
+							VoteType = (int)GameVote.Ready,
+							VotePlayer = NetworkPlayer.LocalPlayerId
+						});
 				}).AddTo(this);
 		}
 	}

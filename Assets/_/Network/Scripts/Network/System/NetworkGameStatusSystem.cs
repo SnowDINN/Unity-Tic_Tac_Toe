@@ -28,18 +28,6 @@ namespace Redbean.Network
 					break;
 				}
 						
-				case GameStatus.Ready:
-				{
-					OnGameReady(frame);
-					break;
-				}
-						
-				case GameStatus.Retry:
-				{
-					OnGameRetry(frame);
-					break;
-				}
-						
 				case GameStatus.NextTurn:
 				{
 					OnGameNextTurn(frame, evt.Args);
@@ -101,26 +89,6 @@ namespace Redbean.Network
 			{
 				Type = GameStatus.End,
 				ActorId = actorId
-			});
-		}
-
-		private void OnGameReady(Frame frame)
-		{
-			frame.MapAssetRef = NetworkAsset.Map;
-			frame.Events.OnGameStatus(new QEventGameStatus
-			{
-				Type = GameStatus.Ready
-			});
-		}
-
-		private void OnGameRetry(Frame frame)
-		{
-			var qSystem = frame.Unsafe.GetPointerSingleton<QComponentSystem>();
-			RxGame.SetGameVote(new EVT_GameVote
-			{
-				Type = GameVote.Retry,
-				CurrentCount = frame.ResolveList(qSystem->RetryPlayers).Count,
-				TotalCount = frame.PlayerCount
 			});
 		}
 

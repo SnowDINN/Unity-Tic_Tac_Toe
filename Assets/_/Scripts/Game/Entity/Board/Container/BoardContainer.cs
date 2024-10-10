@@ -21,7 +21,7 @@ namespace Redbean.Game
 					});
 				}).AddTo(this);
 
-			RxGame.OnStoneMatchValidation
+			RxGame.OnMatchValidation
 				.Subscribe(_ =>
 				{
 					if (!IsMatch(_.X, _.Y))

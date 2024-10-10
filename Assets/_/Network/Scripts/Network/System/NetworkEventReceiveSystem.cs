@@ -86,9 +86,9 @@ namespace Redbean.Network
 							Type = GameStatus.Start
 						});
 					else
-						frame.Signals.OnGameStatus(new QEventGameStatus
+						frame.Signals.OnGameVote(new QEventGameVote
 						{
-							Type = GameStatus.Retry
+							Type = GameVote.Retry
 						});
 
 					break;

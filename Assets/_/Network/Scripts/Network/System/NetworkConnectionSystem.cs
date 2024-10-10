@@ -23,9 +23,9 @@ namespace Redbean.Network
 			if (frame.PlayerConnectedCount < frame.PlayerCount)
 				return;
 			
-			frame.Signals.OnGameStatus(new QEventGameStatus
+			frame.Signals.OnGameVote(new QEventGameVote
 			{
-				Type = GameStatus.Ready
+				Type = GameVote.Ready
 			});
 		}
 		
@@ -38,9 +38,9 @@ namespace Redbean.Network
 					frame.Destroy(entity);
 			}
 			
-			frame.Signals.OnGameStatus(new QEventGameStatus
+			frame.Signals.OnGameVote(new QEventGameVote
 			{
-				Type = GameStatus.Ready
+				Type = GameVote.Ready
 			});
 		}
 	}

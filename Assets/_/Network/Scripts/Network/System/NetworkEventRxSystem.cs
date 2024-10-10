@@ -20,8 +20,21 @@ namespace Redbean.Network
 				
 				RxGame.SetGameStatus(new EVT_GameStatus
 				{
-					Type = _.Status.Type,
-					ActorId = _.Status.ActorId
+					Type = _.Evt.Type,
+					ActorId = _.Evt.ActorId
+				});
+			}).AddTo(disposables);
+			
+			QuantumEvent.SubscribeManual<EventOnGameVote>(async _ =>
+			{
+				while (!GameManager.IsReady)
+					await Task.Yield();
+				
+				RxGame.SetGameVote(new EVT_GameVote
+				{
+					Type = _.Evt.Type,
+					CurrentCount = _.Evt.CurrentCount,
+					TotalCount = _.Evt.TotalCount
 				});
 			}).AddTo(disposables);
 			
@@ -53,7 +66,7 @@ namespace Redbean.Network
 			
 			QuantumEvent.SubscribeManual<EventOnStoneMatchValidation>(this, _ =>
 			{
-				RxGame.SetStoneMatchValidation(new EVT_Position
+				RxGame.SetMatchValidation(new EVT_Position
 				{
 					X = _.X,
 					Y = _.Y

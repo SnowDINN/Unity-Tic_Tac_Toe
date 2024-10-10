@@ -53,3 +53,8 @@ MonoBehaviour:
     SystemName: 
     StartDisabled: 0
     Children: []
+  - SystemType:
+      AssemblyQualifiedName: Redbean.Network.NetworkGameVoteSystem, Assembly-CSharp
+    SystemName: 
+    StartDisabled: 0
+    Children: []
