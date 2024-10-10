@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Redbean.Lobby
 {
-	public class LobbyInvitePlayUi : MonoBehaviour
+	public class LobbyPlayInviteUi : MonoBehaviour
 	{
 		
 	}

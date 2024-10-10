@@ -4,21 +4,16 @@ namespace Redbean.Game
 {
 	public class GameManager : MonoBehaviour
 	{
-		public static GameManager Default;
-
-		private void Awake()
-		{
-			Default = this;
-		}
+		public static bool IsReady;
 
 		private void Start()
 		{
-			Default = this;
+			IsReady = true;
 		}
 
 		private void OnDestroy()
 		{
-			Default = default;
+			IsReady = false;
 		}
 	}
 }

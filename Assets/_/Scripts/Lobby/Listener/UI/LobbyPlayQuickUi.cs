@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Redbean.Lobby
 {
-	public class LobbyQuickPlayUi : MonoBehaviour
+	public class LobbyPlayQuickUi : MonoBehaviour
 	{
 		[SerializeField] private Button button;
 

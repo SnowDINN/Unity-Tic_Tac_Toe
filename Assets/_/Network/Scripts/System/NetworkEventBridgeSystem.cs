@@ -15,10 +15,7 @@ namespace Redbean.Network
 		{
 			QuantumEvent.SubscribeManual<EventOnGameStatus>(async _ =>
 			{
-				while (!GameManager.Default)
-					await Task.Yield();
-				
-				while (!GameManager.Default.didStart)
+				while (!GameManager.IsReady)
 					await Task.Yield();
 				
 				RxGame.SetGameStatus(new EVT_GameStatus
