@@ -32,8 +32,9 @@ namespace Redbean.Game
 					});
 				}).AddTo(this);
 
-			RxGame.OnStoneCreate
-				.Where(_ => _.Position.X == x && _.Position.Y == y)
+			RxGame.OnStoneCreateOrDestroy
+				.Where(_ => _.Type == CreateOrDestroyType.Create)
+				.Where(_ => _.X == x && _.Y == y)
 				.Subscribe(_ =>
 				{
 					spawnInstance = Instantiate(spawnGO, transform);
@@ -43,7 +44,8 @@ namespace Redbean.Game
 					SetInteraction(false);
 				}).AddTo(this);
 
-			RxGame.OnStoneDestroy
+			RxGame.OnStoneCreateOrDestroy
+				.Where(_ => _.Type == CreateOrDestroyType.Destroy)
 				.Where(_ => _.X == x && _.Y == y)
 				.Subscribe(_ =>
 				{

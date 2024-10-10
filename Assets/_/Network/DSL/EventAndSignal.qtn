@@ -1,0 +1,28 @@
+signal OnEvent(QEventCommand evt);
+signal OnGameStatus(QEventGameStatus evt);
+
+synced event OnGameStatus
+{
+    QEventGameStatus Status;
+}
+
+synced event OnStoneCreated
+{
+    QComponentStone Stone;
+}
+
+synced event OnStoneDestroyed
+{
+    QComponentStone Stone;
+}
+
+synced event OnStoneHighlighted
+{
+    QComponentStone Stone;
+}
+
+synced event OnStoneMatchValidation
+{
+    int X;
+    int Y;
+}

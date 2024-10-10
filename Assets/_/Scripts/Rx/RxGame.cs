@@ -5,33 +5,18 @@ namespace Redbean
 {
 	public class RxGame
 	{
-		private static readonly Subject<EVT_GameStatus> onGameStatus = new();
-		public static Observable<EVT_GameStatus> OnGameStatus => onGameStatus.Share();
+		public static readonly Subject<EVT_GameStatus> OnGameStatus = new();
+		public static readonly Subject<EVT_GameVote> OnGameVote = new();
+		public static readonly Subject<EVT_PositionAndOwner> OnStoneCreateOrDestroy = new();
+		public static readonly Subject<EVT_Position> OnStoneMatchValidation = new();
+		public static readonly Subject<EVT_Position> OnPositionSelect = new();
+		public static readonly Subject<QComponentStone> OnStoneHighlight = new();
 		
-		private static readonly Subject<EVT_GameVote> onGameVote = new();
-		public static Observable<EVT_GameVote> OnGameVote => onGameVote.Share();
-
-		private static readonly Subject<EVT_Position> onBoardSelect = new();
-		public static Observable<EVT_Position> OnBoardSelect => onBoardSelect.Share();
-
-		private static readonly Subject<EVT_PositionAndOwner> onStoneCreate = new();
-		public static Observable<EVT_PositionAndOwner> OnStoneCreate => onStoneCreate.Share();
-
-		private static readonly Subject<EVT_Position> onStoneDestroy = new();
-		public static Observable<EVT_Position> OnStoneDestroy => onStoneDestroy.Share();
-		
-		private static readonly Subject<QComponentStone> onStoneHighlight = new();
-		public static Observable<QComponentStone> OnStoneHighlight => onStoneHighlight.Share();
-		
-		private static readonly Subject<EVT_Position> onStoneMatchValidation = new();
-		public static Observable<EVT_Position> OnStoneMatchValidation => onStoneMatchValidation.Share();
-		
-		public static void SetGameStatus(EVT_GameStatus evt) => onGameStatus.OnNext(evt);
-		public static void SetGameRetry(EVT_GameVote evt) => onGameVote.OnNext(evt);
-		public static void SetBoardSelect(EVT_Position evt) => onBoardSelect.OnNext(evt);
-		public static void SetStoneCreate(EVT_PositionAndOwner evt) => onStoneCreate.OnNext(evt);
-		public static void SetStoneDestroy(EVT_Position evt) => onStoneDestroy.OnNext(evt);
-		public static void SetStoneHighlight(QComponentStone evt) => onStoneHighlight.OnNext(evt);
-		public static void SetStoneMatchValidation(EVT_Position evt) => onStoneMatchValidation.OnNext(evt);
+		public static void SetGameStatus(EVT_GameStatus evt) => OnGameStatus.OnNext(evt);
+		public static void SetGameVote(EVT_GameVote evt) => OnGameVote.OnNext(evt);
+		public static void SetStoneCreateOrDestroy(EVT_PositionAndOwner evt) => OnStoneCreateOrDestroy.OnNext(evt);
+		public static void SetStoneMatchValidation(EVT_Position evt) => OnStoneMatchValidation.OnNext(evt);
+		public static void SetBoardSelect(EVT_Position evt) => OnPositionSelect.OnNext(evt);
+		public static void SetStoneHighlight(QComponentStone evt) => OnStoneHighlight.OnNext(evt);
 	}
 }

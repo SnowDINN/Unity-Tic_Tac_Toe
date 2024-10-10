@@ -1,5 +1,5 @@
+using Quantum;
 using R3;
-using Redbean.Network;
 using UnityEngine;
 
 namespace Redbean.Game
@@ -23,7 +23,7 @@ namespace Redbean.Game
 					this.NetworkEventPublish(new QCommandGameVote
 					{
 						VoteType = (int)GameVote.Ready,
-						ActorId = NetworkPlayer.LocalPlayerId
+						VotePlayer = NetworkPlayer.LocalPlayerId
 					});
 				}).AddTo(this);
 		}

@@ -548,12 +548,12 @@ namespace Quantum {
   public unsafe partial struct QComponentSystem : Quantum.IComponentSingleton {
     public const Int32 SIZE = 20;
     public const Int32 ALIGNMENT = 4;
-    [FieldOffset(16)]
-    public QListPtr<PlayerRef> Players;
     [FieldOffset(8)]
-    public QListPtr<Int32> ReadyPlayers;
+    public QListPtr<PlayerRef> Players;
     [FieldOffset(12)]
-    public QListPtr<Int32> RetryPlayers;
+    public QListPtr<PlayerRef> ReadyPlayers;
+    [FieldOffset(16)]
+    public QListPtr<PlayerRef> RetryPlayers;
     [FieldOffset(0)]
     public Int32 CurrentPlayerTurn;
     [FieldOffset(4)]
@@ -582,22 +582,22 @@ namespace Quantum {
         var p = (QComponentSystem*)ptr;
         serializer.Stream.Serialize(&p->CurrentPlayerTurn);
         serializer.Stream.Serialize(&p->CurrentTurn);
-        QList.Serialize(&p->ReadyPlayers, serializer, Statics.SerializeInt32);
-        QList.Serialize(&p->RetryPlayers, serializer, Statics.SerializeInt32);
         QList.Serialize(&p->Players, serializer, Statics.SerializePlayerRef);
+        QList.Serialize(&p->ReadyPlayers, serializer, Statics.SerializePlayerRef);
+        QList.Serialize(&p->RetryPlayers, serializer, Statics.SerializePlayerRef);
     }
   }
-  public unsafe partial interface ISignalOnGameStatus : ISignal {
-    void OnGameStatus(Frame f, Int32 type);
+  public unsafe partial interface ISignalOnEvent : ISignal {
+    void OnEvent(Frame f, QEventCommand evt);
   }
-  public unsafe partial interface ISignalOnEventReceive : ISignal {
-    void OnEventReceive(Frame f, PlayerRef player, DeterministicCommand evt);
+  public unsafe partial interface ISignalOnGameStatus : ISignal {
+    void OnGameStatus(Frame f, QEventGameStatus evt);
   }
   public static unsafe partial class Constants {
   }
   public unsafe partial class Frame {
+    private ISignalOnEvent[] _ISignalOnEventSystems;
     private ISignalOnGameStatus[] _ISignalOnGameStatusSystems;
-    private ISignalOnEventReceive[] _ISignalOnEventReceiveSystems;
     partial void AllocGen() {
       _globals = (_globals_*)Context.Allocator.AllocAndClear(sizeof(_globals_));
     }
@@ -609,8 +609,8 @@ namespace Quantum {
     }
     partial void InitGen() {
       Initialize(this, this.SimulationConfig.Entities, 256);
+      _ISignalOnEventSystems = BuildSignalsArray<ISignalOnEvent>();
       _ISignalOnGameStatusSystems = BuildSignalsArray<ISignalOnGameStatus>();
-      _ISignalOnEventReceiveSystems = BuildSignalsArray<ISignalOnEventReceive>();
       _ComponentSignalsOnAdded = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       _ComponentSignalsOnRemoved = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       BuildSignalsArrayOnComponentAdded<CharacterController2D>();
@@ -676,21 +676,21 @@ namespace Quantum {
       Physics3D.Init(_globals->PhysicsState3D.MapStaticCollidersState.TrackedMap);
     }
     public unsafe partial struct FrameSignals {
-      public void OnGameStatus(Int32 type) {
+      public void OnEvent(QEventCommand evt) {
+        var array = _f._ISignalOnEventSystems;
+        for (Int32 i = 0; i < array.Length; ++i) {
+          var s = array[i];
+          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
+            s.OnEvent(_f, evt);
+          }
+        }
+      }
+      public void OnGameStatus(QEventGameStatus evt) {
         var array = _f._ISignalOnGameStatusSystems;
         for (Int32 i = 0; i < array.Length; ++i) {
           var s = array[i];
           if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
-            s.OnGameStatus(_f, type);
-          }
-        }
-      }
-      public void OnEventReceive(PlayerRef player, DeterministicCommand evt) {
-        var array = _f._ISignalOnEventReceiveSystems;
-        for (Int32 i = 0; i < array.Length; ++i) {
-          var s = array[i];
-          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
-            s.OnEventReceive(_f, player, evt);
+            s.OnGameStatus(_f, evt);
           }
         }
       }
@@ -698,11 +698,9 @@ namespace Quantum {
   }
   public unsafe partial class Statics {
     public static FrameSerializer.Delegate SerializePlayerRef;
-    public static FrameSerializer.Delegate SerializeInt32;
     public static FrameSerializer.Delegate SerializeInput;
     static partial void InitStaticDelegatesGen() {
       SerializePlayerRef = PlayerRef.Serialize;
-      SerializeInt32 = (v, s) => {{ s.Stream.Serialize((Int32*)v); }};
       SerializeInput = Quantum.Input.Serialize;
     }
     static partial void RegisterSimulationTypesGen(TypeRegistry typeRegistry) {

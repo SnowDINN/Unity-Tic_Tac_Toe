@@ -1,9 +1,9 @@
 using System.Linq;
+using Quantum;
 using R3;
-using Redbean.Network;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using Button = UnityEngine.UI.Button;
 
 namespace Redbean.Game
 {
@@ -22,7 +22,7 @@ namespace Redbean.Game
 					this.NetworkEventPublish(new QCommandGameVote
 					{
 						VoteType = (int)GameVote.Retry,
-						ActorId = NetworkPlayer.LocalPlayerId
+						VotePlayer = NetworkPlayer.LocalPlayerId
 					});
 				}).AddTo(this);
 			

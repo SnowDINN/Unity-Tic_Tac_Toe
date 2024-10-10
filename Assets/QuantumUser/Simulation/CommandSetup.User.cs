@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Photon.Deterministic;
-using Redbean.Network;
 
 namespace Quantum
 {
@@ -8,9 +7,9 @@ namespace Quantum
     {
         static partial void AddCommandFactoriesUser(ICollection<IDeterministicCommandFactory> factories, RuntimeConfig gameConfig, SimulationConfig simulationConfig)
         {
-            factories.Add(new QCommandGameEnd());
+            factories.Add(new QCommandGameResult());
+            factories.Add(new QCommandGameTurn());
             factories.Add(new QCommandGameVote());
-            factories.Add(new QCommandTurnEnd());
         }
     }
 }

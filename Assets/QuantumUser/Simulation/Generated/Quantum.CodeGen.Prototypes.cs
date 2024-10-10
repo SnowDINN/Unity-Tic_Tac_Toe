@@ -101,9 +101,9 @@ namespace Quantum.Prototypes {
     [DynamicCollectionAttribute()]
     public PlayerRef[] Players = {};
     [DynamicCollectionAttribute()]
-    public Int32[] ReadyPlayers = {};
+    public PlayerRef[] ReadyPlayers = {};
     [DynamicCollectionAttribute()]
-    public Int32[] RetryPlayers = {};
+    public PlayerRef[] RetryPlayers = {};
     public Int32 CurrentPlayerTurn;
     public Int32 CurrentTurn;
     partial void MaterializeUser(Frame frame, ref Quantum.QComponentSystem result, in PrototypeMaterializationContext context);
@@ -128,7 +128,7 @@ namespace Quantum.Prototypes {
         } else {
           var list = frame.AllocateList(out result.ReadyPlayers, this.ReadyPlayers.Length);
           for (int i = 0; i < this.ReadyPlayers.Length; ++i) {
-            Int32 tmp = default;
+            PlayerRef tmp = default;
             tmp = this.ReadyPlayers[i];
             list.Add(tmp);
           }
@@ -138,7 +138,7 @@ namespace Quantum.Prototypes {
         } else {
           var list = frame.AllocateList(out result.RetryPlayers, this.RetryPlayers.Length);
           for (int i = 0; i < this.RetryPlayers.Length; ++i) {
-            Int32 tmp = default;
+            PlayerRef tmp = default;
             tmp = this.RetryPlayers[i];
             list.Add(tmp);
           }

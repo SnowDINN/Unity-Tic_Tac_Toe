@@ -1,6 +1,6 @@
 ﻿using System.Linq;
+using Quantum;
 using R3;
-using Redbean.Network;
 using UnityEngine;
 
 namespace Redbean.Game
@@ -11,10 +11,10 @@ namespace Redbean.Game
 		
 		private void Awake()
 		{
-			RxGame.OnBoardSelect
+			RxGame.OnPositionSelect
 				.Subscribe(_ =>
 				{
-					this.NetworkEventPublish(new QCommandTurnEnd
+					this.NetworkEventPublish(new QCommandGameTurn
 					{
 						X = _.X,
 						Y = _.Y,
@@ -64,9 +64,9 @@ namespace Redbean.Game
 		
 		private void GameEnd()
 		{
-			this.NetworkEventPublish(new QCommandGameEnd
+			this.NetworkEventPublish(new QCommandGameResult
 			{
-				WinnerId = NetworkPlayer.LocalPlayerId
+				WinnerPlayer = NetworkPlayer.LocalPlayerId
 			});
 		}
 

@@ -69,11 +69,10 @@ namespace Quantum {
           default: break;
         }
       }
-      public EventOnGameStatus OnGameStatus(Int32 Type, Int32 ActorId) {
+      public EventOnGameStatus OnGameStatus(QEventGameStatus Status) {
         if (_f.IsPredicted) return null;
         var ev = _f.Context.AcquireEvent<EventOnGameStatus>(EventOnGameStatus.ID);
-        ev.Type = Type;
-        ev.ActorId = ActorId;
+        ev.Status = Status;
         _f.AddEvent(ev);
         return ev;
       }
@@ -110,8 +109,7 @@ namespace Quantum {
   }
   public unsafe partial class EventOnGameStatus : EventBase {
     public new const Int32 ID = 1;
-    public Int32 Type;
-    public Int32 ActorId;
+    public QEventGameStatus Status;
     protected EventOnGameStatus(Int32 id, EventFlags flags) : 
         base(id, flags) {
     }
@@ -129,8 +127,7 @@ namespace Quantum {
     public override Int32 GetHashCode() {
       unchecked {
         var hash = 41;
-        hash = hash * 31 + Type.GetHashCode();
-        hash = hash * 31 + ActorId.GetHashCode();
+        hash = hash * 31 + Status.GetHashCode();
         return hash;
       }
     }

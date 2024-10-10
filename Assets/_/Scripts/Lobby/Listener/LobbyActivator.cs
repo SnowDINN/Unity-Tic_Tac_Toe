@@ -7,7 +7,7 @@ namespace Redbean.Lobby
 	{
 		private void Awake()
 		{
-			RxNetwork.OnSceneChanged
+			RxLobby.OnSceneChanged
 				.Subscribe(_ =>
 				{
 					gameObject.SetActive(_.buildIndex != 2);

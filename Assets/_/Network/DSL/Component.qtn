@@ -1,20 +1,20 @@
-[CodeGen(UnityWrapperFolder, "Assets/_/Network/Scripts/Data/Component")]
+[CodeGen(UnityWrapperFolder, "Assets/_/Network/Scripts/Quantum/Component")]
 singleton component QComponentSystem
 {
     list<PlayerRef> Players;
-    list<int> ReadyPlayers;
-    list<int> RetryPlayers;
+    list<PlayerRef> ReadyPlayers;
+    list<PlayerRef> RetryPlayers;
     int CurrentPlayerTurn;
     int CurrentTurn;
 }
 
-[CodeGen(UnityWrapperFolder, "Assets/_/Network/Scripts/Data/Component")]
+[CodeGen(UnityWrapperFolder, "Assets/_/Network/Scripts/Quantum/Component")]
 component QComponentPlayer
 {
     PlayerRef Player;
 }
 
-[CodeGen(UnityWrapperFolder, "Assets/_/Network/Scripts/Data/Component")]
+[CodeGen(UnityWrapperFolder, "Assets/_/Network/Scripts/Quantum/Component")]
 component QComponentStone
 {
     int X;

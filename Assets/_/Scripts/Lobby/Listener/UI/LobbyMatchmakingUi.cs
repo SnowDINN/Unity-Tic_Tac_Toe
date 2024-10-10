@@ -27,7 +27,7 @@ namespace Redbean.Lobby
 					await NetworkManager.Default.Disconnect(NetworkConst.UserLeave);
 				}).AddTo(this);
 
-			RxNetwork.OnConnect
+			RxLobby.OnConnect
 				.Subscribe(_ =>
 				{
 					var timer = 0;
@@ -58,19 +58,19 @@ namespace Redbean.Lobby
 					}
 				}).AddTo(this);
 
-			RxNetwork.OnDisconnect
+			RxLobby.OnDisconnect
 				.Subscribe(_ =>
 				{
 					ConnectionActivator(false);
 				}).AddTo(this);
 
-			RxNetwork.OnProgress
+			RxLobby.OnProgress
 				.Subscribe(_ =>
 				{
 					text.text = _;
 				}).AddTo(this);
 
-			RxNetwork.OnSceneChanged
+			RxLobby.OnSceneChanged
 				.Where(_ => _.buildIndex == 2)
 				.Subscribe(_ =>
 				{

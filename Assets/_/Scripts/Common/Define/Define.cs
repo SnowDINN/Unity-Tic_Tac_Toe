@@ -1,3 +1,5 @@
+using Quantum;
+
 namespace Redbean
 {
 	public enum ConnectionStatus
@@ -6,19 +8,10 @@ namespace Redbean
 		After
 	}
 
-	public enum GameVote
+	public enum CreateOrDestroyType
 	{
-		Ready,
-		Retry
-	}
-	
-	public enum GameStatus
-	{
-		Start,
-		End,
-		Next,
-		Ready,
-		Retry
+		Create,
+		Destroy
 	}
 	
 	public class EVT_ConnectionStatus
@@ -46,9 +39,9 @@ namespace Redbean
 		public int Y;
 	}
 	
-	public class EVT_PositionAndOwner
+	public class EVT_PositionAndOwner : EVT_Position
 	{
+		public CreateOrDestroyType Type;
 		public int OwnerId;
-		public EVT_Position Position;
 	}
 }

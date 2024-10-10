@@ -34,17 +34,17 @@ MonoBehaviour:
     StartDisabled: 0
     Children: []
   - SystemType:
-      AssemblyQualifiedName: Redbean.Network.NetworkEventPublisherSystem, Assembly-CSharp
+      AssemblyQualifiedName: Redbean.Network.NetworkEventPublishSystem, Assembly-CSharp
     SystemName: 
     StartDisabled: 0
     Children: []
   - SystemType:
-      AssemblyQualifiedName: Redbean.Network.NetworkEventReceiverSystem, Assembly-CSharp
+      AssemblyQualifiedName: Redbean.Network.NetworkEventReceiveSystem, Assembly-CSharp
     SystemName: 
     StartDisabled: 0
     Children: []
   - SystemType:
-      AssemblyQualifiedName: Redbean.Network.NetworkEventBridgeSystem, Assembly-CSharp
+      AssemblyQualifiedName: Redbean.Network.NetworkEventRxSystem, Assembly-CSharp
     SystemName: 
     StartDisabled: 0
     Children: []

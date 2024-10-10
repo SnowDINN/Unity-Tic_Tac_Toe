@@ -1,5 +1,5 @@
+using Quantum;
 using R3;
-using Redbean.Network;
 using UnityEngine;
 
 namespace Redbean.Game
@@ -15,7 +15,7 @@ namespace Redbean.Game
 		private void Awake()
 		{
 			RxGame.OnGameStatus
-				.Where(_ => _.Type == GameStatus.Next)
+				.Where(_ => _.Type == GameStatus.NextTurn)
 				.Subscribe(_ =>
 				{
 					myTurn.SetActive(_.ActorId == NetworkPlayer.LocalPlayerId);
