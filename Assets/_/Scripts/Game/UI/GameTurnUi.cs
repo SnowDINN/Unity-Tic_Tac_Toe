@@ -23,10 +23,11 @@ namespace Redbean.Game
 				}).AddTo(this);
 			
 			RxGame.OnGameStatus
+				.Where(_ => _.Type is GameStatus.Start or GameStatus.End)
 				.Subscribe(_ =>
 				{
-					myTurn.SetActive(_.Type is not GameStatus.Start);
-					otherTurn.SetActive(_.Type is not GameStatus.Start);
+					myTurn.SetActive(false);
+					otherTurn.SetActive(false);
 				}).AddTo(this);
 			
 			RxGame.OnGameVote

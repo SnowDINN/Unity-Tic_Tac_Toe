@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Quantum;
 using R3;
 using UnityEngine;
@@ -7,20 +8,11 @@ namespace Redbean.Game
 {
 	public class BoardContainer : MonoBehaviour
 	{
-		private static BoardBundle[] components;
+		[HideInInspector]
+		public BoardBundle[] Bundles;
 		
 		private void Awake()
 		{
-			RxGame.OnPositionSelect
-				.Subscribe(_ =>
-				{
-					this.NetworkEventPublish(new QCommandGameTurn
-					{
-						X = _.X,
-						Y = _.Y,
-					});
-				}).AddTo(this);
-
 			RxGame.OnMatchValidation
 				.Subscribe(_ =>
 				{
@@ -54,10 +46,26 @@ namespace Redbean.Game
 					else if (IsMatch(_.X - 1, _.Y - 1) && IsMatch(_.X + 1, _.Y + 1))
 						GameEnd();
 				}).AddTo(this);
+
+			RxGame.OnGameTimeout
+				.Subscribe(_ =>
+				{
+					if (!GameManager.IsMyTurn)
+						return;
+
+					var emptyBoardUnits = FindEmptyBoardUnits();
+					var randomBoardUnit = emptyBoardUnits[Random.Range(0, emptyBoardUnits.Length)];
+						
+					this.NetworkEventPublish(new QCommandGameTurn
+					{
+						X = randomBoardUnit.X,
+						Y = randomBoardUnit.Y
+					});
+				}).AddTo(this);
 			
-			components = GetComponentsInChildren<BoardBundle>();
+			Bundles = GetComponentsInChildren<BoardBundle>();
 			
-			var componentArray = components.Select((value, index) => (value, index));
+			var componentArray = Bundles.Select((value, index) => (value, index));
 			foreach (var component in componentArray)
 				component.value.SetPosition(component.index);
 		}
@@ -72,10 +80,13 @@ namespace Redbean.Game
 
 		private bool IsMatch(int x, int y)
 		{
-			if (y < 0 || y >= components.Length)
+			if (y < 0 || y >= Bundles.Length)
 				return false;
 			
-			return components[y].GetStone(x) && components[y].GetStone(x).IsOwner;
+			return Bundles[y].GetStone(x) && Bundles[y].GetStone(x).IsOwner;
 		}
+
+		private BoardUnit[] FindEmptyBoardUnits() =>
+			(from bundle in Bundles from unit in bundle.Units where !unit.HasStone select unit).ToArray();
 	}
 }

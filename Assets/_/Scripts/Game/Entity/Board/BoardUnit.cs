@@ -1,14 +1,22 @@
-﻿using R3;
-using Redbean.Network;
+﻿using Quantum;
+using R3;
 using UnityEngine;
-using UnityEngine.UI;
+using Button = UnityEngine.UI.Button;
 
 namespace Redbean.Game
 {
 	public class BoardUnit : MonoBehaviour
 	{
+		public bool HasStone => CurrentStone;
+		
 		[HideInInspector]
 		public StoneUnit CurrentStone;
+		
+		[HideInInspector]
+		public int X;
+		
+		[HideInInspector]
+		public int Y;
 		
 		[SerializeField]
 		private GameObject spawnGO;
@@ -17,36 +25,34 @@ namespace Redbean.Game
 		private Button button;
 
 		private GameObject spawnInstance;
-		private int x;
-		private int y;
 
 		private void Awake()
 		{
 			button.AsButtonObservable()
 				.Subscribe(_ =>
 				{
-					RxGame.SetBoardSelect(new EVT_Position
+					this.NetworkEventPublish(new QCommandGameTurn
 					{
-						X = x,
-						Y = y
+						X = X,
+						Y = Y,
 					});
 				}).AddTo(this);
 
 			RxGame.OnStoneCreateOrDestroy
 				.Where(_ => _.Type == CreateOrDestroyType.Create)
-				.Where(_ => _.X == x && _.Y == y)
+				.Where(_ => _.X == X && _.Y == Y)
 				.Subscribe(_ =>
 				{
 					spawnInstance = Instantiate(spawnGO, transform);
 					CurrentStone = spawnInstance.GetComponent<StoneUnit>();
-					CurrentStone.UpdateView(x, y, _.OwnerId == NetworkPlayer.LocalPlayerId);
+					CurrentStone.UpdateView(X, Y, _.OwnerId == NetworkPlayer.LocalPlayerId);
 					
 					SetInteraction(false);
 				}).AddTo(this);
 
 			RxGame.OnStoneCreateOrDestroy
 				.Where(_ => _.Type == CreateOrDestroyType.Destroy)
-				.Where(_ => _.X == x && _.Y == y)
+				.Where(_ => _.X == X && _.Y == Y)
 				.Subscribe(_ =>
 				{
 					if (spawnInstance)
@@ -65,8 +71,8 @@ namespace Redbean.Game
 
 		public void SetPosition(int x, int y)
 		{
-			this.x = x;
-			this.y = y;
+			this.X = x;
+			this.Y = y;
 		}
 	}
 }

@@ -27,7 +27,7 @@ namespace Redbean.Game
 				}).AddTo(this);
 			
 			RxGame.OnGameStatus
-				.Where(_ => _.Type is GameStatus.Start)
+				.Where(_ => _.Type is GameStatus.Start or GameStatus.End)
 				.Subscribe(_ =>
 				{
 					foreach (var text in retryTexts)
