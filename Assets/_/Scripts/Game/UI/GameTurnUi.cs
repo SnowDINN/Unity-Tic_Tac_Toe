@@ -15,7 +15,7 @@ namespace Redbean.Game
 		private void Awake()
 		{
 			RxGame.OnGameStatus
-				.Where(_ => _.Type == GameStatus.NextTurn)
+				.Where(_ => _.Type is GameStatus.NextTurn)
 				.Subscribe(_ =>
 				{
 					myTurn.SetActive(_.ActorId == NetworkPlayer.LocalPlayerId);
@@ -23,15 +23,13 @@ namespace Redbean.Game
 				}).AddTo(this);
 			
 			RxGame.OnGameStatus
-				.Where(_ => _.Type is GameStatus.Start)
 				.Subscribe(_ =>
 				{
-					myTurn.SetActive(false);
-					otherTurn.SetActive(false);
+					myTurn.SetActive(_.Type is not GameStatus.Start);
+					otherTurn.SetActive(_.Type is not GameStatus.Start);
 				}).AddTo(this);
 			
 			RxGame.OnGameVote
-				.Where(_ => _.Type is GameVote.Ready)
 				.Subscribe(_ =>
 				{
 					myTurn.SetActive(false);

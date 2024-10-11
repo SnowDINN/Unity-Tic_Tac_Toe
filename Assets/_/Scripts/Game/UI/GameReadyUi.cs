@@ -19,9 +19,9 @@ namespace Redbean.Game
 			RxGame.OnGameVote
 				.Subscribe(_ =>
 				{
-					ready.SetActive(_.Type == GameVote.Ready);
+					ready.SetActive(_.Type is GameVote.Ready);
 					
-					if (_.Type == GameVote.Ready)
+					if (_.Type is GameVote.Ready)
 						this.NetworkEventPublish(new QCommandGameVote
 						{
 							VoteType = (int)GameVote.Ready,

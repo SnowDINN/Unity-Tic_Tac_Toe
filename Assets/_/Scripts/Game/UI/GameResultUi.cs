@@ -12,14 +12,6 @@ namespace Redbean.Game
 		private void Awake()
 		{
 			RxGame.OnGameStatus
-				.Where(_ => _.Type == GameStatus.End)
-				.Subscribe(_ =>
-				{
-					victory.SetActive(_.ActorId == NetworkPlayer.LocalPlayerId);
-					defeat.SetActive(_.ActorId != NetworkPlayer.LocalPlayerId);
-				}).AddTo(this);
-			
-			RxGame.OnGameStatus
 				.Where(_ => _.Type is GameStatus.Start)
 				.Subscribe(_ =>
 				{
@@ -27,12 +19,19 @@ namespace Redbean.Game
 					defeat.SetActive(false);
 				}).AddTo(this);
 			
-			RxGame.OnGameVote
-				.Where(_ => _.Type is GameVote.Ready)
+			RxGame.OnGameStatus
+				.Where(_ => _.Type is GameStatus.End)
 				.Subscribe(_ =>
 				{
-					victory.SetActive(false);
-					defeat.SetActive(false);
+					victory.SetActive(_.ActorId == NetworkPlayer.LocalPlayerId);
+					defeat.SetActive(_.ActorId != NetworkPlayer.LocalPlayerId);
+				}).AddTo(this);
+			
+			RxGame.OnGameVote
+				.Subscribe(_ =>
+				{
+					victory.SetActive(_.Type is not GameVote.Ready);
+					defeat.SetActive(_.Type is not GameVote.Ready);
 				}).AddTo(this);
 		}
 	}

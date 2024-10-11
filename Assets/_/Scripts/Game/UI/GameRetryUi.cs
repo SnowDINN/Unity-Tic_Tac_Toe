@@ -27,7 +27,7 @@ namespace Redbean.Game
 				}).AddTo(this);
 			
 			RxGame.OnGameStatus
-				.Where(_ => _.Type == GameStatus.Start)
+				.Where(_ => _.Type is GameStatus.Start)
 				.Subscribe(_ =>
 				{
 					foreach (var text in retryTexts)
@@ -35,7 +35,7 @@ namespace Redbean.Game
 				}).AddTo(this);
 			
 			RxGame.OnGameVote
-				.Where(_ => _.Type == GameVote.Retry)
+				.Where(_ => _.Type is GameVote.Retry)
 				.Subscribe(_ =>
 				{
 					foreach (var text in retryTexts)
