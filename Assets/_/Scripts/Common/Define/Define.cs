@@ -13,6 +13,12 @@ namespace Redbean
 		Create,
 		Destroy
 	}
+
+	public class GameConst
+	{
+		public const int TimerSecond = 10;
+		public const int ShowTimerSecond = 8;
+	}
 	
 	public class EVT_ConnectionStatus
 	{

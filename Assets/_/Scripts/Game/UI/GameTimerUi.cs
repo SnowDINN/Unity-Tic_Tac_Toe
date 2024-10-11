@@ -24,12 +24,12 @@ namespace Redbean.Game
 					disposable?.Dispose();
 					disposable = Observable
 						.Interval(TimeSpan.FromSeconds(1))
-						.Select(_ => 10 - timer++)
+						.Select(_ => GameConst.TimerSecond - timer++)
 						.Subscribe(_ =>
 						{
 							switch (_)
 							{
-								case > 8:
+								case > GameConst.ShowTimerSecond:
 									text.text = "";
 									return;
 
