@@ -76,7 +76,7 @@ namespace Redbean.Network
 			{
 				case ConnectionType.Matchmaking:
 				{
-					networkArgs.AppVersion = $"matchmaking_version_{Application.version}";
+					networkArgs.AppVersion = $"{Application.version} MatchMaking";
 					networkArgs.Session = default;
 					networkArgs.Creating = false;
 					break;
@@ -84,7 +84,7 @@ namespace Redbean.Network
 
 				case ConnectionType.CreateRoom:
 				{
-					networkArgs.AppVersion = $"party_version_{Application.version}";
+					networkArgs.AppVersion = $"{Application.version} Party";
 					networkArgs.Session = session;
 					networkArgs.Creating = true;
 					break;
@@ -92,7 +92,7 @@ namespace Redbean.Network
 				
 				case ConnectionType.JoinRoom:
 				{
-					networkArgs.AppVersion = $"party_version_{Application.version}";
+					networkArgs.AppVersion = $"{Application.version} Party";
 					networkArgs.Session = session;
 					networkArgs.Creating = false;
 					break;
