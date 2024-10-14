@@ -7,7 +7,7 @@ using Button = UnityEngine.UI.Button;
 
 namespace Redbean
 {
-	public static class Extension
+	public static class MonoExtension
 	{
 		public static Observable<Unit> AsButtonObservable(this Button button, int inputThrottle = 200) =>
 			inputThrottle > 0 

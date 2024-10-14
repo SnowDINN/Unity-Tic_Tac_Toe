@@ -8,8 +8,7 @@ namespace Redbean.Game
 {
 	public class BoardContainer : MonoBehaviour
 	{
-		[HideInInspector]
-		public BoardBundle[] Bundles;
+		[HideInInspector] public BoardBundle[] Bundles;
 		
 		private void Awake()
 		{

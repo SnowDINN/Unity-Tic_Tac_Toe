@@ -9,20 +9,12 @@ namespace Redbean.Game
 	{
 		public bool HasStone => CurrentStone;
 		
-		[HideInInspector]
-		public StoneUnit CurrentStone;
+		[HideInInspector] public StoneUnit CurrentStone;
+		[HideInInspector] public int X;
+		[HideInInspector] public int Y;
 		
-		[HideInInspector]
-		public int X;
-		
-		[HideInInspector]
-		public int Y;
-		
-		[SerializeField]
-		private GameObject spawnGO;
-		
-		[SerializeField]
-		private Button button;
+		[SerializeField] private GameObject spawnGO;
+		[SerializeField] private Button button;
 
 		private GameObject spawnInstance;
 

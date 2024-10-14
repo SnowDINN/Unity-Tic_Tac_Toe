@@ -6,11 +6,8 @@ namespace Redbean.Game
 {
 	public class GameTurnUi : MonoBehaviour
 	{
-		[SerializeField]
-		private GameObject myTurn;
-
-		[SerializeField]
-		private GameObject otherTurn;
+		[SerializeField] private GameObject myTurn;
+		[SerializeField] private GameObject otherTurn;
 		
 		private void Awake()
 		{

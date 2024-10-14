@@ -51,5 +51,11 @@ namespace Redbean.Game
 					disposable?.Dispose();
 				}).AddTo(this);
 		}
+
+		private void OnDestroy()
+		{
+			text.text = "";
+			disposable?.Dispose();
+		}
 	}
 }

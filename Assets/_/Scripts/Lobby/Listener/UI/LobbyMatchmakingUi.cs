@@ -28,6 +28,7 @@ namespace Redbean.Lobby
 				}).AddTo(this);
 
 			RxLobby.OnConnect
+				.Where(_ => _.Type == ConnectionType.Matchmaking)
 				.Subscribe(_ =>
 				{
 					var timer = 0;
@@ -64,20 +65,25 @@ namespace Redbean.Lobby
 					ConnectionActivator(false);
 				}).AddTo(this);
 
-			RxLobby.OnProgress
-				.Subscribe(_ =>
-				{
-					text.text = _;
-				}).AddTo(this);
-
 			RxLobby.OnSceneChanged
 				.Where(_ => _.buildIndex == 2)
 				.Subscribe(_ =>
 				{
 					ConnectionActivator(false);
 				}).AddTo(this);
+			
+			RxLobby.OnProgress
+				.Subscribe(_ =>
+				{
+					text.text = _;
+				}).AddTo(this);
 		}
-		
+
+		private void OnDestroy()
+		{
+			ConnectionActivator(false);
+		}
+
 		private void ConnectionActivator(bool isConnect)
 		{
 			isConnecting = isConnect;

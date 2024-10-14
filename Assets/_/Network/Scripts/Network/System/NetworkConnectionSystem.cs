@@ -13,6 +13,8 @@ namespace Redbean.Network
 
 		public void OnPlayerConnected(Frame frame, PlayerRef player)
 		{
+			frame.SessionReset();
+			
 			var entity = frame.Create();
 			var qPlayer = new QComponentPlayer
 			{
@@ -31,6 +33,8 @@ namespace Redbean.Network
 		
 		public void OnPlayerDisconnected(Frame frame, PlayerRef player)
 		{
+			frame.SessionReset();
+			
 			var qPlayerFilter = frame.Filter<QComponentPlayer>();
 			while (qPlayerFilter.Next(out var entity, out var qPlayer))
 			{

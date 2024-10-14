@@ -7,11 +7,6 @@ namespace Redbean.Network
 	[Preserve]
 	public unsafe class NetworkGameStatusSystem : SystemSignalsOnly, ISignalOnGameStatus
 	{
-		public override void OnInit(Frame frame)
-		{
-			Clear(frame);
-		}
-		
 		public void OnGameStatus(Frame frame, QEventGameStatus evt)
 		{
 			switch (evt.Type)
@@ -36,28 +31,10 @@ namespace Redbean.Network
 			}
 		}
 
-		private void Clear(Frame frame)
-		{
-			// Game Data Reset
-			var qSystem = frame.Unsafe.GetPointerSingleton<QComponentSystem>();
-			qSystem->Players = frame.AllocateList<PlayerRef>();
-			qSystem->ReadyPlayers = frame.AllocateList<PlayerRef>();
-			qSystem->RetryPlayers = frame.AllocateList<PlayerRef>();
-			qSystem->CurrentPlayerTurn = default;
-			qSystem->CurrentTurn = default;
-			
-			var qStone = frame.Filter<QComponentStone>();
-			while (qStone.Next(out var entity, out var stone))
-			{
-				frame.Events.OnStoneDestroyed(stone);
-				frame.Destroy(entity);
-			}
-		}
-
 		private void OnGameStart(Frame frame)
 		{
-			Clear(frame);
-							
+			frame.SessionReset();
+			
 			var random = frame.RNG->Next(0, frame.PlayerCount);
 			var qPlayers = frame.AllocateList<PlayerRef>();
 

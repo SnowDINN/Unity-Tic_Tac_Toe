@@ -5,8 +5,7 @@ namespace Redbean.Game
 {
 	public class BoardBundle : MonoBehaviour
 	{
-		[HideInInspector]
-		public BoardUnit[] Units;
+		[HideInInspector] public BoardUnit[] Units;
 		
 		public void SetPosition(int y)
 		{

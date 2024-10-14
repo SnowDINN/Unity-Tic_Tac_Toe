@@ -2,6 +2,13 @@ using Quantum;
 
 namespace Redbean
 {
+	public enum ConnectionType
+	{
+		Matchmaking,
+		CreateRoom,
+		JoinRoom
+	}
+	
 	public enum ConnectionStatus
 	{
 		Before,
@@ -22,6 +29,7 @@ namespace Redbean
 	
 	public class EVT_ConnectionStatus
 	{
+		public ConnectionType Type;
 		public ConnectionStatus Status;
 		public int ReasonCode;
 	}

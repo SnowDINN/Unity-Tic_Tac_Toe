@@ -5,11 +5,8 @@ namespace Redbean.Game
 {
 	public class StoneUnit : MonoBehaviour
 	{
-		[SerializeField]
-		private GameObject mineGO;
-
-		[SerializeField]
-		private GameObject otherGO;
+		[SerializeField] private GameObject mineGO;
+		[SerializeField] private GameObject otherGO;
 
 		private int x;
 		private int y;
