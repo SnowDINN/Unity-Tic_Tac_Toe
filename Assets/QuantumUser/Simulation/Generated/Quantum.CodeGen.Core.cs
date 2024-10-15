@@ -590,6 +590,9 @@ namespace Quantum {
   public unsafe partial interface ISignalOnEvent : ISignal {
     void OnEvent(Frame f, QEventCommand evt);
   }
+  public unsafe partial interface ISignalOnPlayers : ISignal {
+    void OnPlayers(Frame f, QEventPlayers evt);
+  }
   public unsafe partial interface ISignalOnGameStatus : ISignal {
     void OnGameStatus(Frame f, QEventGameStatus evt);
   }
@@ -600,6 +603,7 @@ namespace Quantum {
   }
   public unsafe partial class Frame {
     private ISignalOnEvent[] _ISignalOnEventSystems;
+    private ISignalOnPlayers[] _ISignalOnPlayersSystems;
     private ISignalOnGameStatus[] _ISignalOnGameStatusSystems;
     private ISignalOnGameVote[] _ISignalOnGameVoteSystems;
     partial void AllocGen() {
@@ -614,6 +618,7 @@ namespace Quantum {
     partial void InitGen() {
       Initialize(this, this.SimulationConfig.Entities, 256);
       _ISignalOnEventSystems = BuildSignalsArray<ISignalOnEvent>();
+      _ISignalOnPlayersSystems = BuildSignalsArray<ISignalOnPlayers>();
       _ISignalOnGameStatusSystems = BuildSignalsArray<ISignalOnGameStatus>();
       _ISignalOnGameVoteSystems = BuildSignalsArray<ISignalOnGameVote>();
       _ComponentSignalsOnAdded = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
@@ -687,6 +692,15 @@ namespace Quantum {
           var s = array[i];
           if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
             s.OnEvent(_f, evt);
+          }
+        }
+      }
+      public void OnPlayers(QEventPlayers evt) {
+        var array = _f._ISignalOnPlayersSystems;
+        for (Int32 i = 0; i < array.Length; ++i) {
+          var s = array[i];
+          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
+            s.OnPlayers(_f, evt);
           }
         }
       }

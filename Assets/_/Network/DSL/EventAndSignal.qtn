@@ -1,6 +1,12 @@
 signal OnEvent(QEventCommand evt);
+signal OnPlayers(QEventPlayers evt);
 signal OnGameStatus(QEventGameStatus evt);
 signal OnGameVote(QEventGameVote evt);
+
+synced event OnPlayers
+{
+    QEventPlayers Evt;
+}
 
 synced event OnGameStatus
 {

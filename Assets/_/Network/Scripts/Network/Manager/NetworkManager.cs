@@ -26,7 +26,6 @@ namespace Redbean.Network
 			eventGO.transform.SetParent(networkGO.transform);
 
 			NetworkManager.Default = network;
-			NetworkAsset.ConnectionArgs.SetDefaults(NetworkAsset.ConnectionConfigure);
 		}
 	}
 	
@@ -63,35 +62,44 @@ namespace Redbean.Network
 			RxLobby.SetSceneChanged(next);
 		}
 
-		public async Task ConnectAsync(ConnectionType type, string session = default)
+		public async Task ConnectAsync(RoomType type, string session = default)
 		{
-			RxLobby.SetConnect(new EVT_ConnectionStatus
+			RxLobby.SetConnect(new EVT_RoomStatus
 			{
 				Type = type,
-				Status = ConnectionStatus.Before,
+				OrderType = OrderType.Before,
 				ReasonCode = 0
 			});
 
 			switch (type)
 			{
-				case ConnectionType.Matchmaking:
+				case RoomType.Matchmaking:
 				{
+					NetworkAsset.ConnectionArgs.SetDefaults(NetworkAsset.MatchmakingConfigure);
+
+					networkArgs.Username = NetworkAsset.MatchmakingConfigure.CodeGenerator.Create();
 					networkArgs.AppVersion = $"{Application.version} MatchMaking";
 					networkArgs.Session = default;
 					networkArgs.Creating = false;
 					break;
 				}
 
-				case ConnectionType.CreateRoom:
+				case RoomType.CreateRoom:
 				{
+					NetworkAsset.ConnectionArgs.SetDefaults(NetworkAsset.PartyConfigure);
+					
+					networkArgs.Username = NetworkAsset.PartyConfigure.CodeGenerator.Create();
 					networkArgs.AppVersion = $"{Application.version} Party";
 					networkArgs.Session = session;
 					networkArgs.Creating = true;
 					break;
 				}
 				
-				case ConnectionType.JoinRoom:
+				case RoomType.JoinRoom:
 				{
+					NetworkAsset.ConnectionArgs.SetDefaults(NetworkAsset.PartyConfigure);
+					
+					networkArgs.Username = NetworkAsset.PartyConfigure.CodeGenerator.Create();
 					networkArgs.AppVersion = $"{Application.version} Party";
 					networkArgs.Session = session;
 					networkArgs.Creating = false;
@@ -102,27 +110,27 @@ namespace Redbean.Network
 			
 			var result = await connection.ConnectAsync(networkArgs);
 			
-			RxLobby.SetConnect(new EVT_ConnectionStatus
+			RxLobby.SetConnect(new EVT_RoomStatus
 			{
 				Type = type,
-				Status = ConnectionStatus.After,
+				OrderType = OrderType.After,
 				ReasonCode = result.FailReason
 			});
 		}
 		
 		public async Task Disconnect(int reason)
 		{
-			RxLobby.SetDisconnect(new EVT_ConnectionStatus
+			RxLobby.SetDisconnect(new EVT_RoomStatus
 			{
-				Status = ConnectionStatus.Before,
+				OrderType = OrderType.Before,
 				ReasonCode = reason
 			});
 			
 			await connection.DisconnectAsync(reason);
 			
-			RxLobby.SetDisconnect(new EVT_ConnectionStatus
+			RxLobby.SetDisconnect(new EVT_RoomStatus
 			{
-				Status = ConnectionStatus.After,
+				OrderType = OrderType.After,
 				ReasonCode = reason
 			});
 		}

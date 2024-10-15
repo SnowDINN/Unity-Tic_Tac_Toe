@@ -1,24 +1,13 @@
+using System.Collections.Generic;
 using Quantum;
 
 namespace Redbean
 {
-	public enum ConnectionType
+	public enum RoomType
 	{
 		Matchmaking,
 		CreateRoom,
 		JoinRoom
-	}
-	
-	public enum ConnectionStatus
-	{
-		Before,
-		After
-	}
-
-	public enum CreateOrDestroyType
-	{
-		Create,
-		Destroy
 	}
 
 	public class GameConst
@@ -27,11 +16,17 @@ namespace Redbean
 		public const int ShowTimerSecond = 8;
 	}
 	
-	public class EVT_ConnectionStatus
+	public class EVT_RoomStatus
+	{
+		public RoomType Type;
+		public OrderType OrderType;
+		public int ReasonCode;
+	}
+	
+	public class EVT_Players
 	{
 		public ConnectionType Type;
-		public ConnectionStatus Status;
-		public int ReasonCode;
+		public List<PlayerRef> Players;
 	}
 
 	public class EVT_GameStatus

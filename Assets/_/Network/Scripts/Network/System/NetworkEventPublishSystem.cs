@@ -17,7 +17,7 @@ namespace Redbean.Network
 			var command = frame.GetPlayerCommand(filter.LocalPlayer->Player);
 			switch (command)
 			{
-				case QCommandGameResult:
+				case QCommandGameStatus:
 				case QCommandGameNextTurn:
 				case QCommandGameVote:
 					frame.Signals.OnEvent(new QEventCommand

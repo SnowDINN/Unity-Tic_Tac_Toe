@@ -9,11 +9,4 @@ namespace Quantum
 		public int ActorId;
 		public object[] Args;
 	}
-	
-	public enum GameStatus
-	{
-		Start,
-		End,
-		NextTurn,
-	}
 }

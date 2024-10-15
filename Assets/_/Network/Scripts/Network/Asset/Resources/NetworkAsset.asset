@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e52af8caeaa4a45b55d929ed88e3537, type: 3}
   m_Name: NetworkAsset
   m_EditorClassIdentifier: 
-  connectionConfigure: {fileID: 11400000, guid: cf3a7b2335abc094f99e9dce99848f24, type: 2}
+  MatchmakingConfigure: {fileID: 11400000, guid: cf3a7b2335abc094f99e9dce99848f24, type: 2}
+  PartyConfigure: {fileID: 11400000, guid: c8ce7a761e56a9840b4bd3da262408c3, type: 2}
   connectionArgs:
     Username: 
     PreferredRegion: 

@@ -14,6 +14,9 @@ namespace Redbean
 				? button.onClick.AsObservable().Share().ThrottleFirst(TimeSpan.FromMilliseconds(inputThrottle)) 
 				: button.onClick.AsObservable().Share();
 
+		public static void SetActive(this Component component, bool active) => 
+			component.gameObject.SetActive(active);
+
 		/// <summary>
 		/// 네트워크 이벤트 전송
 		/// </summary>
@@ -31,5 +34,8 @@ namespace Redbean
 		/// </summary>
 		public static Frame GetFrame(this MonoBehaviour mono) => 
 			QuantumRunner.DefaultGame.Frames.Verified;
+		
+		public static bool IsMasterClient(this MonoBehaviour mono) => 
+			QuantumRunner.Default.NetworkClient.LocalPlayer.IsMasterClient;
 	}
 }

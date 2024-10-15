@@ -20,7 +20,7 @@ namespace Redbean
 		/// <summary>
 		/// 플레이 턴 시간 초과 스트림
 		/// </summary>
-		public static Observable<Unit> OnGameTimeout => OnGameTimeout.Share();
+		public static Observable<Unit> OnGameTimeout => onGameTimeout.Share();
 		private static readonly Subject<Unit> onGameTimeout = new();
 		
 		/// <summary>

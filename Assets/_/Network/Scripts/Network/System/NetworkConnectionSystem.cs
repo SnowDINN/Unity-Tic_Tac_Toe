@@ -4,24 +4,13 @@ using UnityEngine.Scripting;
 namespace Redbean.Network
 {
 	[Preserve]
-	public class NetworkConnectionSystem : SystemSignalsOnly, ISignalOnPlayerConnected, ISignalOnPlayerDisconnected
+	public class NetworkMatchmakingSystem : SystemSignalsOnly, ISignalOnPlayerConnected, ISignalOnPlayerDisconnected
 	{
-		public override void OnInit(Frame frame)
-		{
-			frame.SetSingleton(new QComponentSystem());
-		}
-
 		// 플레이어 접속
 		public void OnPlayerConnected(Frame frame, PlayerRef player)
 		{
 			frame.SessionReset();
-			
-			var entity = frame.Create();
-			var qPlayer = new QComponentPlayer
-			{
-				Player = player
-			};
-			frame.Add(entity, qPlayer);
+			frame.AddPlayer(player);
 			
 			if (frame.PlayerConnectedCount < frame.PlayerCount)
 				return;
@@ -36,13 +25,42 @@ namespace Redbean.Network
 		public void OnPlayerDisconnected(Frame frame, PlayerRef player)
 		{
 			frame.SessionReset();
+			frame.RemovePlayer(player);
 			
-			var qPlayerFilter = frame.Filter<QComponentPlayer>();
-			while (qPlayerFilter.Next(out var entity, out var qPlayer))
+			frame.Signals.OnGameVote(new QEventGameVote
 			{
-				if (frame.PlayerToActorId(qPlayer.Player) == frame.PlayerToActorId(player))
-					frame.Destroy(entity);
-			}
+				Type = GameVote.Ready
+			});
+		}
+	}
+	
+	[Preserve]
+	public class NetworkPartySystem : SystemSignalsOnly, ISignalOnPlayerConnected, ISignalOnPlayerDisconnected
+	{
+		// 플레이어 접속
+		public void OnPlayerConnected(Frame frame, PlayerRef player)
+		{
+			frame.SessionReset();
+			frame.AddPlayer(player);
+			
+			frame.Signals.OnPlayers(new QEventPlayers
+			{
+				Type = ConnectionType.Connect,
+				Players = frame.GetPlayers()
+			});
+		}
+		
+		// 플레이어 접속 해제
+		public void OnPlayerDisconnected(Frame frame, PlayerRef player)
+		{
+			frame.SessionReset();
+			frame.RemovePlayer(player);
+			
+			frame.Signals.OnPlayers(new QEventPlayers
+			{
+				Type = ConnectionType.Disconnect,
+				Players = frame.GetPlayers()
+			});
 			
 			frame.Signals.OnGameVote(new QEventGameVote
 			{

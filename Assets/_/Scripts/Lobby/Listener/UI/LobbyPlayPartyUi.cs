@@ -17,13 +17,13 @@ namespace Redbean.Lobby
 			createButton.AsButtonObservable()
 				.Subscribe(async _ =>
 				{
-					await NetworkManager.Default.ConnectAsync(ConnectionType.CreateRoom, session.text);
+					await NetworkManager.Default.ConnectAsync(RoomType.CreateRoom, session.text);
 				}).AddTo(this);
 			
 			joinButton.AsButtonObservable()
 				.Subscribe(async _ =>
 				{
-					await NetworkManager.Default.ConnectAsync(ConnectionType.JoinRoom, session.text);
+					await NetworkManager.Default.ConnectAsync(RoomType.JoinRoom, session.text);
 				}).AddTo(this);
 		}
 	}

@@ -38,18 +38,13 @@ namespace Redbean.Network
 		{
 			frame.SessionReset();
 			
-			var random = frame.RNG->Next(0, frame.PlayerCount);
-			var qPlayers = frame.AllocateList<PlayerRef>();
-
-			var qPlayersFilter = frame.Filter<QComponentPlayer>();
-			while (qPlayersFilter.Next(out var entity, out var qPlayer))
-				qPlayers.Add(qPlayer.Player);
-
-			var nextTurn = frame.PlayerToActorId(qPlayers[random]).Value;
 			var qSystem = frame.Unsafe.GetPointerSingleton<QComponentSystem>();
+			var qPlayers = frame.ResolveList(qSystem->Players);
+			
+			var random = frame.RNG->Next(0, frame.PlayerCount);
+			var nextTurn = frame.PlayerToActorId(qPlayers[random]).Value;
+			
 			qSystem->Players = qPlayers;
-			qSystem->ReadyPlayers = frame.AllocateList<PlayerRef>();
-			qSystem->RetryPlayers = frame.AllocateList<PlayerRef>();
 			qSystem->CurrentPlayerTurn = frame.PlayerToActorId(qPlayers[random]).Value;
 
 			frame.Events.OnGameStatus(new QEventGameStatus
@@ -90,7 +85,7 @@ namespace Redbean.Network
 				X = x,
 				Y = y,
 				OwnerId = frame.PlayerToActorId(player).Value,
-				DestroyTurn = qSystem->CurrentTurn + NetworkConst.StoneDestroyTurn
+				DestroyTurn = qSystem->CurrentTurn + NetworkCommonValue.StoneDestroyTurn
 			};
 			frame.Set(entity, qStone);
 			frame.Events.OnStoneCreated(qStone);

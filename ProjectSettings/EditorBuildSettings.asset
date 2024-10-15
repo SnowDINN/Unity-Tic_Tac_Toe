@@ -9,10 +9,10 @@ EditorBuildSettings:
     path: Assets/_/Scenes/LobbyScene.unity
     guid: 710cec776aba4614588220ec9ec7bd7b
   - enabled: 1
-    path: Assets/_/Scenes/MatchMakingScene.unity
+    path: Assets/_/Scenes/NetworkRoomScene.unity
     guid: f67bdff33e30f6445a7bc97b1016ceab
   - enabled: 1
-    path: Assets/_/Scenes/InGameScene.unity
+    path: Assets/_/Scenes/NetworkGameScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

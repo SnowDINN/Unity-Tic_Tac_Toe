@@ -71,9 +71,10 @@ namespace Redbean.Game
 		
 		private void GameEnd()
 		{
-			this.NetworkEventPublish(new QCommandGameResult
+			this.NetworkEventPublish(new QCommandGameStatus
 			{
-				WinnerPlayer = this.GetActorId()
+				Type = (int)GameStatus.End,
+				TargetPlayer = this.GetActorId()
 			});
 		}
 

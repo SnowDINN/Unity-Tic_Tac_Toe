@@ -17,7 +17,7 @@ namespace Redbean.Game
 				.Merge()
 				.Subscribe(async _ =>
 				{
-					await NetworkManager.Default.Disconnect(NetworkConst.UserLeave);
+					await NetworkManager.Default.Disconnect(NetworkCommonValue.UserLeave);
 				}).AddTo(this);
 		}
 	}

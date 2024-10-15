@@ -1,9 +1,10 @@
 using System;
+using Quantum;
 using R3;
 using Redbean.Network;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using Button = UnityEngine.UI.Button;
 
 namespace Redbean.Lobby
 {
@@ -24,24 +25,24 @@ namespace Redbean.Lobby
 			cancelButton.AsButtonObservable()
 				.Subscribe(async _ =>
 				{
-					await NetworkManager.Default.Disconnect(NetworkConst.UserLeave);
+					await NetworkManager.Default.Disconnect(NetworkCommonValue.UserLeave);
 				}).AddTo(this);
 
 			RxLobby.OnConnect
-				.Where(_ => _.Type == ConnectionType.Matchmaking)
+				.Where(_ => _.Type is RoomType.Matchmaking)
 				.Subscribe(_ =>
 				{
 					var timer = 0;
 					
-					switch (_.Status)
+					switch (_.OrderType)
 					{
-						case ConnectionStatus.Before:
+						case OrderType.Before:
 						{
 							ConnectionActivator(true);
 							break;
 						}
 
-						case ConnectionStatus.After:
+						case OrderType.After:
 						{
 							if (!isConnecting)
 								return;
@@ -66,7 +67,7 @@ namespace Redbean.Lobby
 				}).AddTo(this);
 
 			RxLobby.OnSceneChanged
-				.Where(_ => _.buildIndex == 2)
+				.Where(_ => _.buildIndex is 2)
 				.Subscribe(_ =>
 				{
 					ConnectionActivator(false);

@@ -11,8 +11,8 @@ namespace Redbean.Network
 			switch (evt.Command)
 			{
 				// 게임 결과
-				case QCommandGameResult qCommand:
-					OnGameResult(frame, evt.Player, qCommand);
+				case QCommandGameStatus qCommand:
+					OnGameStatus(frame, evt.Player, qCommand);
 					break;
 				
 				// 게임 다음 턴
@@ -29,13 +29,29 @@ namespace Redbean.Network
 		
 #region Event Method
 		
-		private void OnGameResult(Frame frame, PlayerRef player, QCommandGameResult command)
+		private void OnGameStatus(Frame frame, PlayerRef player, QCommandGameStatus command)
 		{
-			frame.Signals.OnGameStatus(new QEventGameStatus
+			switch ((GameStatus)command.Type)
 			{
-				Type = GameStatus.End,
-				ActorId = command.WinnerPlayer
-			});
+				case GameStatus.Start:
+				{
+					frame.Signals.OnGameVote(new QEventGameVote
+					{
+						Type = GameVote.Ready
+					});
+					break;
+				}
+
+				case GameStatus.End:
+				{
+					frame.Signals.OnGameStatus(new QEventGameStatus
+					{
+						Type = GameStatus.End,
+						ActorId = command.TargetPlayer
+					});
+					break;
+				}
+			}
 		}
 		
 		private void OnGameNextTurn(Frame frame, PlayerRef player, QCommandGameNextTurn command)

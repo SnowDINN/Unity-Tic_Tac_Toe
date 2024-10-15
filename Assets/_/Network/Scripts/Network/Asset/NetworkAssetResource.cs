@@ -7,8 +7,11 @@ namespace Redbean
 	[CreateAssetMenu(fileName = "NetworkAsset", menuName = "Redbean/Network/NetworkAsset")]
 	public class NetworkAssetResource : ScriptableObject
 	{
-		[Header("Quantum connection settings")]
-		public QuantumMenuConfig connectionConfigure;
+		[Header("")]
+		public QuantumMenuConfig MatchmakingConfigure;
+		public QuantumMenuConfig PartyConfigure;
+		
+		[Header("Quantum common args")]
 		public QuantumMenuConnectArgs connectionArgs;
 		
 		[Header("Map Asset")]
@@ -17,15 +20,25 @@ namespace Redbean
 
 	public class NetworkAsset
 	{
-		private static NetworkAssetResource system => Resources.Load<NetworkAssetResource>("NetworkAsset");
+		private static NetworkAssetResource networkAssetResource;
+		private static NetworkAssetResource asset
+		{
+			get
+			{
+				if (!networkAssetResource)
+					networkAssetResource = Resources.Load<NetworkAssetResource>("NetworkAsset");
 
-		public static QuantumMenuConfig ConnectionConfigure => system.connectionConfigure;
-		public static QuantumMenuConnectArgs ConnectionArgs => system.connectionArgs;
-		
-		public static AssetRef<Map> Map => system.Map;
+				return networkAssetResource;
+			}
+		}
+
+		public static QuantumMenuConfig MatchmakingConfigure => asset.MatchmakingConfigure;
+		public static QuantumMenuConfig PartyConfigure => asset.PartyConfigure;
+		public static QuantumMenuConnectArgs ConnectionArgs => asset.connectionArgs;
+		public static AssetRef<Map> Map => asset.Map;
 	}
 
-	public class NetworkConst
+	public class NetworkCommonValue
 	{
 		public const int StoneDestroyTurn = 6;
 		public const int UserLeave = 1;

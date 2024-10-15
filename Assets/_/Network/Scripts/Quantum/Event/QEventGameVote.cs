@@ -9,10 +9,4 @@ namespace Quantum
 		public int CurrentCount;
 		public int TotalCount;
 	}
-	
-	public enum GameVote
-	{
-		Ready,
-		Retry
-	}
 }

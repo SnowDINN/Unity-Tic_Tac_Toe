@@ -13,6 +13,15 @@ namespace Redbean.Network
 		
 		public override void OnEnabled(Frame frame)
 		{
+			QuantumEvent.SubscribeManual<EventOnPlayers>(_ =>
+			{
+				RxLobby.SetPlayers(new EVT_Players
+				{
+					Type = _.Evt.Type,
+					Players = _.Evt.Players
+				});
+			}).AddTo(disposables);
+			
 			// 게임 상태
 			QuantumEvent.SubscribeManual<EventOnGameStatus>(async _ =>
 			{
