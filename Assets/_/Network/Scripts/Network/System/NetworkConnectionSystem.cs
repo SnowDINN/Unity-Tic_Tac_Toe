@@ -11,6 +11,7 @@ namespace Redbean.Network
 			frame.SetSingleton(new QComponentSystem());
 		}
 
+		// 플레이어 접속
 		public void OnPlayerConnected(Frame frame, PlayerRef player)
 		{
 			frame.SessionReset();
@@ -31,6 +32,7 @@ namespace Redbean.Network
 			});
 		}
 		
+		// 플레이어 접속 해제
 		public void OnPlayerDisconnected(Frame frame, PlayerRef player)
 		{
 			frame.SessionReset();

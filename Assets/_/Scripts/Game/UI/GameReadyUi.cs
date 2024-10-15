@@ -25,7 +25,7 @@ namespace Redbean.Game
 						this.NetworkEventPublish(new QCommandGameVote
 						{
 							VoteType = (int)GameVote.Ready,
-							VotePlayer = NetworkPlayer.LocalPlayerId
+							VotePlayer = this.GetActorId()
 						});
 				}).AddTo(this);
 		}

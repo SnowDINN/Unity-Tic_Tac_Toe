@@ -23,7 +23,7 @@ namespace Redbean.Game
 			button.AsButtonObservable()
 				.Subscribe(_ =>
 				{
-					this.NetworkEventPublish(new QCommandGameTurn
+					this.NetworkEventPublish(new QCommandGameNextTurn
 					{
 						X = X,
 						Y = Y,
@@ -37,7 +37,7 @@ namespace Redbean.Game
 				{
 					spawnInstance = Instantiate(spawnGO, transform);
 					CurrentStone = spawnInstance.GetComponent<StoneUnit>();
-					CurrentStone.UpdateView(X, Y, _.OwnerId == NetworkPlayer.LocalPlayerId);
+					CurrentStone.UpdateView(X, Y, _.OwnerId == this.GetActorId());
 					
 					SetInteraction(false);
 				}).AddTo(this);

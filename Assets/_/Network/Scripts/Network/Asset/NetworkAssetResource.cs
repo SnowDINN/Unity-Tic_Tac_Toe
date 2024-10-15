@@ -25,11 +25,6 @@ namespace Redbean
 		public static AssetRef<Map> Map => system.Map;
 	}
 
-	public class NetworkPlayer
-	{
-		public static int LocalPlayerId => QuantumRunner.Default.NetworkClient.LocalPlayer.ActorNumber;
-	}
-
 	public class NetworkConst
 	{
 		public const int StoneDestroyTurn = 6;

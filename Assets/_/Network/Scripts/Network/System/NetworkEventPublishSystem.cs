@@ -18,7 +18,7 @@ namespace Redbean.Network
 			switch (command)
 			{
 				case QCommandGameResult:
-				case QCommandGameTurn:
+				case QCommandGameNextTurn:
 				case QCommandGameVote:
 					frame.Signals.OnEvent(new QEventCommand
 					{

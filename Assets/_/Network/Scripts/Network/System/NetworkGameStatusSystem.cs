@@ -11,18 +11,21 @@ namespace Redbean.Network
 		{
 			switch (evt.Type)
 			{
+				// 게임 시작
 				case GameStatus.Start:
 				{
 					OnGameStart(frame);
 					break;
 				}
 
+				// 게임 종료
 				case GameStatus.End:
 				{
 					OnGameEnd(frame, evt.ActorId);
 					break;
 				}
-						
+				
+				// 다음 턴
 				case GameStatus.NextTurn:
 				{
 					OnGameNextTurn(frame, evt.Args);

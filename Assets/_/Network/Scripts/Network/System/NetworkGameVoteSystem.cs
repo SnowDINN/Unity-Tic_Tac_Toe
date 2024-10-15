@@ -10,12 +10,14 @@ namespace Redbean.Network
 		{
 			switch (evt.Type)
 			{
+				// 게임 준비 투표
 				case GameVote.Ready:
 				{
 					OnGameReady(frame);
 					break;
 				}
-						
+				
+				// 게임 재시작 투표
 				case GameVote.Retry:
 				{
 					OnGameRetry(frame);

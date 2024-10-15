@@ -22,7 +22,7 @@ namespace Redbean.Game
 					this.NetworkEventPublish(new QCommandGameVote
 					{
 						VoteType = (int)GameVote.Retry,
-						VotePlayer = NetworkPlayer.LocalPlayerId
+						VotePlayer = this.GetActorId()
 					});
 				}).AddTo(this);
 			

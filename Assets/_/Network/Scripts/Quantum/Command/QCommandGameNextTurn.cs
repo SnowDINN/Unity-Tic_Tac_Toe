@@ -2,7 +2,10 @@
 
 namespace Quantum
 {
-	public class QCommandGameTurn : DeterministicCommand
+	/// <summary>
+	/// 다음 턴 동기화 네트워크 이벤트
+	/// </summary>
+	public class QCommandGameNextTurn : DeterministicCommand
 	{
 		public int X;
 		public int Y;

@@ -55,7 +55,7 @@ namespace Redbean.Game
 					var emptyBoardUnits = FindEmptyBoardUnits();
 					var randomBoardUnit = emptyBoardUnits[Random.Range(0, emptyBoardUnits.Length)];
 						
-					this.NetworkEventPublish(new QCommandGameTurn
+					this.NetworkEventPublish(new QCommandGameNextTurn
 					{
 						X = randomBoardUnit.X,
 						Y = randomBoardUnit.Y
@@ -73,7 +73,7 @@ namespace Redbean.Game
 		{
 			this.NetworkEventPublish(new QCommandGameResult
 			{
-				WinnerPlayer = NetworkPlayer.LocalPlayerId
+				WinnerPlayer = this.GetActorId()
 			});
 		}
 

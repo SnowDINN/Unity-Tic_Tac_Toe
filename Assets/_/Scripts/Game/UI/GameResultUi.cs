@@ -23,8 +23,8 @@ namespace Redbean.Game
 				.Where(_ => _.Type is GameStatus.End)
 				.Subscribe(_ =>
 				{
-					victory.SetActive(_.ActorId == NetworkPlayer.LocalPlayerId);
-					defeat.SetActive(_.ActorId != NetworkPlayer.LocalPlayerId);
+					victory.SetActive(_.ActorId == this.GetActorId());
+					defeat.SetActive(_.ActorId != this.GetActorId());
 				}).AddTo(this);
 			
 			RxGame.OnGameVote

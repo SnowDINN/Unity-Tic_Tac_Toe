@@ -2,6 +2,9 @@
 
 namespace Quantum
 {
+	/// <summary>
+	/// 게임 결과 동기화 네트워크 이벤트
+	/// </summary>
 	public class QCommandGameResult : DeterministicCommand
 	{
 		public PlayerRef WinnerPlayer;

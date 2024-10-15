@@ -10,14 +10,17 @@ namespace Redbean.Network
 		{
 			switch (evt.Command)
 			{
+				// 게임 결과
 				case QCommandGameResult qCommand:
 					OnGameResult(frame, evt.Player, qCommand);
 					break;
-						
-				case QCommandGameTurn qCommand:
-					OnGameTurn(frame, evt.Player, qCommand);
+				
+				// 게임 다음 턴
+				case QCommandGameNextTurn qCommand:
+					OnGameNextTurn(frame, evt.Player, qCommand);
 					break;
 				
+				// 게임 투표
 				case QCommandGameVote qCommand:
 					OnGameVote(frame, evt.Player, qCommand);
 					break;
@@ -35,7 +38,7 @@ namespace Redbean.Network
 			});
 		}
 		
-		private void OnGameTurn(Frame frame, PlayerRef player, QCommandGameTurn command)
+		private void OnGameNextTurn(Frame frame, PlayerRef player, QCommandGameNextTurn command)
 		{
 			frame.Signals.OnGameStatus(new QEventGameStatus
 			{

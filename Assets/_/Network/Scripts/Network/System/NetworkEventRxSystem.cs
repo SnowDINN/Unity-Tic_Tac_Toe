@@ -13,6 +13,7 @@ namespace Redbean.Network
 		
 		public override void OnEnabled(Frame frame)
 		{
+			// 게임 상태
 			QuantumEvent.SubscribeManual<EventOnGameStatus>(async _ =>
 			{
 				while (!GameManager.IsReady)
@@ -25,6 +26,7 @@ namespace Redbean.Network
 				});
 			}).AddTo(disposables);
 			
+			// 게임 투표
 			QuantumEvent.SubscribeManual<EventOnGameVote>(async _ =>
 			{
 				while (!GameManager.IsReady)
@@ -38,6 +40,7 @@ namespace Redbean.Network
 				});
 			}).AddTo(disposables);
 			
+			// 바둑알 생성
 			QuantumEvent.SubscribeManual<EventOnStoneCreated>(_ =>
 			{
 				RxGame.SetStoneCreateOrDestroy(new EVT_PositionAndOwner
@@ -49,6 +52,7 @@ namespace Redbean.Network
 				});
 			}).AddTo(disposables);
 			
+			// 바둑알 제거
 			QuantumEvent.SubscribeManual<EventOnStoneDestroyed>(_ =>
 			{
 				RxGame.SetStoneCreateOrDestroy(new EVT_PositionAndOwner
@@ -59,12 +63,14 @@ namespace Redbean.Network
 				});
 			}).AddTo(disposables);
 			
-			QuantumEvent.SubscribeManual<EventOnStoneHighlighted>(this, _ =>
+			// 다음 턴 제거될 바둑알 강조
+			QuantumEvent.SubscribeManual<EventOnStoneHighlighted>(_ =>
 			{
 				RxGame.SetStoneHighlight(_.Stone);
 			}).AddTo(disposables);
 			
-			QuantumEvent.SubscribeManual<EventOnStoneMatchValidation>(this, _ =>
+			// 바둑알 매치 검증
+			QuantumEvent.SubscribeManual<EventOnStoneMatchValidation>(_ =>
 			{
 				RxGame.SetMatchValidation(new EVT_Position
 				{

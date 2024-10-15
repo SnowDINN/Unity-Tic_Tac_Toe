@@ -11,21 +11,19 @@ namespace Redbean.Game
 
 		private void Awake()
 		{
-			var frame = QuantumRunner.DefaultGame.Frames.Verified;
-			
 			RxLobby.OnDisconnect
 				.Where(_ => _.Status is ConnectionStatus.Before)
 				.Subscribe(_ =>
 				{
-					foreach (var system in frame.SystemsAll)
-						frame.SystemDisable(system);
+					foreach (var system in this.GetFrame().SystemsAll)
+						this.GetFrame().SystemDisable(system);
 				}).AddTo(this);
 
 			RxGame.OnGameStatus
 				.Where(_ => _.Type is GameStatus.NextTurn)
 				.Subscribe(_ =>
 				{
-					IsMyTurn = _.ActorId == NetworkPlayer.LocalPlayerId;
+					IsMyTurn = _.ActorId == this.GetActorId();
 				}).AddTo(this);
 		}
 

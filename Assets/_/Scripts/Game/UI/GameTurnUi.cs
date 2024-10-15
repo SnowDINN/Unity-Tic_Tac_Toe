@@ -15,8 +15,8 @@ namespace Redbean.Game
 				.Where(_ => _.Type is GameStatus.NextTurn)
 				.Subscribe(_ =>
 				{
-					myTurn.SetActive(_.ActorId == NetworkPlayer.LocalPlayerId);
-					otherTurn.SetActive(_.ActorId != NetworkPlayer.LocalPlayerId);
+					myTurn.SetActive(_.ActorId == this.GetActorId());
+					otherTurn.SetActive(_.ActorId != this.GetActorId());
 				}).AddTo(this);
 			
 			RxGame.OnGameStatus
