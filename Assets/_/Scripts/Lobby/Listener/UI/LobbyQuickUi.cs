@@ -8,7 +8,7 @@ using Button = UnityEngine.UI.Button;
 
 namespace Redbean.Lobby
 {
-	public class LobbyMatchmakingUi : MonoBehaviour
+	public class LobbyQuickUi : MonoBehaviour
 	{
 		[Header("GameObject")]
 		[SerializeField] private GameObject mainGO;
@@ -29,7 +29,7 @@ namespace Redbean.Lobby
 				}).AddTo(this);
 
 			RxLobby.OnConnect
-				.Where(_ => _.Type is RoomType.Matchmaking)
+				.Where(_ => _.Type is SessionType.Quick)
 				.Subscribe(_ =>
 				{
 					var timer = 0;

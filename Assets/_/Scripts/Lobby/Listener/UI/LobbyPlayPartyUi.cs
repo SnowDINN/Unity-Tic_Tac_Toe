@@ -10,20 +10,20 @@ namespace Redbean.Lobby
 	{
 		[SerializeField] private Button createButton;
 		[SerializeField] private Button joinButton;
-		[SerializeField] private TMP_InputField session;
+		[SerializeField] private TMP_InputField sessionText;
 
 		private void Awake()
 		{
 			createButton.AsButtonObservable()
 				.Subscribe(async _ =>
 				{
-					await NetworkManager.Default.ConnectAsync(RoomType.CreateRoom, session.text);
+					await NetworkManager.Default.ConnectAsync(SessionType.Create, sessionText.text);
 				}).AddTo(this);
 			
 			joinButton.AsButtonObservable()
 				.Subscribe(async _ =>
 				{
-					await NetworkManager.Default.ConnectAsync(RoomType.JoinRoom, session.text);
+					await NetworkManager.Default.ConnectAsync(SessionType.Join, sessionText.text);
 				}).AddTo(this);
 		}
 	}

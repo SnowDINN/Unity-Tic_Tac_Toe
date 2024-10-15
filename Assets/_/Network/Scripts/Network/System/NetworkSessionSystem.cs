@@ -4,7 +4,7 @@ using UnityEngine.Scripting;
 namespace Redbean.Network
 {
 	[Preserve]
-	public class NetworkMatchmakingSystem : SystemSignalsOnly, ISignalOnPlayerConnected, ISignalOnPlayerDisconnected
+	public class NetworkQuickSessionSystem : SystemSignalsOnly, ISignalOnPlayerConnected, ISignalOnPlayerDisconnected
 	{
 		// 플레이어 접속
 		public void OnPlayerConnected(Frame frame, PlayerRef player)
@@ -35,7 +35,7 @@ namespace Redbean.Network
 	}
 	
 	[Preserve]
-	public class NetworkPartySystem : SystemSignalsOnly, ISignalOnPlayerConnected, ISignalOnPlayerDisconnected
+	public class NetworkPartySessionSystem : SystemSignalsOnly, ISignalOnPlayerConnected, ISignalOnPlayerDisconnected
 	{
 		// 플레이어 접속
 		public void OnPlayerConnected(Frame frame, PlayerRef player)

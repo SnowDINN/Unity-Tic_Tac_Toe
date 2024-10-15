@@ -62,7 +62,7 @@ namespace Redbean.Network
 			RxLobby.SetSceneChanged(next);
 		}
 
-		public async Task ConnectAsync(RoomType type, string session = default)
+		public async Task ConnectAsync(SessionType type, string session = default)
 		{
 			RxLobby.SetConnect(new EVT_RoomStatus
 			{
@@ -73,18 +73,18 @@ namespace Redbean.Network
 
 			switch (type)
 			{
-				case RoomType.Matchmaking:
+				case SessionType.Quick:
 				{
-					NetworkAsset.ConnectionArgs.SetDefaults(NetworkAsset.MatchmakingConfigure);
+					NetworkAsset.ConnectionArgs.SetDefaults(NetworkAsset.QuickConfigure);
 
-					networkArgs.Username = NetworkAsset.MatchmakingConfigure.CodeGenerator.Create();
+					networkArgs.Username = NetworkAsset.QuickConfigure.CodeGenerator.Create();
 					networkArgs.AppVersion = $"{Application.version} MatchMaking";
 					networkArgs.Session = default;
 					networkArgs.Creating = false;
 					break;
 				}
 
-				case RoomType.CreateRoom:
+				case SessionType.Create:
 				{
 					NetworkAsset.ConnectionArgs.SetDefaults(NetworkAsset.PartyConfigure);
 					
@@ -95,7 +95,7 @@ namespace Redbean.Network
 					break;
 				}
 				
-				case RoomType.JoinRoom:
+				case SessionType.Join:
 				{
 					NetworkAsset.ConnectionArgs.SetDefaults(NetworkAsset.PartyConfigure);
 					

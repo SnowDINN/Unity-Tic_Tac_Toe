@@ -22,7 +22,7 @@ namespace Redbean.Lobby
 		private void Awake()
 		{
 			RxLobby.OnConnect
-				.Where(_ => _.Type is RoomType.CreateRoom or RoomType.JoinRoom)
+				.Where(_ => _.Type is SessionType.Create or SessionType.Join)
 				.Where(_ => _.OrderType is OrderType.Before)
 				.Subscribe(_ =>
 				{
@@ -34,7 +34,7 @@ namespace Redbean.Lobby
 				}).AddTo(this);
 			
 			RxLobby.OnConnect
-				.Where(_ => _.Type is RoomType.CreateRoom or RoomType.JoinRoom)
+				.Where(_ => _.Type is SessionType.Create or SessionType.Join)
 				.Where(_ => _.OrderType is OrderType.After)
 				.Subscribe(_ =>
 				{

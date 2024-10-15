@@ -616,7 +616,7 @@ GameObject:
   - component: {fileID: 346518554}
   - component: {fileID: 346518553}
   m_Layer: 5
-  m_Name: Quick Play Button
+  m_Name: Quick Play
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1604,7 +1604,7 @@ GameObject:
   - component: {fileID: 896489863}
   - component: {fileID: 896489864}
   m_Layer: 5
-  m_Name: Match Making
+  m_Name: Quick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2590,7 +2590,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   createButton: {fileID: 444719738}
   joinButton: {fileID: 930163951}
-  session: {fileID: 321092590}
+  sessionText: {fileID: 321092590}
 --- !u!1 &1377331301
 GameObject:
   m_ObjectHideFlags: 0

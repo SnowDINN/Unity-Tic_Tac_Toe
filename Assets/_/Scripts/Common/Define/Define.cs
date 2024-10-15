@@ -3,11 +3,11 @@ using Quantum;
 
 namespace Redbean
 {
-	public enum RoomType
+	public enum SessionType
 	{
-		Matchmaking,
-		CreateRoom,
-		JoinRoom
+		Quick,
+		Create,
+		Join
 	}
 
 	public class GameConst
@@ -18,7 +18,7 @@ namespace Redbean
 	
 	public class EVT_RoomStatus
 	{
-		public RoomType Type;
+		public SessionType Type;
 		public OrderType OrderType;
 		public int ReasonCode;
 	}

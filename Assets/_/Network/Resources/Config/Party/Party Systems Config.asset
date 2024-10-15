@@ -29,7 +29,7 @@ MonoBehaviour:
     StartDisabled: 0
     Children: []
   - SystemType:
-      AssemblyQualifiedName: Redbean.Network.NetworkPartySystem, Assembly-CSharp
+      AssemblyQualifiedName: Redbean.Network.NetworkPartySessionSystem, Assembly-CSharp
     SystemName: 
     StartDisabled: 0
     Children: []

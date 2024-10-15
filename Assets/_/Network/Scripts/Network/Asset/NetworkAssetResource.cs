@@ -8,7 +8,7 @@ namespace Redbean
 	public class NetworkAssetResource : ScriptableObject
 	{
 		[Header("")]
-		public QuantumMenuConfig MatchmakingConfigure;
+		public QuantumMenuConfig QuickConfigure;
 		public QuantumMenuConfig PartyConfigure;
 		
 		[Header("Quantum common args")]
@@ -32,7 +32,7 @@ namespace Redbean
 			}
 		}
 
-		public static QuantumMenuConfig MatchmakingConfigure => asset.MatchmakingConfigure;
+		public static QuantumMenuConfig QuickConfigure => asset.QuickConfigure;
 		public static QuantumMenuConfig PartyConfigure => asset.PartyConfigure;
 		public static QuantumMenuConnectArgs ConnectionArgs => asset.connectionArgs;
 		public static AssetRef<Map> Map => asset.Map;

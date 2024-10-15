@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e8f98ff78397bdc4a9886959982c466e, type: 3}
-  m_Name: Matchmaking Connection Config
+  m_Name: Quick Connection Config
   m_EditorClassIdentifier: 
   _maxPlayers: 2
   _adaptFramerateForMobilePlatform: 1

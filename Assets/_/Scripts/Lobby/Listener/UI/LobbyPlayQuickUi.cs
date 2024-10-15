@@ -14,7 +14,7 @@ namespace Redbean.Lobby
 			button.AsButtonObservable()
 				.Subscribe(async _ =>
 				{
-					await NetworkManager.Default.ConnectAsync(RoomType.Matchmaking);
+					await NetworkManager.Default.ConnectAsync(SessionType.Quick);
 				}).AddTo(this);
 		}
 	}
