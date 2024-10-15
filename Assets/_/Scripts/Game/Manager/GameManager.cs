@@ -12,7 +12,7 @@ namespace Redbean.Game
 		private void Awake()
 		{
 			RxLobby.OnDisconnect
-				.Where(_ => _.OrderType is OrderType.Before)
+				.Where(_ => _.OrderType is SessionOrderType.Before)
 				.Subscribe(_ =>
 				{
 					foreach (var system in this.GetFrame().SystemsAll)

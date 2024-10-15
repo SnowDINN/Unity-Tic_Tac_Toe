@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Redbean.Lobby
 {
-	public class LobbyPartyUi : MonoBehaviour
+	public class LobbyPopupPartyUi : MonoBehaviour
 	{
 		[Header("Common ui")]
 		[SerializeField] private GameObject mainGO;
@@ -23,7 +23,7 @@ namespace Redbean.Lobby
 		{
 			RxLobby.OnConnect
 				.Where(_ => _.Type is SessionType.Create or SessionType.Join)
-				.Where(_ => _.OrderType is OrderType.Before)
+				.Where(_ => _.OrderType is SessionOrderType.Before)
 				.Subscribe(_ =>
 				{
 					mainGO.SetActive(true);
@@ -35,24 +35,25 @@ namespace Redbean.Lobby
 			
 			RxLobby.OnConnect
 				.Where(_ => _.Type is SessionType.Create or SessionType.Join)
-				.Where(_ => _.OrderType is OrderType.After)
+				.Where(_ => _.OrderType is SessionOrderType.After)
 				.Subscribe(_ =>
 				{
-					clientGO.SetActive(true);
-					progressText.SetActive(false);
+					if (_.ReasonCode is 0)
+					{
+						clientGO.SetActive(true);
+						progressText.SetActive(false);
 					
-					masterClientGO.SetActive(this.IsMasterClient());
-					inviteClientGO.SetActive(!this.IsMasterClient());
+						masterClientGO.SetActive(this.IsMasterClient());
+						inviteClientGO.SetActive(!this.IsMasterClient());
+					}
+					else
+						PopupOff();
 				}).AddTo(this);
 			
 			RxLobby.OnDisconnect
 				.Subscribe(_ =>
 				{
-					mainGO.SetActive(false);
-					clientGO.SetActive(false);
-					
-					masterClientGO.SetActive(false);
-					inviteClientGO.SetActive(false);
+					PopupOff();
 				}).AddTo(this);
 
 			RxLobby.OnPlayers
@@ -76,6 +77,15 @@ namespace Redbean.Lobby
 				{
 					progressText.text = _;
 				}).AddTo(this);
+		}
+
+		private void PopupOff()
+		{
+			mainGO.SetActive(false);
+			clientGO.SetActive(false);
+					
+			masterClientGO.SetActive(false);
+			inviteClientGO.SetActive(false);
 		}
 	}
 }

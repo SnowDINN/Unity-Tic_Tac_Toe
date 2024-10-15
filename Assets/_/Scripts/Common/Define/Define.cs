@@ -3,13 +3,12 @@ using Quantum;
 
 namespace Redbean
 {
-	public enum SessionType
+	public enum LobbyMenuType
 	{
-		Quick,
-		Create,
-		Join
+		Home,
+		Party
 	}
-
+	
 	public class GameConst
 	{
 		public const int TimerSecond = 10;
@@ -19,7 +18,7 @@ namespace Redbean
 	public class EVT_RoomStatus
 	{
 		public SessionType Type;
-		public OrderType OrderType;
+		public SessionOrderType OrderType;
 		public int ReasonCode;
 	}
 	

@@ -6,7 +6,14 @@ namespace Quantum
 		Disconnect
 	}
 	
-	public enum OrderType
+	public enum SessionType
+	{
+		Quick,
+		Create,
+		Join
+	}
+	
+	public enum SessionOrderType
 	{
 		Before,
 		After

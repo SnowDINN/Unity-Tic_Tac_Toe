@@ -31,11 +31,15 @@ namespace Redbean
 		/// </summary>
 		public static Observable<Scene> OnSceneChanged => onSceneChanged.Share();
 		private static readonly Subject<Scene> onSceneChanged = new();
+		
+		public static Observable<LobbyMenuType> OnMenuChanged => onMenuChanged.Share();
+		private static readonly Subject<LobbyMenuType> onMenuChanged = new();
 
 		public static void SetConnect(EVT_RoomStatus evt) => onConnect.OnNext(evt);
 		public static void SetDisconnect(EVT_RoomStatus evt) => onDisconnect.OnNext(evt);
 		public static void SetPlayers(EVT_Players evt) => onPlayers.OnNext(evt);
 		public static void SetProgress(string evt) => onProgress.OnNext(evt);
 		public static void SetSceneChanged(Scene evt) => onSceneChanged.OnNext(evt);
+		public static void SetMenuChanged(LobbyMenuType evt) => onMenuChanged.OnNext(evt);
 	}
 }

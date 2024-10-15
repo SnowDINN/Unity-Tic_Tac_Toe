@@ -1,33 +1,24 @@
 using System;
 using Quantum;
 using R3;
-using Redbean.Network;
 using TMPro;
 using UnityEngine;
-using Button = UnityEngine.UI.Button;
 
 namespace Redbean.Lobby
 {
-	public class LobbyQuickUi : MonoBehaviour
+	public class LobbyPopupQuickUi : MonoBehaviour
 	{
 		[Header("GameObject")]
 		[SerializeField] private GameObject mainGO;
 		
 		[Header("UI Component")]
-		[SerializeField] private Button cancelButton;
-		[SerializeField] private TextMeshProUGUI text;
+		[SerializeField] private TextMeshProUGUI progressText;
 		
 		private IDisposable disposable;
 		private bool isConnecting;
 		
 		private void Awake()
 		{
-			cancelButton.AsButtonObservable()
-				.Subscribe(async _ =>
-				{
-					await NetworkManager.Default.Disconnect(NetworkCommonValue.UserLeave);
-				}).AddTo(this);
-
 			RxLobby.OnConnect
 				.Where(_ => _.Type is SessionType.Quick)
 				.Subscribe(_ =>
@@ -36,13 +27,13 @@ namespace Redbean.Lobby
 					
 					switch (_.OrderType)
 					{
-						case OrderType.Before:
+						case SessionOrderType.Before:
 						{
 							ConnectionActivator(true);
 							break;
 						}
 
-						case OrderType.After:
+						case SessionOrderType.After:
 						{
 							if (!isConnecting)
 								return;
@@ -53,7 +44,7 @@ namespace Redbean.Lobby
 								.Subscribe(_ =>
 								{
 									var time = TimeSpan.FromSeconds(_);
-									text.text = $"Searching... {time.Minutes:D2}:{time.Seconds:D2}";
+									progressText.text = $"Searching... {time.Minutes:D2}:{time.Seconds:D2}";
 								});
 							break;
 						}
@@ -76,7 +67,7 @@ namespace Redbean.Lobby
 			RxLobby.OnProgress
 				.Subscribe(_ =>
 				{
-					text.text = _;
+					progressText.text = _;
 				}).AddTo(this);
 		}
 

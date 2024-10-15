@@ -67,7 +67,7 @@ namespace Redbean.Network
 			RxLobby.SetConnect(new EVT_RoomStatus
 			{
 				Type = type,
-				OrderType = OrderType.Before,
+				OrderType = SessionOrderType.Before,
 				ReasonCode = 0
 			});
 
@@ -113,7 +113,7 @@ namespace Redbean.Network
 			RxLobby.SetConnect(new EVT_RoomStatus
 			{
 				Type = type,
-				OrderType = OrderType.After,
+				OrderType = SessionOrderType.After,
 				ReasonCode = result.FailReason
 			});
 		}
@@ -122,7 +122,7 @@ namespace Redbean.Network
 		{
 			RxLobby.SetDisconnect(new EVT_RoomStatus
 			{
-				OrderType = OrderType.Before,
+				OrderType = SessionOrderType.Before,
 				ReasonCode = reason
 			});
 			
@@ -130,7 +130,7 @@ namespace Redbean.Network
 			
 			RxLobby.SetDisconnect(new EVT_RoomStatus
 			{
-				OrderType = OrderType.After,
+				OrderType = SessionOrderType.After,
 				ReasonCode = reason
 			});
 		}
